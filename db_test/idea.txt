@@ -1,0 +1,16 @@
+de la base de persona vamos a sacar:
+	id
+	nombre
+	apellido
+	dependencia
+
+con la cadena sacada en "dependencia" de persona, buscamos en la tabla dependencia:
+	manager_id
+
+con manager_id buscamos en la tabla de persona:
+	id
+	nombre
+	apellido
+	dependencia
+
+si manager_id = 0 entonces estamos arriba de la cadena

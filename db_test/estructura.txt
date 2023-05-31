@@ -1,0 +1,15 @@
+---ESTRUCTURA DE base.db---
+TABLAS:
+    Persona:
+        id INT (primary key),
+        ci TEXT,
+        apellido TEXT,
+        nombre TEXT,
+        telefono TEXT,
+        dependencia INT,
+        salario INT
+
+    Dependencia:
+        id INT (primary key),
+        nombre TEXT,
+        manager_id TEXT
