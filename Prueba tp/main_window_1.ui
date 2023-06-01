@@ -6,135 +6,228 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>458</width>
-    <height>392</height>
+    <width>850</width>
+    <height>700</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1000</width>
+    <height>400</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color:#27263c;
+</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="crear_organigrama">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>90</y>
-      <width>111</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>7</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Crear organigrama</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="abrir_organigrama">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>120</y>
-      <width>111</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>7</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Abrir organigrama</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="crear_dependencia">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>150</y>
-      <width>111</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>7</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Crear dependencia</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="eliminar_dependencia">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>180</y>
-      <width>111</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>7</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Eliminar dependencia</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="conectar_dependencia">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>210</y>
-      <width>111</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>7</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Conectar dependencias</string>
-    </property>
-   </widget>
-   <widget class="QGraphicsView" name="qgv">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>10</y>
-      <width>281</width>
-      <height>321</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_organigrama">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>340</y>
-      <width>200</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Organigrama: 1</string>
-    </property>
-   </widget>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QLabel" name="label_organigrama">
+      <property name="styleSheet">
+       <string notr="true">color:white;</string>
+      </property>
+      <property name="text">
+       <string>Organigrama: 1</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QGraphicsView" name="qgv">
+      <property name="styleSheet">
+       <string notr="true">background:rgb(170, 170, 255);</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QWidget" name="widget" native="true">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QPushButton" name="crear_organigrama">
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>200</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>7</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background:rgb(170, 170, 255);</string>
+         </property>
+         <property name="text">
+          <string>Crear organigrama</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../../../Proyecto_Pull_TP/icons8-estructura-de-árbol-50.png</normaloff>../../../Proyecto_Pull_TP/icons8-estructura-de-árbol-50.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="abrir_organigrama">
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>200</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>7</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background:rgb(170, 170, 255);</string>
+         </property>
+         <property name="text">
+          <string>Abrir organigrama</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../../../Proyecto_Pull_TP/icons8-abrir-carpeta-50.png</normaloff>../../../Proyecto_Pull_TP/icons8-abrir-carpeta-50.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="crear_dependencia">
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>200</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>7</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background:rgb(170, 170, 255);</string>
+         </property>
+         <property name="text">
+          <string>Crear dependencia</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../../../Proyecto_Pull_TP/icons8-computadoras-conectando-30.png</normaloff>../../../Proyecto_Pull_TP/icons8-computadoras-conectando-30.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="Add_Persona">
+         <property name="maximumSize">
+          <size>
+           <width>200</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background:rgb(170, 170, 255);</string>
+         </property>
+         <property name="text">
+          <string>Agregar Persona</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="conectar_dependencia">
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>200</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>7</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background:rgb(170, 170, 255);</string>
+         </property>
+         <property name="text">
+          <string>Conectar dependencias</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../../../Proyecto_Pull_TP/icons8-conectar-50.png</normaloff>../../../Proyecto_Pull_TP/icons8-conectar-50.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="eliminar_dependencia">
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>200</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>7</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background:rgb(170, 170, 255);</string>
+         </property>
+         <property name="text">
+          <string>Eliminar dependencia</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../../../Proyecto_Pull_TP/icons8-eliminar-24.png</normaloff>../../../Proyecto_Pull_TP/icons8-eliminar-24.png</iconset>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>458</width>
-     <height>21</height>
+     <width>850</width>
+     <height>22</height>
     </rect>
    </property>
   </widget>

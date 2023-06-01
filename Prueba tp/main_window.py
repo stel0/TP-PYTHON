@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget
+from PyQt5.QtWidgets import QApplication,QFileDialog, QMainWindow, QWidget
 from PyQt5.uic import loadUi
 from PyQt5.QtCore import pyqtSignal
 from Database import Database
@@ -26,6 +26,8 @@ class MainWindow(QMainWindow):
         # Conectar señales y slots si es necesario
         self.crear_dependencia.clicked.connect(self.buttonClicked)
         self.crear_organigrama.clicked.connect(self.create_organigrama)
+        self.abrir_organigrama.clicked.connect(self.open_organigrama)
+        self.Add_Persona.clicked.connect(self.abrir_form_persona)
     def buttonClicked(self):
         # ...
         self.form_window = FormDependencia()  # Create an instance of FormDependencia
@@ -33,7 +35,15 @@ class MainWindow(QMainWindow):
     def create_organigrama(self):
         self.form_organigrama = FormOrganigrama()
         self.form_organigrama.show()
+    def open_organigrama(self):
+        file_dialog = QFileDialog()
+        filename, _ = file_dialog.getOpenFileName(self, "Abrir Organigrama", "", "Archivos de Imagen (*.png *.jpg *.jpeg)")
+        if filename:
+            print("Ruta del archivo seleccionado:", filename)
 
+    def abrir_form_persona(self):
+        self.form_persona = FormPersona()
+        self.form_persona.show()
 class FormOrganigrama(QWidget):
     enviar_organigrama = pyqtSignal(str)
 
@@ -79,6 +89,17 @@ class FormDependencia(QWidget):
 
         database.disconnect()
         self.close()  # Cerrar la ventana de formulario
+
+class FormPersona(QWidget):
+    def __init__(self):
+        super(FormPersona, self).__init__()
+        self.setWindowTitle("Formulario Persona")
+
+        loadUi("form_persona.ui", self)
+        self.boton_enviar.clicked.connect(self.e_persona)
+
+    def e_persona(self):
+        self.close()
 if __name__ == '__main__':
     app = QApplication([])
     window = MainWindow()

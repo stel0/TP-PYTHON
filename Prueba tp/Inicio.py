@@ -29,8 +29,8 @@ class MainWindow(QMainWindow):
         self.new_window.show()
         mw.buttonClicked
         mw.create_organigrama
-        mw.open_organigrama
         mw.abrir_form_persona
+        mw.open_organigrama
 
 if __name__ == '__main__':
     app = QApplication([])
