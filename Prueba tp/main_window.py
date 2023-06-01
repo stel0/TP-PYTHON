@@ -12,7 +12,7 @@ class MainWindow(QMainWindow):
 
         # Conectar señales y slots si es necesario
         self.crear_dependencia.clicked.connect(self.buttonClicked)
-        self.crear_organigrama.clicked.connect(self.create_organigrama)
+        self.crear_organigrama.clicked.connect(self.create_organigram)
     def buttonClicked(self):
         # ...
         self.form_window = FormDependencia()  # Create an instance of FormDependencia
