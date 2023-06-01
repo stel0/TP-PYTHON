@@ -12,17 +12,14 @@ class MainWindow(QMainWindow):
 
         # Conectar señales y slots si es necesario
         self.crear_dependencia.clicked.connect(self.buttonClicked)
-        self.crear_organigrama.clicked.connect(self.create_organigram)
+        self.crear_organigrama.clicked.connect(self.create_organigrama)
     def buttonClicked(self):
         # ...
         self.form_window = FormDependencia()  # Create an instance of FormDependencia
         self.form_window.show()  # Show the form window
     def create_organigrama(self):
-        self.form_organigrama = FormOrganigrama(self)
-        self.form_organigrama.enviar_organigrama.connect(self.update_organigrama)
+        self.form_organigrama = FormOrganigrama()
         self.form_organigrama.show()
-    def update_organigrama(self, titulo):
-        self.organigrama_label.setText(titulo)
 
 class FormOrganigrama(QWidget):
     enviar_organigrama = pyqtSignal(str)
@@ -36,8 +33,8 @@ class FormOrganigrama(QWidget):
         self.enviar_button.clicked.connect(self.enviar_organigrama)
 
     def enviar_organigrama(self):
-        titulo = self.titulo_lineEdit.text()
-        self.enviar_organigrama.emit(titulo)
+        # titulo = self.titulo_lineEdit.text()
+        # self.enviar_organigrama.emit(titulo)
         self.close()
 
 class FormDependencia(QWidget):
