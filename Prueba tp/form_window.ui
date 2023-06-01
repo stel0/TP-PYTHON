@@ -7,13 +7,21 @@
     <x>0</x>
     <y>0</y>
     <width>320</width>
-    <height>240</height>
+    <height>275</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralwidget">
+  <widget class="QWidget" name="centralwidget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>291</width>
+     <height>261</height>
+    </rect>
+   </property>
    <widget class="QLineEdit" name="input_dependencia_nombre">
     <property name="geometry">
      <rect>
@@ -50,7 +58,7 @@
      <string>Ingrese el nombre de la dependencia:</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="input_dependencia_id_lider">
+   <widget class="QLineEdit" name="input_dependencia_nombre_lider">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -70,20 +78,43 @@
      </rect>
     </property>
     <property name="text">
-     <string>Ingrese el ID del lider de la dependencia:</string>
+     <string>Ingrese el nombre del líder:</string>
     </property>
    </widget>
    <widget class="QPushButton" name="enviar_dependencia">
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>160</y>
+      <y>230</y>
       <width>75</width>
       <height>23</height>
      </rect>
     </property>
     <property name="text">
      <string>Enviar</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>160</y>
+      <width>181</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Ingrese el apellido del líder:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="input_dependencia_apellido_lider">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>180</y>
+      <width>181</width>
+      <height>20</height>
+     </rect>
     </property>
    </widget>
   </widget>
@@ -97,7 +128,16 @@
     </rect>
    </property>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>3</width>
+     <height>18</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

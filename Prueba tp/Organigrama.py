@@ -13,3 +13,5 @@ class Organigrama:
             "nombre": self.nombre,
             "fecha": self.fecha
         }
+
+        return dict

@@ -1,6 +1,14 @@
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget
 from PyQt5.uic import loadUi
 from PyQt5.QtCore import pyqtSignal
+from Database import Database
+from Organigrama import Organigrama
+from Dependencia import Dependencia
+from Persona import Persona
+
+DATABASE = "base.db"
+database = Database(DATABASE)
+organigrama_activo = 1
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -9,7 +17,12 @@ class MainWindow(QMainWindow):
 
         # Cargar el archivo .ui
         loadUi("main_window_1.ui", self)
-
+        database.connect()
+        rows = database.buscarData("Organigrama", f"id = {organigrama_activo}", ["nombre"])
+        if len(rows) != 0:
+            self.label_organigrama.setText(f"Organigrama: {rows[0][0]}")
+        else:
+            self.label_organigrama.setText("No ha seleccionado un organigrama")
         # Conectar señales y slots si es necesario
         self.crear_dependencia.clicked.connect(self.buttonClicked)
         self.crear_organigrama.clicked.connect(self.create_organigrama)
@@ -33,9 +46,14 @@ class FormOrganigrama(QWidget):
         self.enviar_button.clicked.connect(self.enviar_organigrama)
 
     def enviar_organigrama(self):
-        # titulo = self.titulo_lineEdit.text()
-        # self.enviar_organigrama.emit(titulo)
+        # TODO: validar que el campo fecha sea una fecha valida
+        titulo = self.titulo_lineEdit.text()
+        fecha = self.fecha_lineEdit.text()
+        org = Organigrama(titulo, fecha)
+        database.connect()
+        database.insertarData("Organigrama", org.get_dict())
         self.close()
+        database.disconnect()
 
 class FormDependencia(QWidget):
     def __init__(self):
@@ -47,8 +65,19 @@ class FormDependencia(QWidget):
         self.enviar_dependencia.clicked.connect(self.e_dependencia)
 
     def e_dependencia(self):
-        # self.main_window = MainWindow()  # Create an instance of MainWindow
-        # self.main_window.show()  # Show the main window
+        # TODO: validar que el lider ingresado exista
+        nombre_dep = self.input_dependencia_nombre.text()
+        nombre_lider = self.input_dependencia_nombre_lider.text()
+        apellido_lider = self.input_dependencia_apellido_lider.text()
+        
+        database.connect()
+        rows = database.buscarData("Persona", f"nombre = '{nombre_lider}' AND apellido = '{apellido_lider}'", ["id"])
+        id_lider = rows[0][0]
+        
+        dependencia = Dependencia(nombre_dep, id_lider, organigrama_activo)
+        database.insertarData("Dependencia", dependencia.getDict())
+
+        database.disconnect()
         self.close()  # Cerrar la ventana de formulario
 if __name__ == '__main__':
     app = QApplication([])

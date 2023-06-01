@@ -23,8 +23,7 @@ cur.execute("""CREATE TABLE Persona (
             telefono TEXT,
             direccion TEXT,
             id_dependencia INTEGER,
-            salario INTEGER,
-            FOREIGN KEY(id_dependencia) REFERENCES Dependencia(id)
+            salario INTEGER
 )""")
 
 cur.execute("""CREATE TABLE Organigrama (

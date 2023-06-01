@@ -114,6 +114,19 @@
      </rect>
     </property>
    </widget>
+   <widget class="QLabel" name="label_organigrama">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>340</y>
+      <width>200</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Organigrama: 1</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -121,7 +134,7 @@
      <x>0</x>
      <y>0</y>
      <width>458</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
