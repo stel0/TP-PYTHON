@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QGraphicsScene, QGraphicsTextItem, QGraphicsRectItem, QApplication, QFileDialog, QMainWindow, QWidget
+from PyQt5.QtWidgets import QGraphicsScene, QGraphicsTextItem, QGraphicsRectItem, QApplication,QFileDialog, QMainWindow, QWidget
 from PyQt5.uic import loadUi
 from PyQt5.QtCore import pyqtSignal
 from Database import Database
@@ -6,6 +6,8 @@ from Organigrama import Organigrama
 from Dependencia import Dependencia
 from Persona import Persona
 from PyQt5.QtCore import Qt, QPointF
+from PyQt5.QtPrintSupport import QPrinter
+from PyQt5.QtGui import QPainter
 
 DATABASE = "base.db"
 database = Database(DATABASE)
@@ -29,6 +31,7 @@ class MainWindow(QMainWindow):
         self.crear_organigrama.clicked.connect(self.create_organigrama)
         self.abrir_organigrama.clicked.connect(self.open_organigrama)
         self.Add_Persona.clicked.connect(self.abrir_form_persona)
+        self.eliminar_dependencia.clicked.connect(self.export_scene_to_pdf)
         
     def buttonClicked(self):
         # ...
@@ -51,7 +54,21 @@ class MainWindow(QMainWindow):
         self.form_persona = FormPersona()
         self.form_persona.show()
         
+    def export_scene_to_pdf(self):
+        file_dialog = QFileDialog()
+        filename, _ = file_dialog.getSaveFileName(self, "Guardar como PDF", "", "Archivos PDF (*.pdf)")
 
+        if filename:
+            printer = QPrinter(QPrinter.HighResolution)
+            printer.setOutputFormat(QPrinter.PdfFormat)
+            printer.setOutputFileName(filename)
+
+            # Establecer el tamaño de página en el objeto QPrinter
+            printer.setPageSize(QPrinter.A4)
+
+            painter = QPainter(printer)
+            self.qgv_scene.render(painter)
+            painter.end()
     def add_rect_slot(self, titulo, fecha):
         rect = QGraphicsRectItem()
         rect.setRect(0, 0, 200, 100)
