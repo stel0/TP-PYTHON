@@ -125,6 +125,11 @@ class FormDependencia(QWidget):
         
         database.connect()
         rows = database.buscarData("Persona", f"nombre = '{nombre_lider}' AND apellido = '{apellido_lider}'", ["id"])
+        
+        if len(rows) == 0 or rows == -1:
+            print("Error al crear la dependencia")
+            return
+        
         id_lider = rows[0][0] 
         
         dependencia = Dependencia(nombre_dep, id_lider, organigrama_activo)
@@ -142,6 +147,20 @@ class FormPersona(QWidget):
         self.boton_enviar.clicked.connect(self.e_persona)
 
     def e_persona(self):
+        ci = self.campo_ci.text()
+        nombre = self.campo_nombre.text()
+        apellido = self.campo_apellido.text()
+        telefono = self.campo_telefono.text()
+        direccion = self.campo_direccion.text()
+        dependencia = self.campo_dependencia.text()
+        salario = self.campo_salario.text()
+
+        database.connect()
+        rows = database.buscarData("Dependencia", f"nombre = '{dependencia}'", ["id"])
+        id_dep = rows[0][0]
+        persona = Persona(ci, apellido, nombre, telefono, direccion, id_dep, int(salario))
+        database.insertarData("Persona", persona.getDict())
+        database.disconnect()
         self.close()
 
 
