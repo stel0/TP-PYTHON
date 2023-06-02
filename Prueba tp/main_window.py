@@ -32,9 +32,9 @@ class MainWindow(QMainWindow):
         
     def buttonClicked(self):
         # ...
-        self.form_window = FormDependencia()  # Create an instance of FormDependencia
-        # self.form_window.enviar_dependencia_signal.connect(self.add_dependencia_rect)
-        self.form_window.show()  # Show the form window
+        self.form_window = FormDependencia()
+        self.form_window.enviar_dependencia_signal.connect(self.add_dependencia_rect)
+        self.form_window.show()
         
     def create_organigrama(self):
         self.form_organigrama = FormOrganigrama()
@@ -68,22 +68,22 @@ class MainWindow(QMainWindow):
         self.qgv_scene.addItem(rect)
         self.qgv_scene.addItem(text)
         self.qgv.setScene(self.qgv_scene)
-    # def add_dependencia_rect(self, titulo, apellido, nombre):
-    #     rect = QGraphicsRectItem()
-    #     rect.setRect(0, 0, 200, 100)
-    #     rect.setPos(50, 50)
-    #     rect.setFlag(QGraphicsRectItem.ItemIsMovable)
+    def add_dependencia_rect(self,depen,nombre,apellido):
+        rect = QGraphicsRectItem()
+        rect.setRect(0, 0, 200, 100)
+        rect.setPos(50, 50)
+        rect.setFlag(QGraphicsRectItem.ItemIsMovable)
 
-    #     rect.setBrush(Qt.white)
+        rect.setBrush(Qt.white)
 
-    #     text = QGraphicsTextItem(rect)
-    #     text.setDefaultTextColor(Qt.black)
-    #     text.setPlainText(f"Título: {titulo}\nApellid{apellido}\nNombre:{nombre}")
-    #     text.setPos(rect.rect().topLeft() + QPointF(10, 10))
+        text = QGraphicsTextItem(rect)
+        text.setDefaultTextColor(Qt.black)
+        text.setPlainText(f"Título: {depen}\nApellid{apellido}\nNombre:{nombre}")
+        text.setPos(rect.rect().topLeft() + QPointF(10, 10))
 
-    #     self.qgv_scene.addItem(rect)
-    #     self.qgv_scene.addItem(text)
-    #     self.qgv.setScene(self.qgv_scene)
+        self.qgv_scene.addItem(rect)
+        self.qgv_scene.addItem(text)
+        self.qgv.setScene(self.qgv_scene)
 
 class FormOrganigrama(QWidget):
     enviar_organigrama_signal = pyqtSignal(str, str)
@@ -108,9 +108,9 @@ class FormOrganigrama(QWidget):
         database.disconnect()
 
 class FormDependencia(QWidget):
-    # enviar_dependencia_signal = pyqtSignal(str, str,str)
-    def __init__(self):
-        super(FormDependencia, self).__init__()
+    enviar_dependencia_signal = pyqtSignal(str, str,str)
+    def __init__(self,parent=None):
+        super(FormDependencia, self).__init__(parent)
         self.setWindowTitle("Formulario dependencia")
 
         loadUi("form_window.ui", self)
@@ -125,11 +125,11 @@ class FormDependencia(QWidget):
         
         database.connect()
         rows = database.buscarData("Persona", f"nombre = '{nombre_lider}' AND apellido = '{apellido_lider}'", ["id"])
-        id_lider = rows[0][0]
+        id_lider = rows[0][0] 
         
         dependencia = Dependencia(nombre_dep, id_lider, organigrama_activo)
         database.insertarData("Dependencia", dependencia.getDict())
-
+        self.enviar_dependencia_signal.emit(nombre_dep,nombre_lider,apellido_lider)
         database.disconnect()
         self.close()  # Cerrar la ventana de formulario
 
