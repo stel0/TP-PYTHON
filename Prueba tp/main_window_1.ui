@@ -103,7 +103,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>../../../Proyecto_Pull_TP/icons8-abrir-carpeta-50.png</normaloff>../../../Proyecto_Pull_TP/icons8-abrir-carpeta-50.png</iconset>
+           <normaloff>icons8-abrir-carpeta-50.png</normaloff>icons8-abrir-carpeta-50.png</iconset>
          </property>
         </widget>
        </item>
@@ -134,7 +134,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>../../../Proyecto_Pull_TP/icons8-computadoras-conectando-30.png</normaloff>../../../Proyecto_Pull_TP/icons8-computadoras-conectando-30.png</iconset>
+           <normaloff>icons8-computadoras-conectando-30.png</normaloff>icons8-computadoras-conectando-30.png</iconset>
          </property>
         </widget>
        </item>
@@ -181,7 +181,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>../../../Proyecto_Pull_TP/icons8-conectar-50.png</normaloff>../../../Proyecto_Pull_TP/icons8-conectar-50.png</iconset>
+           <normaloff>icons8-conectar-50.png</normaloff>icons8-conectar-50.png</iconset>
          </property>
         </widget>
        </item>
@@ -212,7 +212,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>../../../Proyecto_Pull_TP/icons8-eliminar-24.png</normaloff>../../../Proyecto_Pull_TP/icons8-eliminar-24.png</iconset>
+           <normaloff>icons8-eliminar-24.png</normaloff>icons8-eliminar-24.png</iconset>
          </property>
         </widget>
        </item>
