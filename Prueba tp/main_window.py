@@ -31,7 +31,7 @@ class MainWindow(QMainWindow):
         self.crear_organigrama.clicked.connect(self.create_organigrama)
         self.abrir_organigrama.clicked.connect(self.open_organigrama)
         self.Add_Persona.clicked.connect(self.abrir_form_persona)
-        self.eliminar_dependencia.clicked.connect(self.export_scene_to_pdf)
+        self.exportar_PDF.clicked.connect(self.export_scene_to_pdf)
         
     def buttonClicked(self):
         # ...

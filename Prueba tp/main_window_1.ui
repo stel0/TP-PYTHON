@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1000</width>
-    <height>700</height>
+    <width>1073</width>
+    <height>817</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -25,6 +25,37 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
+    <item alignment="Qt::AlignRight">
+     <widget class="QPushButton" name="exportar_PDF">
+      <property name="minimumSize">
+       <size>
+        <width>100</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>200</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>7</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background:rgb(170, 170, 255);</string>
+      </property>
+      <property name="text">
+       <string>Exportar a PDF</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>disco-flexible.png</normaloff>disco-flexible.png</iconset>
+      </property>
+     </widget>
+    </item>
     <item>
      <widget class="QLabel" name="label_organigrama">
       <property name="styleSheet">
@@ -186,29 +217,12 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="eliminar_dependencia">
-         <property name="minimumSize">
-          <size>
-           <width>100</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>200</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>7</pointsize>
-          </font>
-         </property>
+        <widget class="QPushButton" name="eliminar_nodo">
          <property name="styleSheet">
           <string notr="true">background:rgb(170, 170, 255);</string>
          </property>
          <property name="text">
-          <string>Eliminar dependencia</string>
+          <string>Eliminar nodo</string>
          </property>
          <property name="icon">
           <iconset>
@@ -226,8 +240,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1000</width>
-     <height>22</height>
+     <width>1073</width>
+     <height>21</height>
     </rect>
    </property>
   </widget>
