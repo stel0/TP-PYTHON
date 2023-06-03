@@ -10,16 +10,40 @@ from PyQt5.QtCore import Qt, QPointF
 from PyQt5.QtPrintSupport import QPrinter
 from PyQt5.QtGui import QPainter
 import prueba2 as qgs
-
+from graphviz import Digraph
 DATABASE = "base.db"
 database = Database(DATABASE)
 organigrama_activo = 1
+from PyQt5.QtWidgets import QGraphicsView
+
+class MyGraphicsView(QGraphicsView):
+    def __init__(self, parent=None):
+        super(MyGraphicsView, self).__init__(parent)
+        self.qgv_scene = QGraphicsScene()
+        self.setScene(self.qgv_scene)
+
+    def add_rect_slot(self, titulo, fecha):
+        rect = QGraphicsRectItem()
+        rect.setRect(0, 0, 200, 100)
+        rect.setPos(50, 50)
+        rect.setFlag(QGraphicsRectItem.ItemIsMovable)
+
+        rect.setBrush(Qt.white)
+
+        text = QGraphicsTextItem(rect)
+        text.setDefaultTextColor(Qt.black)
+        text.setPlainText(f"Título: {titulo}\nFecha: {fecha}")
+        text.setPos(rect.rect().topLeft() + QPointF(10, 10))
+
+        self.qgv_scene.addItem(rect)
+        self.qgv_scene.addItem(text)
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
         self.setWindowTitle("Mi Aplicación")
-        self.qgv_scene = QGraphicsScene()
+        self.qgv = MyGraphicsView()
+
         # Cargar el archivo .ui
         loadUi("main_window_1.ui", self)
         database.connect()
@@ -34,24 +58,24 @@ class MainWindow(QMainWindow):
         self.abrir_organigrama.clicked.connect(self.open_organigrama)
         self.Add_Persona.clicked.connect(self.abrir_form_persona)
         self.exportar_PDF.clicked.connect(self.export_scene_to_pdf)
-        
+    #Ver El formulario de la dependencia
     def buttonClicked(self):
         # ...
         self.form_window = FormDependencia()
         self.form_window.enviar_dependencia_signal.connect(self.add_dependencia_rect)
         self.form_window.show()
-        
+    #ver el formulario de organigrama
     def create_organigrama(self):
         self.form_organigrama = FormOrganigrama()
         self.form_organigrama.enviar_organigrama_signal.connect(self.add_rect_slot)
         self.form_organigrama.show()
-        
+    #abrir el organigrama
     def open_organigrama(self):
         file_dialog = QFileDialog()
         filename, _ = file_dialog.getOpenFileName(self, "Abrir Organigrama", "", "Archivos de Imagen (*.png *.jpg *.jpeg)")
         if filename:
             print("Ruta del archivo seleccionado:", filename)
-
+    #abrir el formulario de persona
     def abrir_form_persona(self):
         self.form_persona = FormPersona()
         self.form_persona.show()
@@ -196,10 +220,43 @@ class FormPersona(QWidget):
         database.insertarData("Persona", persona.getDict())
         database.disconnect()
         self.close()
+class GraphWindow(QMainWindow):
 
+    def __init__(self, graph, nombre_archivo):
+        super().__init__()
+        self.setWindowTitle('Graph Visualization')
+        self.graph = graph
+        self.scene = MyGraphicsView()
+        self.view = QGraphicsView(self.scene)
+        self.setCentralWidget(self.view)
+        self.update_graph(nombre_archivo)
 
+    def update_graph(self, nombre_archivo):
+        image_path = f'grafos/{nombre_archivo}'  # Cambio de extensión a .png
+        self.graph.format = 'png'  # Cambio de formato a png
+        self.graph.render(filename=image_path, cleanup=True)
+        image = QImage(image_path)
+        pixmap = QPixmap.fromImage(image)
+        self.scene.clear()
+        self.scene.addPixmap(pixmap)
+        self.view.fitInView(self.scene.sceneRect(), Qt.KeepAspectRatio)  # Ajuste de la vista
+        self.resize(pixmap.width(), pixmap.height())
+
+def generate_graph():
+    dot = Digraph()
+    return dot
+
+def generate_node(graph, nombre_dependencia):
+    graph.node(nombre_dependencia, nombre_dependencia)
+
+def connect_nodes(graph, node1_label, node2_label, edge_label):
+    graph.edge(node1_label, node2_label, edge_label)
 if __name__ == '__main__':
     app = QApplication([])
+    graph = generate_graph()
+    generate_node(graph, 'Node 1')
+    generate_node(graph, 'Node 2')
+    connect_nodes(graph, 'Node 1', 'Node 2', 'Edge')
     window = MainWindow()
     window.show()
     app.exec_()
