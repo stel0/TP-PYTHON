@@ -11,12 +11,6 @@ def generate_graph():
 def generate_node(graph, nombre_dependencia):
     graph.node(nombre_dependencia, nombre_dependencia)
 
-def generate_root(graph, root_label):
-    graph.node('root', root_label)
-
-def connect_root_to_node(graph, node_label, edge_label):
-    graph.edge('root', node_label, edge_label)
-
 def connect_nodes(graph, node1_label, node2_label, edge_label):
     graph.edge(node1_label, node2_label, edge_label)
 

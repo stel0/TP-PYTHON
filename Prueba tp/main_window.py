@@ -1,4 +1,5 @@
 from PyQt5.QtWidgets import QGraphicsScene, QGraphicsTextItem, QGraphicsRectItem, QApplication,QFileDialog, QMainWindow, QWidget
+from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.uic import loadUi
 from PyQt5.QtCore import pyqtSignal
 from Database import Database
@@ -8,6 +9,7 @@ from Persona import Persona
 from PyQt5.QtCore import Qt, QPointF
 from PyQt5.QtPrintSupport import QPrinter
 from PyQt5.QtGui import QPainter
+import prueba2 as qgs
 
 DATABASE = "base.db"
 database = Database(DATABASE)
@@ -69,6 +71,7 @@ class MainWindow(QMainWindow):
             painter = QPainter(printer)
             self.qgv_scene.render(painter)
             painter.end()
+            
     def add_rect_slot(self, titulo, fecha):
         rect = QGraphicsRectItem()
         rect.setRect(0, 0, 200, 100)
@@ -85,22 +88,36 @@ class MainWindow(QMainWindow):
         self.qgv_scene.addItem(rect)
         self.qgv_scene.addItem(text)
         self.qgv.setScene(self.qgv_scene)
-    def add_dependencia_rect(self,depen,nombre,apellido):
-        rect = QGraphicsRectItem()
-        rect.setRect(0, 0, 200, 100)
-        rect.setPos(50, 50)
-        rect.setFlag(QGraphicsRectItem.ItemIsMovable)
 
-        rect.setBrush(Qt.white)
+    def update_graph(self, nombre_archivo):
+        image_path = f'grafos/{nombre_archivo}'  # Cambio de extensión a .png
+        self.graph.format = 'png'  # Cambio de formato a png
+        self.graph.render(filename=image_path, cleanup=True)
+        image = QImage(image_path)
+        pixmap = QPixmap.fromImage(image)
+        self.scene.clear()
+        self.scene.addPixmap(pixmap)
+        self.view.fitInView(self.scene.sceneRect(), Qt.KeepAspectRatio)  # Ajuste de la vista
+        self.resize(pixmap.width(), pixmap.height())
+        
+    # def add_dependencia_rect(self,depen,nombre,apellido):
+    #     rect = QGraphicsRectItem()
+    #     rect.setRect(0, 0, 200, 100)
+    #     rect.setPos(50, 50)
+    #     rect.setFlag(QGraphicsRectItem.ItemIsMovable)
 
-        text = QGraphicsTextItem(rect)
-        text.setDefaultTextColor(Qt.black)
-        text.setPlainText(f"Título: {depen}\nApellid{apellido}\nNombre:{nombre}")
-        text.setPos(rect.rect().topLeft() + QPointF(10, 10))
+    #     rect.setBrush(Qt.white)
 
-        self.qgv_scene.addItem(rect)
-        self.qgv_scene.addItem(text)
-        self.qgv.setScene(self.qgv_scene)
+    #     text = QGraphicsTextItem(rect)
+    #     text.setDefaultTextColor(Qt.black)
+    #     text.setPlainText(f"Título: {depen}\nApellid{apellido}\nNombre:{nombre}")
+    #     text.setPos(rect.rect().topLeft() + QPointF(10, 10))
+
+    #     self.qgv_scene.addItem(rect)
+    #     self.qgv_scene.addItem(text)
+    #     self.qgv.setScene(self.qgv_scene)
+    
+
 
 class FormOrganigrama(QWidget):
     enviar_organigrama_signal = pyqtSignal(str, str)
