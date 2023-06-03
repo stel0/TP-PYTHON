@@ -6,40 +6,72 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>189</width>
-    <height>101</height>
+    <width>215</width>
+    <height>250</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>0</width>
+    <height>170</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>300</width>
+    <height>100</height>
+   </size>
+  </property>
   <property name="windowTitle">
-   <string>Formulario Organigrama</string>
+   <string>Titulo Del Organigrama</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color:#27263c;</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QFormLayout" name="formLayout">
      <item row="0" column="0">
       <widget class="QLabel" name="titulo_label">
+       <property name="styleSheet">
+        <string notr="true">color:white;</string>
+       </property>
        <property name="text">
         <string>Título:</string>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="titulo_lineEdit"/>
+      <widget class="QLineEdit" name="titulo_lineEdit">
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(170, 170, 255);</string>
+       </property>
+      </widget>
      </item>
      <item row="1" column="0">
       <widget class="QLabel" name="label">
+       <property name="styleSheet">
+        <string notr="true">color:white;</string>
+       </property>
        <property name="text">
         <string>Fecha:</string>
        </property>
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLineEdit" name="fecha_lineEdit"/>
+      <widget class="QLineEdit" name="fecha_lineEdit">
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(170, 170, 255);</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
    <item>
     <widget class="QPushButton" name="enviar_button">
+     <property name="styleSheet">
+      <string notr="true">background-color:rgb(170, 170, 255);</string>
+     </property>
      <property name="text">
       <string>Enviar</string>
      </property>
