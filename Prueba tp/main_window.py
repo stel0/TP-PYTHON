@@ -10,7 +10,7 @@ from PyQt5.QtCore import Qt, QPointF
 from PyQt5.QtPrintSupport import QPrinter
 from PyQt5.QtGui import QPainter
 import prueba2 as qgs
-from graphviz import Digraph
+
 DATABASE = "base.db"
 database = Database(DATABASE)
 organigrama_activo = 1
@@ -242,21 +242,9 @@ class GraphWindow(QMainWindow):
         self.view.fitInView(self.scene.sceneRect(), Qt.KeepAspectRatio)  # Ajuste de la vista
         self.resize(pixmap.width(), pixmap.height())
 
-def generate_graph():
-    dot = Digraph()
-    return dot
 
-def generate_node(graph, nombre_dependencia):
-    graph.node(nombre_dependencia, nombre_dependencia)
-
-def connect_nodes(graph, node1_label, node2_label, edge_label):
-    graph.edge(node1_label, node2_label, edge_label)
 if __name__ == '__main__':
     app = QApplication([])
-    graph = generate_graph()
-    generate_node(graph, 'Node 1')
-    generate_node(graph, 'Node 2')
-    connect_nodes(graph, 'Node 1', 'Node 2', 'Edge')
     window = MainWindow()
     window.show()
     app.exec_()
