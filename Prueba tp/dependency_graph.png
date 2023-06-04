@@ -1,0 +1,78 @@
+digraph {
+	CEO [label="Titulo: Gerente
+Apellido: Riveros Vera
+Nombre: Elias Marcelo"]
+	CEO -> Gerente [label=""]
+	Gerente [label="Titulo: Manager
+Apellido: Riveros Vera
+Nombre: Fernando Jose"]
+	Gerente -> Manager [label=""]
+	Manager [label="Titulo: Hello
+Apellido: Mendez
+Nombre: Fernando"]
+	Manager -> Hello [label=""]
+	Manager [label="Titulo: Adios
+Apellido: Mendez
+Nombre: Fernando"]
+	Manager -> Adios [label=""]
+	Gerente [label="Titulo: No se
+Apellido: Riveros Vera
+Nombre: Fernando Jose"]
+	Gerente -> "No se" [label=""]
+	Gerente [label="Titulo: Miguel
+Apellido: Riveros Vera
+Nombre: Fernando Jose"]
+	Gerente -> Miguel [label=""]
+	CEO [label="Titulo: Marketing
+Apellido: Riveros Vera
+Nombre: Elias Marcelo"]
+	CEO -> Marketing [label=""]
+	CEO [label="Titulo: Hola
+Apellido: Riveros Vera
+Nombre: Elias Marcelo"]
+	CEO -> Hola [label=""]
+	CEO [label="Titulo: Hola1
+Apellido: Riveros Vera
+Nombre: Elias Marcelo"]
+	CEO -> Hola1 [label=""]
+	CEO [label="Titulo: Chau
+Apellido: Riveros Vera
+Nombre: Elias Marcelo"]
+	CEO -> Chau [label=""]
+	CEO [label="Titulo: Chau1
+Apellido: Riveros Vera
+Nombre: Elias Marcelo"]
+	CEO -> Chau1 [label=""]
+	CEO [label="Titulo: Chau2
+Apellido: Riveros Vera
+Nombre: Elias Marcelo"]
+	CEO -> Chau2 [label=""]
+	CEO [label="Titulo: Cha3
+Apellido: Riveros Vera
+Nombre: Elias Marcelo"]
+	CEO -> Cha3 [label=""]
+	CEO [label="Titulo: Chau3
+Apellido: Riveros Vera
+Nombre: Elias Marcelo"]
+	CEO -> Chau3 [label=""]
+	CEO [label="Titulo: Chau3
+Apellido: Riveros Vera
+Nombre: Elias Marcelo"]
+	CEO -> Chau3 [label=""]
+	CEO [label="Titulo: Chau3
+Apellido: Riveros Vera
+Nombre: Elias Marcelo"]
+	CEO -> Chau3 [label=""]
+	CEO [label="Titulo: chau3
+Apellido: Riveros Vera
+Nombre: Elias Marcelo"]
+	CEO -> chau3 [label=""]
+	CEO [label="Titulo: chau3
+Apellido: Riveros Vera
+Nombre: Elias Marcelo"]
+	CEO -> chau3 [label=""]
+	CEO [label="Titulo: Chau3
+Apellido: Riveros Vera
+Nombre: Elias Marcelo"]
+	CEO -> Chau3 [label=""]
+}

@@ -19,7 +19,10 @@ from Database import Database
 from Organigrama import Organigrama
 from Dependencia import Dependencia
 from Persona import Persona
-
+import sqlite3
+import csv
+from PyQt5.QtCore import QUrl
+from PyQt5.QtGui import QDesktopServices
 DATABASE = "base1.db"
 database = Database(DATABASE)
 organigrama_activo = 1
@@ -64,7 +67,7 @@ class MainWindow(QMainWindow):
         self.agregar_persona.clicked.connect(self.abrir_form_persona)
         self.action_PDF.triggered.connect(self.exportar_a_pdf)
         self.action_IMAGEN.triggered.connect(self.exportar_a_imagen)
-
+        self.actionInforme_por_dependencia.triggered.connect(self.Personal_Dependencia)
     #Ver El formulario de la dependencia
     def create_Dependencia(self):
         self.form_window = FormDependencia()
@@ -155,7 +158,7 @@ class MainWindow(QMainWindow):
         grafos.generar_nodos(graph, 0)
 
         # Generar el gráfico y guardar la imagen en un archivo
-        graph_file = 'dependency_graph.png'
+        graph_file = 'INTERFAZ\dependency_graph.png'
         graph.format = 'png'
         graph.render(graph_file)
 
@@ -165,7 +168,31 @@ class MainWindow(QMainWindow):
         # Obtener la ruta completa del archivo generado
         file_path = os.path.abspath(graph_file)
         return file_path
+    def Personal_Dependencia(self):
+        # Conexión a la base de datos
+        conn = sqlite3.connect('base.db')
+        cursor = conn.cursor()
 
+        # Ejecutar una consulta SQL
+        cursor.execute("SELECT * FROM Persona")
+
+        # Obtener los resultados de la consulta
+        resultados = cursor.fetchall()
+
+        # Cerrar la conexión a la base de datos
+        conn.close()
+
+        # Especificar el nombre del archivo de texto
+        nombre_archivo = 'informe.txt'
+
+        # Escribir los resultados en el archivo de texto
+        with open(nombre_archivo, 'w') as archivo:
+            escritor = csv.writer(archivo, delimiter='\t')
+            escritor.writerows(resultados)
+
+        print("Informe generado y guardado en", nombre_archivo)
+        # Abrir el archivo PDF con la aplicación predeterminada del sistema
+        QDesktopServices.openUrl(QUrl.fromLocalFile(nombre_archivo))
     
 class FormOrganigrama(QWidget):
     enviar_organigrama_signal = pyqtSignal(str, str)
@@ -281,7 +308,7 @@ if __name__ == '__main__':
     graphics_view.display_image(file_path)
 
     # Mostrar la ventana principal que contiene el QGraphicsView
-    graphics_view.show()
+    # graphics_view.show()
 
     window.show()
     app.exec_()

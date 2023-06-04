@@ -10,7 +10,7 @@ class MainWindow(QMainWindow):
         self.setFixedSize(600, 600)  # Establecer tamaño fijo de 600x600 píxeles
 
         # Cargar el archivo .ui
-        loadUi("INTERFAZ\Inicio.ui", self)
+        loadUi("Inicio.ui", self)
 
         # Conectar señales y slots si es necesario
         #self.Informes.clicked.connect(self.open_file_dialog)
