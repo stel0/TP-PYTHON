@@ -1,24 +1,30 @@
-from PyQt5.QtWidgets import QGraphicsScene, QGraphicsTextItem, QGraphicsRectItem, QApplication,QFileDialog, QMainWindow, QWidget
-from PyQt5.QtGui import QPixmap, QImage
+import os
+from PyQt5.QtCore import Qt, QPointF, QRect, pyqtSignal
+from PyQt5.QtGui import QPainter, QPixmap, QImage
+from PyQt5.QtWidgets import (
+    QApplication,
+    QMainWindow,
+    QGraphicsView,
+    QGraphicsScene,
+    QGraphicsTextItem,
+    QGraphicsRectItem,
+    QFileDialog,
+    QWidget,
+)
+from PyQt5.QtPrintSupport import QPrinter
 from PyQt5.uic import loadUi
-from PyQt5.QtCore import pyqtSignal
+
+import grafos
 from Database import Database
 from Organigrama import Organigrama
 from Dependencia import Dependencia
 from Persona import Persona
-from PyQt5.QtCore import Qt, QPointF
-from PyQt5.QtPrintSupport import QPrinter
-from PyQt5.QtGui import QPainter
-import grafos 
-import os
+
 DATABASE = "base1.db"
 database = Database(DATABASE)
 organigrama_activo = 1
-from PyQt5.QtWidgets import QGraphicsView
 
-from PyQt5.QtWidgets import QApplication, QMainWindow, QGraphicsView, QGraphicsScene
-from PyQt5.QtGui import QImage, QPixmap
-from PyQt5.QtCore import Qt
+
 
 class MyGraphicsView(QGraphicsView):
     def __init__(self, parent=None):
@@ -40,7 +46,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
         self.setWindowTitle("Mi Aplicación")
-        self.qgv = MyGraphicsView()
+        self.graphics_view = MyGraphicsView()
 
         # Cargar el archivo .ui
         loadUi("main_window_1.ui", self)
@@ -55,8 +61,9 @@ class MainWindow(QMainWindow):
         self.crear_organigrama.clicked.connect(self.create_organigrama)
         self.abrir_organigrama.clicked.connect(self.open_organigrama)
         self.Add_Persona.clicked.connect(self.abrir_form_persona)
-        self.exportar_PDF.clicked.connect(self.export_scene_to_pdf)
-        
+        self.actionPDF.triggered.connect(self.export_scene_to_pdf)
+        self.actionIMAGEN.triggered.connect(self.export_scene_to_image)
+
     #Ver El formulario de la dependencia
     def buttonClicked(self):
         # ...
@@ -68,17 +75,20 @@ class MainWindow(QMainWindow):
         self.form_organigrama = FormOrganigrama()
         self.form_organigrama.enviar_organigrama_signal.connect(self.add_rect_slot)
         self.form_organigrama.show()
+
     #abrir el organigrama
     def open_organigrama(self):
         file_dialog = QFileDialog()
         filename, _ = file_dialog.getOpenFileName(self, "Abrir Organigrama", "", "Archivos de Imagen (*.png *.jpg *.jpeg)")
         if filename:
             print("Ruta del archivo seleccionado:", filename)
+
     #abrir el formulario de persona
     def abrir_form_persona(self):
         self.form_persona = FormPersona()
         self.form_persona.show()
-        
+
+    #exporta la escena de graphics view como PDF    
     def export_scene_to_pdf(self):
         file_dialog = QFileDialog()
         filename, _ = file_dialog.getSaveFileName(self, "Guardar como PDF", "", "Archivos PDF (*.pdf)")
@@ -92,37 +102,53 @@ class MainWindow(QMainWindow):
             printer.setPageSize(QPrinter.A4)
 
             painter = QPainter(printer)
-            self.qgv_scene.render(painter)
+            self.graphics_view.render(painter)
             painter.end()
-            
-    def add_rect_slot(self, titulo, fecha):
-        rect = QGraphicsRectItem()
-        rect.setRect(0, 0, 200, 100)
-        rect.setPos(50, 50)
-        rect.setFlag(QGraphicsRectItem.ItemIsMovable)  # Hacer que el rectángulo sea movible
 
-        rect.setBrush(Qt.white)  # Establecer el fondo del rectángulo como blanco
+    #exporta la escena de graphics view como PNG         
+    def export_scene_to_image(self):
+        file_dialog = QFileDialog()
+        filename, _ = file_dialog.getSaveFileName(self, "Guardar como imagen", "", "Archivos de imagen (*.png *.jpg *.jpeg)")
 
-        text = QGraphicsTextItem(rect)  # Hacer que el rectángulo sea el padre del texto
-        text.setDefaultTextColor(Qt.black)  # Establecer el color del texto como negro
-        text.setPlainText(f"Título: {titulo}\nFecha: {fecha}")
-        text.setPos(rect.rect().topLeft() + QPointF(10, 10))  # Posicionar el texto dentro del rectángulo
+        if filename:
+            image = QImage(self.graphics_view.viewport().size(), QImage.Format_ARGB32)
+            image.fill(Qt.transparent)
 
-        self.qgv_scene.addItem(rect)
-        self.qgv_scene.addItem(text)
-        self.qgv.setScene(self.qgv_scene)
+            painter = QPainter(image)
+            self.graphics_view.render(painter)
+            painter.end()
 
-    def update_graph(self, nombre_archivo):
-        image_path = f'grafos/{nombre_archivo}'  # Cambio de extensión a .png
-        self.graph.format = 'png'  # Cambio de formato a png
-        self.graph.render(filename=image_path, cleanup=True)
-        image = QImage(image_path)
-        pixmap = QPixmap.fromImage(image)
-        self.scene.clear()
-        self.scene.addPixmap(pixmap)
-        self.view.fitInView(self.scene.sceneRect(), Qt.KeepAspectRatio)  # Ajuste de la vista
-        self.resize(pixmap.width(), pixmap.height())
+            image.save(filename)
+
+    # def add_rect_slot(self, titulo, fecha):
+    #     rect = QGraphicsRectItem()
+    #     rect.setRect(0, 0, 200, 100)
+    #     rect.setPos(50, 50)
+    #     rect.setFlag(QGraphicsRectItem.ItemIsMovable)  # Hacer que el rectángulo sea movible
+
+    #     rect.setBrush(Qt.white)  # Establecer el fondo del rectángulo como blanco
+
+    #     text = QGraphicsTextItem(rect)  # Hacer que el rectángulo sea el padre del texto
+    #     text.setDefaultTextColor(Qt.black)  # Establecer el color del texto como negro
+    #     text.setPlainText(f"Título: {titulo}\nFecha: {fecha}")
+    #     text.setPos(rect.rect().topLeft() + QPointF(10, 10))  # Posicionar el texto dentro del rectángulo
+
+    #     self.qgv_scene.addItem(rect)
+    #     self.qgv_scene.addItem(text)
+    #     self.qgv.setScene(self.qgv_scene)
+
+    # def update_graph(self, nombre_archivo):
+    #     image_path = f'grafos/{nombre_archivo}'  # Cambio de extensión a .png
+    #     self.graph.format = 'png'  # Cambio de formato a png
+    #     self.graph.render(filename=image_path, cleanup=True)
+    #     image = QImage(image_path)
+    #     pixmap = QPixmap.fromImage(image)
+    #     self.scene.clear()
+    #     self.scene.addPixmap(pixmap)
+    #     self.view.fitInView(self.scene.sceneRect(), Qt.KeepAspectRatio)  # Ajuste de la vista
+    #     self.resize(pixmap.width(), pixmap.height())
     
+    #abre el formulario de dependencias y crea los nodos
     def add_dependencia_rect(self):
         graph = grafos.generate_graph()
         grafos.generar_nodos(graph, 0)
@@ -139,25 +165,7 @@ class MainWindow(QMainWindow):
         file_path = os.path.abspath(graph_file)
         return file_path
 
-    # def add_dependencia_rect(self,depen,nombre,apellido):
-    #     rect = QGraphicsRectItem()
-    #     rect.setRect(0, 0, 200, 100)
-    #     rect.setPos(50, 50)
-    #     rect.setFlag(QGraphicsRectItem.ItemIsMovable)
-
-    #     rect.setBrush(Qt.white)
-
-    #     text = QGraphicsTextItem(rect)
-    #     text.setDefaultTextColor(Qt.black)
-    #     text.setPlainText(f"Título: {depen}\nApellid{apellido}\nNombre:{nombre}")
-    #     text.setPos(rect.rect().topLeft() + QPointF(10, 10))
-
-    #     self.qgv_scene.addItem(rect)
-    #     self.qgv_scene.addItem(text)
-    #     self.qgv.setScene(self.qgv_scene)
     
-
-
 class FormOrganigrama(QWidget):
     enviar_organigrama_signal = pyqtSignal(str, str)
 
@@ -179,6 +187,7 @@ class FormOrganigrama(QWidget):
         self.enviar_organigrama_signal.emit(titulo, fecha)
         self.close()
         database.disconnect()
+
 
 class FormDependencia(QWidget):
     enviar_dependencia_signal = pyqtSignal(str, str,str)
@@ -210,6 +219,7 @@ class FormDependencia(QWidget):
         self.enviar_dependencia_signal.emit(nombre_dep,nombre_lider,apellido_lider)
         database.disconnect()
         self.close()  # Cerrar la ventana de formulario
+
 
 class FormPersona(QWidget):
     def __init__(self):

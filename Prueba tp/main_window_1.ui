@@ -39,93 +39,103 @@
         <height>16777215</height>
        </size>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <widget class="QComboBox" name="comboBox">
+       <property name="geometry">
+        <rect>
+         <x>9</x>
+         <y>9</y>
+         <width>150</width>
+         <height>18</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>150</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>150</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(170, 170, 255);</string>
+       </property>
        <item>
-        <widget class="QComboBox" name="comboBox">
-         <property name="minimumSize">
-          <size>
-           <width>150</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>100</width>
-           <height>150</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <weight>50</weight>
-           <bold>false</bold>
-          </font>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background:rgb(170, 170, 255);</string>
-         </property>
-         <item>
-          <property name="text">
-           <string>Atilio</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Fer</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Marce</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Sotelo</string>
-          </property>
-         </item>
-        </widget>
+        <property name="text">
+         <string>Atilio</string>
+        </property>
        </item>
        <item>
-        <widget class="QPushButton" name="exportar_PDF">
-         <property name="minimumSize">
-          <size>
-           <width>150</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>150</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Candara</family>
-           <pointsize>9</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background:rgb(170, 170, 255);</string>
-         </property>
-         <property name="text">
-          <string>Exportar a PDF</string>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>disco-flexible.png</normaloff>disco-flexible.png</iconset>
-         </property>
-        </widget>
+        <property name="text">
+         <string>Fer</string>
+        </property>
        </item>
-      </layout>
+       <item>
+        <property name="text">
+         <string>Marce</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Sotelo</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QPushButton" name="exportar_PDF">
+       <property name="geometry">
+        <rect>
+         <x>165</x>
+         <y>9</y>
+         <width>150</width>
+         <height>24</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>150</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>150</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <family>Candara</family>
+         <pointsize>9</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(170, 170, 255);</string>
+       </property>
+       <property name="text">
+        <string>Exportar a PDF</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>../../../../../.designer/backup/disco-flexible.png</normaloff>../../../../../.designer/backup/disco-flexible.png</iconset>
+       </property>
+      </widget>
      </widget>
     </item>
     <item>
@@ -186,7 +196,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>icons8-estructura-de-árbol-50.png</normaloff>icons8-estructura-de-árbol-50.png</iconset>
+           <normaloff>../../../../../.designer/backup/icons8-estructura-de-árbol-50.png</normaloff>../../../../../.designer/backup/icons8-estructura-de-árbol-50.png</iconset>
          </property>
         </widget>
        </item>
@@ -223,7 +233,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>icons8-abrir-carpeta-50.png</normaloff>icons8-abrir-carpeta-50.png</iconset>
+           <normaloff>../../../../../.designer/backup/icons8-abrir-carpeta-50.png</normaloff>../../../../../.designer/backup/icons8-abrir-carpeta-50.png</iconset>
          </property>
         </widget>
        </item>
@@ -260,7 +270,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>icons8-computadoras-conectando-30.png</normaloff>icons8-computadoras-conectando-30.png</iconset>
+           <normaloff>../../../../../.designer/backup/icons8-computadoras-conectando-30.png</normaloff>../../../../../.designer/backup/icons8-computadoras-conectando-30.png</iconset>
          </property>
         </widget>
        </item>
@@ -291,7 +301,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>icons8-cliente-100.png</normaloff>icons8-cliente-100.png</iconset>
+           <normaloff>../../../../../.designer/backup/icons8-cliente-100.png</normaloff>../../../../../.designer/backup/icons8-cliente-100.png</iconset>
          </property>
         </widget>
        </item>
@@ -328,7 +338,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>icons8-conectar-50.png</normaloff>icons8-conectar-50.png</iconset>
+           <normaloff>../../../../../.designer/backup/icons8-conectar-50.png</normaloff>../../../../../.designer/backup/icons8-conectar-50.png</iconset>
          </property>
         </widget>
        </item>
@@ -365,7 +375,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>icons8-eliminar-24.png</normaloff>icons8-eliminar-24.png</iconset>
+           <normaloff>../../../../../.designer/backup/icons8-eliminar-24.png</normaloff>../../../../../.designer/backup/icons8-eliminar-24.png</iconset>
          </property>
         </widget>
        </item>
@@ -387,13 +397,32 @@
     <string notr="true">background:rgb(170, 170, 255);</string>
    </property>
    <widget class="QMenu" name="menuInformes">
+    <property name="toolTip">
+     <string extracomment="Genera los informes..."/>
+    </property>
+    <property name="toolTipDuration">
+     <number>-1</number>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::RightToLeft</enum>
+    </property>
     <property name="title">
      <string>Informes</string>
     </property>
     <addaction name="actionInforme_por_dependencia"/>
     <addaction name="actionPersonal_por_Dependencia_extendido"/>
+    <addaction name="actionSalario_por_Dependencia"/>
+    <addaction name="actionSalario_por_Dependencia_extendido"/>
+   </widget>
+   <widget class="QMenu" name="menuGuarda_como">
+    <property name="title">
+     <string>Exportar Organigrama</string>
+    </property>
+    <addaction name="actionPDF"/>
+    <addaction name="actionIMAGEN"/>
    </widget>
    <addaction name="menuInformes"/>
+   <addaction name="menuGuarda_como"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionhola">
@@ -414,6 +443,26 @@
   <action name="actionPersonal_por_Dependencia_extendido">
    <property name="text">
     <string>Personal por Dependencia extendido</string>
+   </property>
+  </action>
+  <action name="actionSalario_por_Dependencia">
+   <property name="text">
+    <string>Salario por Dependencia</string>
+   </property>
+  </action>
+  <action name="actionSalario_por_Dependencia_extendido">
+   <property name="text">
+    <string>Salario por Dependencia extendido</string>
+   </property>
+  </action>
+  <action name="actionPDF">
+   <property name="text">
+    <string>Como PDF</string>
+   </property>
+  </action>
+  <action name="actionIMAGEN">
+   <property name="text">
+    <string>Como IMAGEN</string>
    </property>
   </action>
  </widget>
