@@ -25,119 +25,6 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
-    <item alignment="Qt::AlignRight">
-     <widget class="QWidget" name="widget_2" native="true">
-      <property name="minimumSize">
-       <size>
-        <width>300</width>
-        <height>0</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>500</width>
-        <height>16777215</height>
-       </size>
-      </property>
-      <widget class="QComboBox" name="comboBox">
-       <property name="geometry">
-        <rect>
-         <x>9</x>
-         <y>9</y>
-         <width>150</width>
-         <height>18</height>
-        </rect>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>150</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>100</width>
-         <height>150</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <weight>50</weight>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="cursor">
-        <cursorShape>PointingHandCursor</cursorShape>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background:rgb(170, 170, 255);</string>
-       </property>
-       <item>
-        <property name="text">
-         <string>Atilio</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Fer</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Marce</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Sotelo</string>
-        </property>
-       </item>
-      </widget>
-      <widget class="QPushButton" name="exportar_PDF">
-       <property name="geometry">
-        <rect>
-         <x>165</x>
-         <y>9</y>
-         <width>150</width>
-         <height>24</height>
-        </rect>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>150</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>150</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <family>Candara</family>
-         <pointsize>9</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="cursor">
-        <cursorShape>PointingHandCursor</cursorShape>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background:rgb(170, 170, 255);</string>
-       </property>
-       <property name="text">
-        <string>Exportar a PDF</string>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>../../../../../.designer/backup/disco-flexible.png</normaloff>../../../../../.designer/backup/disco-flexible.png</iconset>
-       </property>
-      </widget>
-     </widget>
-    </item>
     <item>
      <widget class="QLabel" name="label_organigrama">
       <property name="font">
@@ -201,11 +88,11 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="abrir_organigrama">
+        <widget class="QComboBox" name="comboBox_2">
          <property name="minimumSize">
           <size>
            <width>100</width>
-           <height>0</height>
+           <height>30</height>
           </size>
          </property>
          <property name="maximumSize">
@@ -214,26 +101,8 @@
            <height>16777215</height>
           </size>
          </property>
-         <property name="font">
-          <font>
-           <family>Candara</family>
-           <pointsize>9</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
          <property name="styleSheet">
           <string notr="true">background:rgb(170, 170, 255);</string>
-         </property>
-         <property name="text">
-          <string>Abrir organigrama</string>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>INTERFAZ/ICONOS/icons8-abrir-carpeta-50.png</normaloff>INTERFAZ/ICONOS/icons8-abrir-carpeta-50.png</iconset>
          </property>
         </widget>
        </item>
@@ -390,7 +259,7 @@
      <x>0</x>
      <y>0</y>
      <width>1100</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <property name="styleSheet">

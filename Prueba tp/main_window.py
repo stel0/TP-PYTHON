@@ -63,7 +63,7 @@ class MainWindow(QMainWindow):
         # Conectar señales y slots si es necesario
         self.crear_dependencia.clicked.connect(self.create_Dependencia)
         self.crear_organigrama.clicked.connect(self.create_organigrama)
-        self.abrir_organigrama.clicked.connect(self.open_organigrama)
+        # self.abrir_organigrama.clicked.connect(self.open_organigrama)
         self.agregar_persona.clicked.connect(self.abrir_form_persona)
         self.action_PDF.triggered.connect(self.exportar_a_pdf)
         self.action_IMAGEN.triggered.connect(self.exportar_a_imagen)
@@ -80,12 +80,12 @@ class MainWindow(QMainWindow):
         self.form_organigrama.enviar_organigrama_signal.connect(self.add_rect_slot)
         self.form_organigrama.show()
 
-    #abrir el organigrama
-    def open_organigrama(self):
-        file_dialog = QFileDialog()
-        filename, _ = file_dialog.getOpenFileName(self, "Abrir Organigrama", "", "Archivos de Imagen (*.png *.jpg *.jpeg)")
-        if filename:
-            print("Ruta del archivo seleccionado:", filename)
+    # #abrir el organigrama
+    # def open_organigrama(self):
+    #     file_dialog = QFileDialog()
+    #     filename, _ = file_dialog.getOpenFileName(self, "Abrir Organigrama", "", "Archivos de Imagen (*.png *.jpg *.jpeg)")
+    #     if filename:
+    #         print("Ruta del archivo seleccionado:", filename)
 
     #abrir el formulario de persona
     def abrir_form_persona(self):

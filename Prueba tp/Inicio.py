@@ -17,11 +17,11 @@ class MainWindow(QMainWindow):
         self.Salir.clicked.connect(self.salir)
         self.Ver_main_window.clicked.connect(self.ver)
         self.Ayuda.clicked.connect(self.abrir_pdf)
-    def open_file_dialog(self):
-        # Abrir el diálogo de selección de archivos
-        file_dialog = QFileDialog()
-        file_dialog.setFileMode(QFileDialog.AnyFile)
-        file_dialog.exec_()
+    # def open_file_dialog(self):
+    #     # Abrir el diálogo de selección de archivos
+    #     file_dialog = QFileDialog()
+    #     file_dialog.setFileMode(QFileDialog.AnyFile)
+    #     file_dialog.exec_()
     def abrir_pdf(self):
         # Ruta al archivo PDF
         pdf_path = "Primer_final.pdf"
@@ -38,7 +38,7 @@ class MainWindow(QMainWindow):
         mw.create_Dependencia
         mw.create_organigrama
         mw.abrir_form_persona
-        mw.open_organigrama
+        # mw.open_organigrama
 
 if __name__ == '__main__':
     app = QApplication([])

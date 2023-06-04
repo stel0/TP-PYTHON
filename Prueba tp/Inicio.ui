@@ -50,6 +50,26 @@
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
+     <item row="1" column="0">
+      <widget class="QPushButton" name="Ayuda">
+       <property name="styleSheet">
+        <string notr="true">background:rgb(170, 170, 255);</string>
+       </property>
+       <property name="text">
+        <string>Ayuda</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QPushButton" name="Salir">
+       <property name="styleSheet">
+        <string notr="true">background:rgb(170, 170, 255);</string>
+       </property>
+       <property name="text">
+        <string>Salir</string>
+       </property>
+      </widget>
+     </item>
      <item row="0" column="0">
       <widget class="QPushButton" name="Ver_main_window">
        <property name="minimumSize">
@@ -63,36 +83,6 @@
        </property>
        <property name="text">
         <string>Organigrama</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QPushButton" name="Informes">
-       <property name="styleSheet">
-        <string notr="true">background:rgb(170, 170, 255);</string>
-       </property>
-       <property name="text">
-        <string>Informes</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QPushButton" name="Ayuda">
-       <property name="styleSheet">
-        <string notr="true">background:rgb(170, 170, 255);</string>
-       </property>
-       <property name="text">
-        <string>Ayuda</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QPushButton" name="Salir">
-       <property name="styleSheet">
-        <string notr="true">background:rgb(170, 170, 255);</string>
-       </property>
-       <property name="text">
-        <string>Salir</string>
        </property>
       </widget>
      </item>
