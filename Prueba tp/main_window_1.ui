@@ -54,6 +54,15 @@
            <height>150</height>
           </size>
          </property>
+         <property name="font">
+          <font>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
          <property name="styleSheet">
           <string notr="true">background:rgb(170, 170, 255);</string>
          </property>
@@ -95,8 +104,14 @@
          </property>
          <property name="font">
           <font>
+           <family>Candara</family>
            <pointsize>7</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
           </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
          </property>
          <property name="styleSheet">
           <string notr="true">background:rgb(170, 170, 255);</string>
@@ -115,6 +130,11 @@
     </item>
     <item>
      <widget class="QLabel" name="label_organigrama">
+      <property name="font">
+       <font>
+        <family>Candara</family>
+       </font>
+      </property>
       <property name="styleSheet">
        <string notr="true">color:white;</string>
       </property>
@@ -149,8 +169,14 @@
          </property>
          <property name="font">
           <font>
+           <family>Candara</family>
            <pointsize>7</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
           </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
          </property>
          <property name="styleSheet">
           <string notr="true">background:rgb(170, 170, 255);</string>
@@ -180,8 +206,14 @@
          </property>
          <property name="font">
           <font>
+           <family>Candara</family>
            <pointsize>7</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
           </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
          </property>
          <property name="styleSheet">
           <string notr="true">background:rgb(170, 170, 255);</string>
@@ -211,8 +243,14 @@
          </property>
          <property name="font">
           <font>
+           <family>Candara</family>
            <pointsize>7</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
           </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
          </property>
          <property name="styleSheet">
           <string notr="true">background:rgb(170, 170, 255);</string>
@@ -233,6 +271,17 @@
            <width>200</width>
            <height>16777215</height>
           </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Candara</family>
+           <pointsize>7</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
          </property>
          <property name="styleSheet">
           <string notr="true">background:rgb(170, 170, 255);</string>
@@ -262,8 +311,14 @@
          </property>
          <property name="font">
           <font>
+           <family>Candara</family>
            <pointsize>7</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
           </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
          </property>
          <property name="styleSheet">
           <string notr="true">background:rgb(170, 170, 255);</string>
@@ -279,6 +334,28 @@
        </item>
        <item>
         <widget class="QPushButton" name="eliminar_nodo">
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>200</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Candara</family>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
          <property name="styleSheet">
           <string notr="true">background:rgb(170, 170, 255);</string>
          </property>
@@ -302,7 +379,7 @@
      <x>0</x>
      <y>0</y>
      <width>1000</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
