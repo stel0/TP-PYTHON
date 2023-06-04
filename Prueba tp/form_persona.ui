@@ -136,25 +136,6 @@
      <string notr="true">background-color:rgb(170, 170, 255);</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="campo_dependencia">
-    <property name="geometry">
-     <rect>
-      <x>9</x>
-      <y>299</y>
-      <width>150</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="minimumSize">
-     <size>
-      <width>150</width>
-      <height>25</height>
-     </size>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color:rgb(170, 170, 255);</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
@@ -296,8 +277,8 @@
    <widget class="QLabel" name="label_7">
     <property name="geometry">
      <rect>
-      <x>9</x>
-      <y>329</y>
+      <x>10</x>
+      <y>330</y>
       <width>151</width>
       <height>16</height>
      </rect>
@@ -395,6 +376,19 @@
     </property>
     <property name="text">
      <string>Enviar</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>301</y>
+      <width>151</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:rgb(170, 170, 255);</string>
     </property>
    </widget>
   </widget>

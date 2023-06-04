@@ -67,7 +67,7 @@ class MainWindow(QMainWindow):
         self.agregar_persona.clicked.connect(self.abrir_form_persona)
         self.action_PDF.triggered.connect(self.exportar_a_pdf)
         self.action_IMAGEN.triggered.connect(self.exportar_a_imagen)
-        self.actionInforme_por_dependencia.triggered.connect(self.Personal_Dependencia)
+        # self.actionInforme_por_dependencia.triggered.connect(self.Personal_Dependencia)
     #Ver El formulario de la dependencia
     def create_Dependencia(self):
         self.form_window = FormDependencia()
@@ -168,31 +168,31 @@ class MainWindow(QMainWindow):
         # Obtener la ruta completa del archivo generado
         file_path = os.path.abspath(graph_file)
         return file_path
-    def Personal_Dependencia(self):
-        # Conexión a la base de datos
-        conn = sqlite3.connect('base.db')
-        cursor = conn.cursor()
+    # def Personal_Dependencia(nombre_dependencia):
+    #     # Conexión a la base de datos
+    #     conn = sqlite3.connect('base.db')
+    #     cursor = conn.cursor()
 
-        # Ejecutar una consulta SQL
-        cursor.execute("SELECT * FROM Persona")
+    #     # Ejecutar una consulta SQL
+    #     cursor.execute("SELECT * FROM Persona WHERE dependencia = ? ORDER BY apellido, nombre", (nombre_dependencia,))
 
-        # Obtener los resultados de la consulta
-        resultados = cursor.fetchall()
+    #     # Obtener los resultados de la consulta
+    #     resultados = cursor.fetchall()
 
-        # Cerrar la conexión a la base de datos
-        conn.close()
+    #     # Cerrar la conexión a la base de datos
+    #     conn.close()
 
-        # Especificar el nombre del archivo de texto
-        nombre_archivo = 'informe.txt'
+    #     # Especificar el nombre del archivo de texto
+    #     nombre_archivo = 'informe.txt'
 
-        # Escribir los resultados en el archivo de texto
-        with open(nombre_archivo, 'w') as archivo:
-            escritor = csv.writer(archivo, delimiter='\t')
-            escritor.writerows(resultados)
+    #     # Escribir los resultados en el archivo de texto
+    #     with open(nombre_archivo, 'w') as archivo:
+    #         escritor = csv.writer(archivo, delimiter='\t')
+    #         escritor.writerows(resultados)
 
-        print("Informe generado y guardado en", nombre_archivo)
-        # Abrir el archivo PDF con la aplicación predeterminada del sistema
-        QDesktopServices.openUrl(QUrl.fromLocalFile(nombre_archivo))
+    #     print("Informe generado y guardado en", nombre_archivo)
+
+    # Personal_Dependencia("Dependencia A")
     
 class FormOrganigrama(QWidget):
     enviar_organigrama_signal = pyqtSignal(str, str)

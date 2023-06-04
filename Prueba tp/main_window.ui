@@ -175,43 +175,6 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="conectar_dependencia">
-         <property name="minimumSize">
-          <size>
-           <width>100</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>200</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Candara</family>
-           <pointsize>9</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background:rgb(170, 170, 255);</string>
-         </property>
-         <property name="text">
-          <string>Conectar dependencias</string>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>INTERFAZ/ICONOS/icons8-conectar-50.png</normaloff>INTERFAZ/ICONOS/icons8-conectar-50.png</iconset>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QPushButton" name="eliminar_nodo">
          <property name="minimumSize">
           <size>
