@@ -196,7 +196,10 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>../../../../../.designer/backup/icons8-estructura-de-árbol-50.png</normaloff>../../../../../.designer/backup/icons8-estructura-de-árbol-50.png</iconset>
+           <normaloff>INTERFAZ/ICONOS/icons8-estructura-de-árbol-50.png</normaloff>INTERFAZ/ICONOS/icons8-estructura-de-árbol-50.png</iconset>
+         </property>
+         <property name="autoRepeat">
+          <bool>false</bool>
          </property>
         </widget>
        </item>
@@ -233,7 +236,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>../../../../../.designer/backup/icons8-abrir-carpeta-50.png</normaloff>../../../../../.designer/backup/icons8-abrir-carpeta-50.png</iconset>
+           <normaloff>INTERFAZ/ICONOS/icons8-abrir-carpeta-50.png</normaloff>INTERFAZ/ICONOS/icons8-abrir-carpeta-50.png</iconset>
          </property>
         </widget>
        </item>
@@ -270,12 +273,12 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>../../../../../.designer/backup/icons8-computadoras-conectando-30.png</normaloff>../../../../../.designer/backup/icons8-computadoras-conectando-30.png</iconset>
+           <normaloff>INTERFAZ/ICONOS/icons8-computadoras-conectando-30.png</normaloff>INTERFAZ/ICONOS/icons8-computadoras-conectando-30.png</iconset>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="Add_Persona">
+        <widget class="QPushButton" name="agregar_persona">
          <property name="maximumSize">
           <size>
            <width>200</width>
@@ -301,7 +304,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>../../../../../.designer/backup/icons8-cliente-100.png</normaloff>../../../../../.designer/backup/icons8-cliente-100.png</iconset>
+           <normaloff>INTERFAZ/ICONOS/icons8-cliente-100.png</normaloff>INTERFAZ/ICONOS/icons8-cliente-100.png</iconset>
          </property>
         </widget>
        </item>
@@ -338,7 +341,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>../../../../../.designer/backup/icons8-conectar-50.png</normaloff>../../../../../.designer/backup/icons8-conectar-50.png</iconset>
+           <normaloff>INTERFAZ/ICONOS/icons8-conectar-50.png</normaloff>INTERFAZ/ICONOS/icons8-conectar-50.png</iconset>
          </property>
         </widget>
        </item>
@@ -375,7 +378,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>../../../../../.designer/backup/icons8-eliminar-24.png</normaloff>../../../../../.designer/backup/icons8-eliminar-24.png</iconset>
+           <normaloff>INTERFAZ/ICONOS/icons8-eliminar-24.png</normaloff>INTERFAZ/ICONOS/icons8-eliminar-24.png</iconset>
          </property>
         </widget>
        </item>
@@ -407,7 +410,7 @@
      <enum>Qt::RightToLeft</enum>
     </property>
     <property name="title">
-     <string>Informes</string>
+     <string>Obtener Informes</string>
     </property>
     <addaction name="actionInforme_por_dependencia"/>
     <addaction name="actionPersonal_por_Dependencia_extendido"/>
@@ -418,8 +421,8 @@
     <property name="title">
      <string>Exportar Organigrama</string>
     </property>
-    <addaction name="actionPDF"/>
-    <addaction name="actionIMAGEN"/>
+    <addaction name="action_PDF"/>
+    <addaction name="action_IMAGEN"/>
    </widget>
    <addaction name="menuInformes"/>
    <addaction name="menuGuarda_como"/>
@@ -455,12 +458,12 @@
     <string>Salario por Dependencia extendido</string>
    </property>
   </action>
-  <action name="actionPDF">
+  <action name="action_PDF">
    <property name="text">
     <string>Como PDF</string>
    </property>
   </action>
-  <action name="actionIMAGEN">
+  <action name="action_IMAGEN">
    <property name="text">
     <string>Como IMAGEN</string>
    </property>

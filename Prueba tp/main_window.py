@@ -49,27 +49,28 @@ class MainWindow(QMainWindow):
         self.graphics_view = MyGraphicsView()
 
         # Cargar el archivo .ui
-        loadUi("main_window_1.ui", self)
+        loadUi("main_window.ui", self)
         database.connect()
         rows = database.buscarData("Organigrama", f"id = {organigrama_activo}", ["nombre"])
         if len(rows) != 0:
             self.label_organigrama.setText(f"Organigrama: {rows[0][0]}")
         else:
             self.label_organigrama.setText("No ha seleccionado un organigrama")
+
         # Conectar señales y slots si es necesario
-        self.crear_dependencia.clicked.connect(self.buttonClicked)
+        self.crear_dependencia.clicked.connect(self.create_Dependencia)
         self.crear_organigrama.clicked.connect(self.create_organigrama)
         self.abrir_organigrama.clicked.connect(self.open_organigrama)
-        self.Add_Persona.clicked.connect(self.abrir_form_persona)
-        self.actionPDF.triggered.connect(self.export_scene_to_pdf)
-        self.actionIMAGEN.triggered.connect(self.export_scene_to_image)
+        self.agregar_persona.clicked.connect(self.abrir_form_persona)
+        self.action_PDF.triggered.connect(self.exportar_a_pdf)
+        self.action_IMAGEN.triggered.connect(self.exportar_a_imagen)
 
     #Ver El formulario de la dependencia
-    def buttonClicked(self):
-        # ...
+    def create_Dependencia(self):
         self.form_window = FormDependencia()
         self.form_window.enviar_dependencia_signal.connect(self.add_dependencia_rect)
         self.form_window.show()
+
     #ver el formulario de organigrama
     def create_organigrama(self):
         self.form_organigrama = FormOrganigrama()
@@ -89,7 +90,7 @@ class MainWindow(QMainWindow):
         self.form_persona.show()
 
     #exporta la escena de graphics view como PDF    
-    def export_scene_to_pdf(self):
+    def exportar_a_pdf(self):
         file_dialog = QFileDialog()
         filename, _ = file_dialog.getSaveFileName(self, "Guardar como PDF", "", "Archivos PDF (*.pdf)")
 
@@ -106,7 +107,7 @@ class MainWindow(QMainWindow):
             painter.end()
 
     #exporta la escena de graphics view como PNG         
-    def export_scene_to_image(self):
+    def exportar_a_imagen(self):
         file_dialog = QFileDialog()
         filename, _ = file_dialog.getSaveFileName(self, "Guardar como imagen", "", "Archivos de imagen (*.png *.jpg *.jpeg)")
 
@@ -119,23 +120,23 @@ class MainWindow(QMainWindow):
             painter.end()
 
             image.save(filename)
+    #cambiar a cuadro de texto 
+    def add_rect_slot(self, titulo, fecha):
+        rect = QGraphicsRectItem()
+        rect.setRect(0, 0, 200, 100)
+        rect.setPos(50, 50)
+        rect.setFlag(QGraphicsRectItem.ItemIsMovable)  # Hacer que el rectángulo sea movible
 
-    # def add_rect_slot(self, titulo, fecha):
-    #     rect = QGraphicsRectItem()
-    #     rect.setRect(0, 0, 200, 100)
-    #     rect.setPos(50, 50)
-    #     rect.setFlag(QGraphicsRectItem.ItemIsMovable)  # Hacer que el rectángulo sea movible
+        rect.setBrush(Qt.white)  # Establecer el fondo del rectángulo como blanco
 
-    #     rect.setBrush(Qt.white)  # Establecer el fondo del rectángulo como blanco
+        text = QGraphicsTextItem(rect)  # Hacer que el rectángulo sea el padre del texto
+        text.setDefaultTextColor(Qt.black)  # Establecer el color del texto como negro
+        text.setPlainText(f"Título: {titulo}\nFecha: {fecha}")
+        text.setPos(rect.rect().topLeft() + QPointF(10, 10))  # Posicionar el texto dentro del rectángulo
 
-    #     text = QGraphicsTextItem(rect)  # Hacer que el rectángulo sea el padre del texto
-    #     text.setDefaultTextColor(Qt.black)  # Establecer el color del texto como negro
-    #     text.setPlainText(f"Título: {titulo}\nFecha: {fecha}")
-    #     text.setPos(rect.rect().topLeft() + QPointF(10, 10))  # Posicionar el texto dentro del rectángulo
-
-    #     self.qgv_scene.addItem(rect)
-    #     self.qgv_scene.addItem(text)
-    #     self.qgv.setScene(self.qgv_scene)
+        self.qgv_scene.addItem(rect)
+        self.qgv_scene.addItem(text)
+        self.qgv.setScene(self.qgv_scene)
 
     # def update_graph(self, nombre_archivo):
     #     image_path = f'grafos/{nombre_archivo}'  # Cambio de extensión a .png
@@ -195,7 +196,7 @@ class FormDependencia(QWidget):
         super(FormDependencia, self).__init__(parent)
         self.setWindowTitle("Formulario dependencia")
 
-        loadUi("form_window.ui", self)
+        loadUi("form_dependencia.ui", self)
 
         self.enviar_dependencia.clicked.connect(self.e_dependencia)
 

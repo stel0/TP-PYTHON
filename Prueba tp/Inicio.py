@@ -10,10 +10,10 @@ class MainWindow(QMainWindow):
         self.setFixedSize(600, 600)  # Establecer tamaño fijo de 600x600 píxeles
 
         # Cargar el archivo .ui
-        loadUi("inicio.ui", self)
+        loadUi("INTERFAZ\Inicio.ui", self)
 
         # Conectar señales y slots si es necesario
-        self.Informes.clicked.connect(self.open_file_dialog)
+        #self.Informes.clicked.connect(self.open_file_dialog)
         self.Salir.clicked.connect(self.salir)
         self.Ver_main_window.clicked.connect(self.ver)
         self.Ayuda.clicked.connect(self.abrir_pdf)
@@ -35,7 +35,7 @@ class MainWindow(QMainWindow):
         # Cargar y mostrar la nueva ventana
         self.new_window = mw()
         self.new_window.show()
-        mw.buttonClicked
+        mw.create_Dependencia
         mw.create_organigrama
         mw.abrir_form_persona
         mw.open_organigrama
