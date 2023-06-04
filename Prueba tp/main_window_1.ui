@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1073</width>
-    <height>817</height>
+    <width>1000</width>
+    <height>400</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -26,34 +26,91 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item alignment="Qt::AlignRight">
-     <widget class="QPushButton" name="exportar_PDF">
+     <widget class="QWidget" name="widget_2" native="true">
       <property name="minimumSize">
        <size>
-        <width>100</width>
+        <width>300</width>
         <height>0</height>
        </size>
       </property>
       <property name="maximumSize">
        <size>
-        <width>200</width>
+        <width>500</width>
         <height>16777215</height>
        </size>
       </property>
-      <property name="font">
-       <font>
-        <pointsize>7</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background:rgb(170, 170, 255);</string>
-      </property>
-      <property name="text">
-       <string>Exportar a PDF</string>
-      </property>
-      <property name="icon">
-       <iconset>
-        <normaloff>disco-flexible.png</normaloff>disco-flexible.png</iconset>
-      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QComboBox" name="comboBox">
+         <property name="minimumSize">
+          <size>
+           <width>150</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>100</width>
+           <height>150</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background:rgb(170, 170, 255);</string>
+         </property>
+         <item>
+          <property name="text">
+           <string>Atilio</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Fer</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Marce</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Sotelo</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="exportar_PDF">
+         <property name="minimumSize">
+          <size>
+           <width>150</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>150</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>7</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background:rgb(170, 170, 255);</string>
+         </property>
+         <property name="text">
+          <string>Exportar a PDF</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>disco-flexible.png</normaloff>disco-flexible.png</iconset>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </item>
     <item>
@@ -244,12 +301,22 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1073</width>
-     <height>22</height>
+     <width>1000</width>
+     <height>21</height>
     </rect>
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionhola">
+   <property name="text">
+    <string>hola</string>
+   </property>
+  </action>
+  <action name="actionhola2">
+   <property name="text">
+    <string>hola2</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
