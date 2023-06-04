@@ -175,7 +175,7 @@
      <string notr="true">color:white;</string>
     </property>
     <property name="text">
-     <string>CI</string>
+     <string>CI:</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_2">
@@ -198,7 +198,7 @@
      <string notr="true">color:white;</string>
     </property>
     <property name="text">
-     <string>Apellido</string>
+     <string>Apellido:</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_3">
@@ -221,7 +221,7 @@
      <string notr="true">color:white;</string>
     </property>
     <property name="text">
-     <string>Nombre</string>
+     <string>Nombre:</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_4">
@@ -244,7 +244,7 @@
      <string notr="true">color:white;</string>
     </property>
     <property name="text">
-     <string>Telefono</string>
+     <string>Telefono:</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_5">
@@ -267,7 +267,7 @@
      <string notr="true">color:white;</string>
     </property>
     <property name="text">
-     <string>Direccion</string>
+     <string>Direccion:</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_6">
@@ -290,7 +290,7 @@
      <string notr="true">color:white;</string>
     </property>
     <property name="text">
-     <string>Dependencia</string>
+     <string>Dependencia:</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_7">
@@ -313,7 +313,7 @@
      <string notr="true">color:white;</string>
     </property>
     <property name="text">
-     <string>Salario</string>
+     <string>Salario:</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="campo_salario">
@@ -338,8 +338,8 @@
    <widget class="QLabel" name="label_8">
     <property name="geometry">
      <rect>
-      <x>9</x>
-      <y>9</y>
+      <x>10</x>
+      <y>10</y>
       <width>181</width>
       <height>16</height>
      </rect>
@@ -381,6 +381,7 @@
     </property>
     <property name="font">
      <font>
+      <family>Candara</family>
       <pointsize>10</pointsize>
       <weight>75</weight>
       <bold>true</bold>
