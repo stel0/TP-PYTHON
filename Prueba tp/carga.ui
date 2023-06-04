@@ -89,7 +89,7 @@ QProgressBar::chunk{
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../../../../OneDrive/Escritorio/Facu/ALGORITMOS_1/PROYECTOSFILIPPI/Pry_De_Verdad/TP-PYTHON/Prueba tp/icons8-genealogía-100.png</normaloff>../../../../OneDrive/Escritorio/Facu/ALGORITMOS_1/PROYECTOSFILIPPI/Pry_De_Verdad/TP-PYTHON/Prueba tp/icons8-genealogía-100.png</iconset>
+     <normaloff>INTERFAZ/ICONOS/icons8-genealogía-100.png</normaloff>INTERFAZ/ICONOS/icons8-genealogía-100.png</iconset>
    </property>
    <property name="iconSize">
     <size>
