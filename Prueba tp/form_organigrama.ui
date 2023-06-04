@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>215</width>
-    <height>250</height>
+    <width>186</width>
+    <height>170</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -33,6 +33,11 @@
     <layout class="QFormLayout" name="formLayout">
      <item row="0" column="0">
       <widget class="QLabel" name="titulo_label">
+       <property name="font">
+        <font>
+         <family>Candara</family>
+        </font>
+       </property>
        <property name="styleSheet">
         <string notr="true">color:white;</string>
        </property>
@@ -50,6 +55,11 @@
      </item>
      <item row="1" column="0">
       <widget class="QLabel" name="label">
+       <property name="font">
+        <font>
+         <family>Candara</family>
+        </font>
+       </property>
        <property name="styleSheet">
         <string notr="true">color:white;</string>
        </property>

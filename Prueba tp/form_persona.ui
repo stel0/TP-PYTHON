@@ -164,6 +164,13 @@
       <height>16</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Candara</family>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
     <property name="styleSheet">
      <string notr="true">color:white;</string>
     </property>
@@ -179,6 +186,13 @@
       <width>151</width>
       <height>16</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Candara</family>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
     </property>
     <property name="styleSheet">
      <string notr="true">color:white;</string>
@@ -196,6 +210,13 @@
       <height>16</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Candara</family>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
     <property name="styleSheet">
      <string notr="true">color:white;</string>
     </property>
@@ -211,6 +232,13 @@
       <width>151</width>
       <height>16</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Candara</family>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
     </property>
     <property name="styleSheet">
      <string notr="true">color:white;</string>
@@ -228,6 +256,13 @@
       <height>16</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Candara</family>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
     <property name="styleSheet">
      <string notr="true">color:white;</string>
     </property>
@@ -244,6 +279,13 @@
       <height>16</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Candara</family>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
     <property name="styleSheet">
      <string notr="true">color:white;</string>
     </property>
@@ -259,6 +301,13 @@
       <width>151</width>
       <height>16</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Candara</family>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
     </property>
     <property name="styleSheet">
      <string notr="true">color:white;</string>
@@ -295,19 +344,25 @@
       <height>16</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Candara</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
     <property name="styleSheet">
      <string notr="true">color:white;
 </string>
     </property>
     <property name="text">
-     <string>PERSONA</string>
+     <string>Añadir Persona</string>
     </property>
    </widget>
    <widget class="QPushButton" name="boton_enviar">
     <property name="geometry">
      <rect>
-      <x>9</x>
-      <y>379</y>
+      <x>10</x>
+      <y>390</y>
       <width>150</width>
       <height>35</height>
      </rect>
@@ -323,6 +378,13 @@
       <width>200</width>
       <height>100</height>
      </size>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
     </property>
     <property name="cursor">
      <cursorShape>PointingHandCursor</cursorShape>

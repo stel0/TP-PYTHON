@@ -67,7 +67,12 @@
     </property>
     <property name="font">
      <font>
+      <family>Candara</family>
       <pointsize>16</pointsize>
+      <weight>75</weight>
+      <italic>false</italic>
+      <bold>true</bold>
+      <underline>false</underline>
      </font>
     </property>
     <property name="styleSheet">
@@ -85,6 +90,13 @@
       <width>311</width>
       <height>21</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Candara</family>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
     </property>
     <property name="styleSheet">
      <string notr="true">color:white;</string>
@@ -121,6 +133,14 @@
       <height>21</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Candara</family>
+      <pointsize>8</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
     <property name="styleSheet">
      <string notr="true">color:white;</string>
     </property>
@@ -149,6 +169,14 @@
       <height>35</height>
      </size>
     </property>
+    <property name="font">
+     <font>
+      <family>Candara</family>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
     <property name="styleSheet">
      <string notr="true">background:rgb(170, 170, 255);</string>
     </property>
@@ -164,6 +192,13 @@
       <width>301</width>
       <height>21</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Candara</family>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
     </property>
     <property name="styleSheet">
      <string notr="true">color:white;</string>
