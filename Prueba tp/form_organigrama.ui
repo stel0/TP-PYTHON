@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>186</width>
+    <width>300</width>
     <height>170</height>
    </rect>
   </property>
@@ -83,6 +83,16 @@
    </item>
    <item>
     <widget class="QPushButton" name="enviar_button">
+     <property name="font">
+      <font>
+       <family>Candara</family>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
      <property name="styleSheet">
       <string notr="true">background-color:rgb(170, 170, 255);</string>
      </property>

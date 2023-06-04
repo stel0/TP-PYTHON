@@ -101,6 +101,9 @@
            <height>16777215</height>
           </size>
          </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
          <property name="styleSheet">
           <string notr="true">background:rgb(170, 170, 255);</string>
          </property>
