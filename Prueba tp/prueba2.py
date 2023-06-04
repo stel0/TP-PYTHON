@@ -3,6 +3,12 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QLa
 from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.QtCore import Qt
 from graphviz import Digraph
+from Database import Database
+
+DATABASE = "base1.db"
+db = Database(DATABASE)
+db.connect()
+organigrama_activo = 1
 
 def generate_graph():
     dot = Digraph()
@@ -13,6 +19,26 @@ def generate_node(graph, nombre_dependencia):
 
 def connect_nodes(graph, node1_label, node2_label, edge_label):
     graph.edge(node1_label, node2_label, edge_label)
+
+def generar_nodos(graph, id_dependencia):
+    res_jefe = db.buscarData("Persona", f"id_dependencia = {id_dependencia}", ["id", "apellido", "nombre"])
+    if len(res_jefe) != 0:
+        id_jefe = res_jefe[0][0]
+        apellido_jefe = res_jefe[0][1]
+        nombre_jefe = res_jefe[0][2]
+        if id_dependencia != 0:
+            res_dep = db.buscarData("Dependencia", f"id = {id_dependencia}", ["nombre"])
+            nombre_dep = res_dep[0][0]
+        else:
+            nombre_dep = "CEO"
+
+        rows = db.buscarData("Dependencia", f"manager_id = {id_jefe}", ["id", "nombre"])
+        if len(rows) > 0:
+            for res in rows:
+                generate_node(graph, f"Titulo: {res[1]}\nApellido: {apellido_jefe}\nNombre: {nombre_jefe}")
+                connect_nodes(graph, nombre_dep, res[1], "")
+                generar_nodos(graph, res[0])
+        
 
 class GraphWindow(QMainWindow):
 
@@ -40,11 +66,11 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     
     graph = generate_graph()
-    generate_node(graph, 'Node 1')
-    generate_node(graph, 'Node 2')
-    connect_nodes(graph, 'Node 1', 'Node 2', 'Edge')
+    
+    generar_nodos(graph, 0)
+    
     
     window = GraphWindow(graph, 'graph')
     window.show()
-    
+    db.disconnect()
     sys.exit(app.exec_())

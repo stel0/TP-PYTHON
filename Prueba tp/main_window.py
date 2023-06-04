@@ -9,9 +9,9 @@ from Persona import Persona
 from PyQt5.QtCore import Qt, QPointF
 from PyQt5.QtPrintSupport import QPrinter
 from PyQt5.QtGui import QPainter
-import prueba2 as qgs
+import grafos 
 
-DATABASE = "base.db"
+DATABASE = "base1.db"
 database = Database(DATABASE)
 organigrama_activo = 1
 
@@ -99,7 +99,13 @@ class MainWindow(QMainWindow):
         self.scene.addPixmap(pixmap)
         self.view.fitInView(self.scene.sceneRect(), Qt.KeepAspectRatio)  # Ajuste de la vista
         self.resize(pixmap.width(), pixmap.height())
-        
+    
+    def add_dependencia_rect(self, depen, nombre, apellido):
+        graph = grafos.generate_graph()
+
+        grafos.generar_nodos(graph, 0)
+
+        graph.render('dependency_graph', view=True)
     # def add_dependencia_rect(self,depen,nombre,apellido):
     #     rect = QGraphicsRectItem()
     #     rect.setRect(0, 0, 200, 100)
