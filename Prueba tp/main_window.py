@@ -10,11 +10,15 @@ from PyQt5.QtCore import Qt, QPointF
 from PyQt5.QtPrintSupport import QPrinter
 from PyQt5.QtGui import QPainter
 import grafos 
-
+import os
 DATABASE = "base1.db"
 database = Database(DATABASE)
 organigrama_activo = 1
 from PyQt5.QtWidgets import QGraphicsView
+
+from PyQt5.QtWidgets import QApplication, QMainWindow, QGraphicsView, QGraphicsScene
+from PyQt5.QtGui import QImage, QPixmap
+from PyQt5.QtCore import Qt
 
 class MyGraphicsView(QGraphicsView):
     def __init__(self, parent=None):
@@ -22,21 +26,15 @@ class MyGraphicsView(QGraphicsView):
         self.qgv_scene = QGraphicsScene()
         self.setScene(self.qgv_scene)
 
-    def add_rect_slot(self, titulo, fecha):
-        rect = QGraphicsRectItem()
-        rect.setRect(0, 0, 200, 100)
-        rect.setPos(50, 50)
-        rect.setFlag(QGraphicsRectItem.ItemIsMovable)
+    def display_image(self, image_path):
+        image = QImage(image_path)
+        if image.isNull():
+            return
 
-        rect.setBrush(Qt.white)
+        pixmap = QPixmap.fromImage(image)
+        pixmap_item = self.qgv_scene.addPixmap(pixmap)
+        self.setSceneRect(pixmap_item.boundingRect())
 
-        text = QGraphicsTextItem(rect)
-        text.setDefaultTextColor(Qt.black)
-        text.setPlainText(f"Título: {titulo}\nFecha: {fecha}")
-        text.setPos(rect.rect().topLeft() + QPointF(10, 10))
-
-        self.qgv_scene.addItem(rect)
-        self.qgv_scene.addItem(text)
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -58,6 +56,7 @@ class MainWindow(QMainWindow):
         self.abrir_organigrama.clicked.connect(self.open_organigrama)
         self.Add_Persona.clicked.connect(self.abrir_form_persona)
         self.exportar_PDF.clicked.connect(self.export_scene_to_pdf)
+        
     #Ver El formulario de la dependencia
     def buttonClicked(self):
         # ...
@@ -124,12 +123,22 @@ class MainWindow(QMainWindow):
         self.view.fitInView(self.scene.sceneRect(), Qt.KeepAspectRatio)  # Ajuste de la vista
         self.resize(pixmap.width(), pixmap.height())
     
-    def add_dependencia_rect(self, depen, nombre, apellido):
+    def add_dependencia_rect(self):
         graph = grafos.generate_graph()
-
         grafos.generar_nodos(graph, 0)
 
-        graph.render('dependency_graph', view=True)
+        # Generar el gráfico y guardar la imagen en un archivo
+        graph_file = 'dependency_graph.png'
+        graph.format = 'png'
+        graph.render(graph_file)
+
+        # Mostrar la imagen en la vista gráfica
+        self.display_image(graph_file)
+
+        # Obtener la ruta completa del archivo generado
+        file_path = os.path.abspath(graph_file)
+        return file_path
+
     # def add_dependencia_rect(self,depen,nombre,apellido):
     #     rect = QGraphicsRectItem()
     #     rect.setRect(0, 0, 200, 100)
@@ -226,6 +235,7 @@ class FormPersona(QWidget):
         database.insertarData("Persona", persona.getDict())
         database.disconnect()
         self.close()
+        
 class GraphWindow(QMainWindow):
 
     def __init__(self, graph, nombre_archivo):
@@ -252,5 +262,15 @@ class GraphWindow(QMainWindow):
 if __name__ == '__main__':
     app = QApplication([])
     window = MainWindow()
+    # Crear una instancia de MyGraphicsView
+    graphics_view = MyGraphicsView()
+
+# Llamar al método display_image y proporcionar la ruta de la imagen
+    file_path = 'dependency_graph.png.png'
+    graphics_view.display_image(file_path)
+
+    # Mostrar la ventana principal que contiene el QGraphicsView
+    graphics_view.show()
+
     window.show()
     app.exec_()

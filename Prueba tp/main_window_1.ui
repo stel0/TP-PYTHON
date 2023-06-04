@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1000</width>
-    <height>400</height>
+    <width>1100</width>
+    <height>700</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -379,10 +379,21 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1000</width>
-     <height>22</height>
+     <width>1100</width>
+     <height>21</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background:rgb(170, 170, 255);</string>
+   </property>
+   <widget class="QMenu" name="menuInformes">
+    <property name="title">
+     <string>Informes</string>
+    </property>
+    <addaction name="actionInforme_por_dependencia"/>
+    <addaction name="actionPersonal_por_Dependencia_extendido"/>
+   </widget>
+   <addaction name="menuInformes"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionhola">
@@ -393,6 +404,16 @@
   <action name="actionhola2">
    <property name="text">
     <string>hola2</string>
+   </property>
+  </action>
+  <action name="actionInforme_por_dependencia">
+   <property name="text">
+    <string>Personal por Dependencia</string>
+   </property>
+  </action>
+  <action name="actionPersonal_por_Dependencia_extendido">
+   <property name="text">
+    <string>Personal por Dependencia extendido</string>
    </property>
   </action>
  </widget>

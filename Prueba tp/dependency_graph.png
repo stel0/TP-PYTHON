@@ -63,4 +63,12 @@ Nombre: Elias Marcelo"]
 Apellido: Riveros Vera
 Nombre: Elias Marcelo"]
 	CEO -> Chau3 [label=""]
+	CEO [label="Titulo: chau3
+Apellido: Riveros Vera
+Nombre: Elias Marcelo"]
+	CEO -> chau3 [label=""]
+	CEO [label="Titulo: chau3
+Apellido: Riveros Vera
+Nombre: Elias Marcelo"]
+	CEO -> chau3 [label=""]
 }
