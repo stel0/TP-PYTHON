@@ -105,7 +105,7 @@
          <property name="font">
           <font>
            <family>Candara</family>
-           <pointsize>7</pointsize>
+           <pointsize>9</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
@@ -170,7 +170,7 @@
          <property name="font">
           <font>
            <family>Candara</family>
-           <pointsize>7</pointsize>
+           <pointsize>9</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
@@ -207,7 +207,7 @@
          <property name="font">
           <font>
            <family>Candara</family>
-           <pointsize>7</pointsize>
+           <pointsize>9</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
@@ -244,7 +244,7 @@
          <property name="font">
           <font>
            <family>Candara</family>
-           <pointsize>7</pointsize>
+           <pointsize>9</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
@@ -275,7 +275,7 @@
          <property name="font">
           <font>
            <family>Candara</family>
-           <pointsize>7</pointsize>
+           <pointsize>9</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
@@ -312,7 +312,7 @@
          <property name="font">
           <font>
            <family>Candara</family>
-           <pointsize>7</pointsize>
+           <pointsize>9</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
@@ -349,6 +349,7 @@
          <property name="font">
           <font>
            <family>Candara</family>
+           <pointsize>9</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
