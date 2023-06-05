@@ -50,7 +50,6 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__()
         self.setWindowTitle("Mi Aplicación")
         self.graphics_view = MyGraphicsView()
-
         # Cargar el archivo .ui
         loadUi("main_window.ui", self)
         database.connect()
@@ -155,7 +154,7 @@ class MainWindow(QMainWindow):
     #abre el formulario de dependencias y crea los nodos
     def add_dependencia_rect(self):
         graph = grafos.generate_graph()
-        grafos.generar_nodos(graph, 0)
+        grafos.generar_grafo(graph, 0, organigrama_activo)
 
         # Generar el gráfico y guardar la imagen en un archivo
         graph_file = 'INTERFAZ\dependency_graph.png'
@@ -163,7 +162,7 @@ class MainWindow(QMainWindow):
         graph.render(graph_file)
 
         # Mostrar la imagen en la vista gráfica
-        self.display_image(graph_file)
+        self.graphics_view.display_image(graph_file)
 
         # Obtener la ruta completa del archivo generado
         file_path = os.path.abspath(graph_file)
@@ -212,7 +211,7 @@ class FormOrganigrama(QWidget):
         org = Organigrama(titulo, fecha)
         database.connect()
         database.insertarData("Organigrama", org.get_dict())
-        self.enviar_organigrama_signal.emit(titulo, fecha)
+        #self.enviar_organigrama_signal.emit(titulo, fecha)
         self.close()
         database.disconnect()
 

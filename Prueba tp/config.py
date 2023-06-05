@@ -4,7 +4,7 @@
 
 import sqlite3
 
-con = sqlite3.connect("base1.db")
+con = sqlite3.connect("base2.db")
 cur = con.cursor()
 
 cur.execute(""" CREATE TABLE Dependencia (
@@ -25,7 +25,7 @@ cur.execute("""CREATE TABLE Persona (
             id_dependencia INTEGER,
             id_organigrama INTEGER,
             salario INTEGER,
-            
+            FOREIGN KEY(id_organigrama) REFERENCES Organigrama(id)
 )""")
 
 cur.execute("""CREATE TABLE Organigrama (

@@ -1,0 +1,49 @@
+digraph {
+	Gerente [label="Titulo: Gerente
+Apellido: Riveros
+Nombre: Elias"]
+	CEO -> Gerente [label=""]
+	"Miguel Ayala" [label="Apellido: Ayala
+Nombre: Miguel"]
+	Gerente -> "Miguel Ayala" [label=""]
+	Marketing [label="Titulo: Marketing
+Apellido: Riveros
+Nombre: Elias"]
+	CEO -> Marketing [label=""]
+	"Miguel Ayala" [label="Apellido: Ayala
+Nombre: Miguel"]
+	Marketing -> "Miguel Ayala" [label=""]
+	Hola [label="Titulo: Hola
+Apellido: Riveros
+Nombre: Elias"]
+	CEO -> Hola [label=""]
+	"Miguel Ayala" [label="Apellido: Ayala
+Nombre: Miguel"]
+	Hola -> "Miguel Ayala" [label=""]
+	"No se lgm" [label="Titulo: No se lgm
+Apellido: Riveros
+Nombre: Elias"]
+	CEO -> "No se lgm" [label=""]
+	"Miguel Ayala" [label="Apellido: Ayala
+Nombre: Miguel"]
+	"No se lgm" -> "Miguel Ayala" [label=""]
+	XDlol [label="Titulo: XDlol
+Apellido: Riveros
+Nombre: Elias"]
+	CEO -> XDlol [label=""]
+	"Miguel Ayala" [label="Apellido: Ayala
+Nombre: Miguel"]
+	XDlol -> "Miguel Ayala" [label=""]
+	MiguelXDD [label="Titulo: MiguelXDD
+Apellido: Riveros
+Nombre: Elias"]
+	CEO -> MiguelXDD [label=""]
+	asdasd [label="Titulo: asdasd
+Apellido: Riveros
+Nombre: Elias"]
+	CEO -> asdasd [label=""]
+	miguelxddd [label="Titulo: miguelxddd
+Apellido: Riveros
+Nombre: Elias"]
+	CEO -> miguelxddd [label=""]
+}
