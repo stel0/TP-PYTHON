@@ -2,13 +2,13 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog
 from PyQt5.uic import loadUi
 from main_window import MainWindow as mw
 from PyQt5.QtCore import QUrl
-from PyQt5.QtGui import QDesktopServices
+from PyQt5.QtGui import QDesktopServices,QIcon
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
         self.setWindowTitle("Mi Aplicación")
         self.setFixedSize(600, 600)  # Establecer tamaño fijo de 600x600 píxeles
-
+        self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
         # Cargar el archivo .ui
         loadUi("Inicio.ui", self)
 

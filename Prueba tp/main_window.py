@@ -22,7 +22,7 @@ from Persona import Persona
 import sqlite3
 import csv
 from PyQt5.QtCore import QUrl
-from PyQt5.QtGui import QDesktopServices
+from PyQt5.QtGui import QDesktopServices,QIcon
 DATABASE = "base1.db"
 database = Database(DATABASE)
 organigrama_activo = 1
@@ -50,7 +50,7 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__()
         self.setWindowTitle("Mi Aplicación")
         self.graphics_view = MyGraphicsView()
-
+        self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
         # Cargar el archivo .ui
         loadUi("main_window.ui", self)
         database.connect()
