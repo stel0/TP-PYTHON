@@ -31,21 +31,32 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>30</y>
-     <width>151</width>
+     <x>10</x>
+     <y>40</y>
+     <width>400</width>
      <height>21</height>
     </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>400</width>
+     <height>0</height>
+    </size>
    </property>
    <property name="font">
     <font>
      <family>Candara</family>
-     <pointsize>10</pointsize>
-     <weight>50</weight>
+     <pointsize>9</pointsize>
+     <weight>75</weight>
      <italic>false</italic>
-     <bold>false</bold>
+     <bold>true</bold>
      <underline>false</underline>
+     <strikeout>false</strikeout>
+     <kerning>false</kerning>
     </font>
+   </property>
+   <property name="cursor">
+    <cursorShape>ArrowCursor</cursorShape>
    </property>
    <property name="styleSheet">
     <string notr="true">color:white;</string>
@@ -58,9 +69,9 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>70</y>
+     <y>80</y>
      <width>161</width>
-     <height>22</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -71,7 +82,7 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>110</y>
+     <y>150</y>
      <width>151</width>
      <height>35</height>
     </rect>

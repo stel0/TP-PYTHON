@@ -46,8 +46,38 @@ class MyGraphicsView(QGraphicsView):
         pixmap_item = self.qgv_scene.addPixmap(pixmap)
         self.setSceneRect(pixmap_item.boundingRect())
     
-        
+class formulario_informe(QWidget):
+    def __init__(self, parent=None):
+        super(formulario_informe, self).__init__(parent)
+        uic.loadUi("form_informe_dependencia.ui", self)
+        self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
+        self.enviar_dependencia_2.clicked.connect(self.enviar_dato_dependencia)
+    def enviar_dato_dependencia(self):
+         #     # Conexión a la base de datos
+    #     conn = sqlite3.connect('base.db')
+    #     cursor = conn.cursor()
 
+    #     # Ejecutar una consulta SQL
+    #     cursor.execute("SELECT * FROM Persona WHERE dependencia = ? ORDER BY apellido, nombre", (nombre_dependencia,))
+
+    #     # Obtener los resultados de la consulta
+    #     resultados = cursor.fetchall()
+
+    #     # Cerrar la conexión a la base de datos
+    #     conn.close()
+
+    #     # Especificar el nombre del archivo de texto
+    #     nombre_archivo = 'informe.txt'
+
+    #     # Escribir los resultados en el archivo de texto
+    #     with open(nombre_archivo, 'w') as archivo:
+    #         escritor = csv.writer(archivo, delimiter='\t')
+    #         escritor.writerows(resultados)
+
+    #     print("Informe generado y guardado en", nombre_archivo)
+
+    # Personal_Dependencia("Dependencia A")
+        self.close()
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -74,7 +104,7 @@ class MainWindow(QMainWindow):
         self.agregar_persona.clicked.connect(self.abrir_form_persona)
         self.action_PDF.triggered.connect(self.exportar_a_pdf)
         self.action_IMAGEN.triggered.connect(self.exportar_a_imagen)
-        # self.actionInforme_por_dependencia.triggered.connect(self.Personal_Dependencia)
+        self.actionInforme_por_dependencia.triggered.connect(self.Personal_Dependencia)
         self.despliega_organigramas()
 
         # Agregar imagen 
@@ -235,31 +265,9 @@ class MainWindow(QMainWindow):
         # Obtener la ruta completa del archivo generado
         file_path = os.path.abspath(graph_file)
         return file_path
-    # def Personal_Dependencia(nombre_dependencia):
-    #     # Conexión a la base de datos
-    #     conn = sqlite3.connect('base.db')
-    #     cursor = conn.cursor()
-
-    #     # Ejecutar una consulta SQL
-    #     cursor.execute("SELECT * FROM Persona WHERE dependencia = ? ORDER BY apellido, nombre", (nombre_dependencia,))
-
-    #     # Obtener los resultados de la consulta
-    #     resultados = cursor.fetchall()
-
-    #     # Cerrar la conexión a la base de datos
-    #     conn.close()
-
-    #     # Especificar el nombre del archivo de texto
-    #     nombre_archivo = 'informe.txt'
-
-    #     # Escribir los resultados en el archivo de texto
-    #     with open(nombre_archivo, 'w') as archivo:
-    #         escritor = csv.writer(archivo, delimiter='\t')
-    #         escritor.writerows(resultados)
-
-    #     print("Informe generado y guardado en", nombre_archivo)
-
-    # Personal_Dependencia("Dependencia A")
+    def Personal_Dependencia(self):
+        self.formulario=formulario_informe()
+        self.formulario.show()
     
 class FormOrganigrama(QWidget):
     enviar_organigrama_signal = pyqtSignal(str, str)
@@ -270,7 +278,7 @@ class FormOrganigrama(QWidget):
 
 
         loadUi("form_organigrama.ui", self)
-
+        self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
         self.enviar_button.clicked.connect(self.enviar_organigrama)
 
     def enviar_organigrama(self):
@@ -309,7 +317,7 @@ class FormDependencia(QWidget):
         self.setWindowTitle("Formulario dependencia")
 
         loadUi("form_dependencia.ui", self)
-
+        self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
         self.enviar_dependencia.clicked.connect(self.e_dependencia)
 
     def e_dependencia(self):
@@ -340,8 +348,10 @@ class FormPersona(QWidget):
         self.setWindowTitle("Formulario Persona")
 
         loadUi("form_persona.ui", self)
+        self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
         self.boton_enviar.clicked.connect(self.e_persona)
         self.despliega_dependencias()
+    
 
     def e_persona(self):
         ci = self.campo_ci.text()
