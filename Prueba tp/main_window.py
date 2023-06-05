@@ -10,9 +10,11 @@ from PyQt5.QtWidgets import (
     QGraphicsRectItem,
     QFileDialog,
     QWidget,
+    QGraphicsPixmapItem
 )
 from PyQt5.QtPrintSupport import QPrinter
 from PyQt5.uic import loadUi
+from PyQt5 import uic
 
 import grafos
 from Database import Database
@@ -49,11 +51,11 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
         self.setWindowTitle("Mi Aplicación")
-        self.graphics_view = MyGraphicsView()
+        
         self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
         # Cargar el archivo .ui
-        loadUi("main_window.ui", self)
-
+        uic.loadUi("main_window.ui", self)
+        self.scene = QGraphicsScene()
         database.connect()
         rows = database.buscarData("Organigrama", f"id = {organigrama_activo}", ["nombre"])
         if len(rows) != 0:
@@ -73,6 +75,16 @@ class MainWindow(QMainWindow):
         # self.actionInforme_por_dependencia.triggered.connect(self.Personal_Dependencia)
 
         self.populate_combobox()
+        
+        #agregar imagen 
+        # Crear un QPixmap y cargar una imagen en él
+        pixmap = QPixmap("INTERFAZ\dependency_graph.png.png")
+        # Crear un QGraphicsPixmapItem con el QPixmap
+        pixmap_item = QGraphicsPixmapItem(pixmap)
+        # Agregar el QGraphicsPixmapItem a la escena
+        self.scene.addItem(pixmap_item)
+        # Establecer la escena en el QGraphicsView
+        self.qgv.setScene(self.scene)
 
     def populate_combobox(self):
         # Ejecutar una consulta para obtener los datos de la base de datos
@@ -151,7 +163,7 @@ class MainWindow(QMainWindow):
             printer.setPageSize(QPrinter.A4)
 
             painter = QPainter(printer)
-            self.graphics_view.render(painter)
+            self.qgv.render(painter)
             painter.end()
 
     #exporta la escena de graphics view como PNG         
@@ -164,7 +176,7 @@ class MainWindow(QMainWindow):
             image.fill(Qt.transparent)
 
             painter = QPainter(image)
-            self.graphics_view.render(painter)
+            self.qgv.render(painter)
             painter.end()
 
             image.save(filename)
