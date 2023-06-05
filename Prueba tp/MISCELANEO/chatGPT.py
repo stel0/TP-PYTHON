@@ -27,34 +27,34 @@ class GraphWindow(QMainWindow):
 
     def update_graph(self, nombre_archivo):
         image_path = f'grafos\{nombre_archivo}'
-        self.graph.format = 'svg'
+        self.graph.format = 'png'
         self.graph.render(filename=image_path, cleanup=True)
         pixmap = QPixmap(image_path)
         self.label.setPixmap(pixmap)
         self.resize(pixmap.width(), pixmap.height())
 
 # prueba
-# if __name__ == '__main__':
-#     app = QApplication(sys.argv)
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
 
-#     graph = generate_graph()
+    graph = generate_graph()
 
-#     # Generador de nodos
-#     generate_node(graph, 'Node A')
-#     generate_node(graph, 'Node B')
-#     generate_node(graph, 'Node C')
+    # Generador de nodos
+    generate_node(graph, 'Node A')
+    generate_node(graph, 'Node B')
+    generate_node(graph, 'Node C')
 
-#     # Generador de raíces
-#     generate_root(graph, 'Root Node')
+    # Generador de raíces
+    # generate_root(graph, 'Root Node')
 
-#     # Conectar raíz a nodo
-#     connect_root_to_node(graph, 'Node A', 'Root Edge')
+    # Conectar raíz a nodo
+    # connect_root_to_node(graph, 'Node A', 'Root Edge')
 
-#     # Conectar nodo a nodo
-#     connect_nodes(graph, 'Node A', 'Node B', 'Edge A to B')
-#     connect_nodes(graph, 'Node A', 'Node C', 'Edge A to C')
+    # Conectar nodo a nodo
+    connect_nodes(graph, 'Node A', 'Node B', 'Edge A to B')
+    connect_nodes(graph, 'Node A', 'Node C', 'Edge A to C')
 
-#     window = GraphWindow(graph,"grafico")
-#     window.show()
+    window = GraphWindow(graph,"grafico")
+    window.show()
 
-#     sys.exit(app.exec_())
+    sys.exit(app.exec_())
