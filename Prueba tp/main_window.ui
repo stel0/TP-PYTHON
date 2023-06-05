@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1100</width>
+    <width>1108</width>
     <height>700</height>
    </rect>
   </property>
@@ -178,6 +178,31 @@
         </widget>
        </item>
        <item>
+        <widget class="QPushButton" name="editar_persona">
+         <property name="font">
+          <font>
+           <family>Candara</family>
+           <pointsize>9</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background:rgb(170, 170, 255);</string>
+         </property>
+         <property name="text">
+          <string>Editar Persona</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>INTERFAZ/ICONOS/icons8-cliente-100.png</normaloff>INTERFAZ/ICONOS/icons8-cliente-100.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QPushButton" name="eliminar_nodo">
          <property name="minimumSize">
           <size>
@@ -224,8 +249,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1100</width>
-     <height>22</height>
+     <width>1108</width>
+     <height>21</height>
     </rect>
    </property>
    <property name="styleSheet">
