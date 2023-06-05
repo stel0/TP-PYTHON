@@ -78,6 +78,8 @@ class formulario_informe(QWidget):
 
     # Personal_Dependencia("Dependencia A")
         self.close()
+
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -107,21 +109,55 @@ class MainWindow(QMainWindow):
         self.actionInforme_por_dependencia.triggered.connect(self.Personal_Dependencia)
         self.despliega_organigramas()
 
-        # Agregar imagen 
-        # Crear un QPixmap y cargar una imagen en él
-        pixmap =  QPixmap("INTERFAZ\dependency_graph.png.png")
-        # pixmap = QPixmap("INTERFAZ\dependency_graph.png.png")
+        # # Agregar imagen 
+        # # Crear un QPixmap y cargar una imagen en él
+        # pixmap =  QPixmap("INTERFAZ\dependency_graph.png.png")
+        # # pixmap = QPixmap("INTERFAZ\dependency_graph.png.png")
         
+        # # Crear un QGraphicsPixmapItem con el QPixmap
+        # pixmap_item = QGraphicsPixmapItem(pixmap)
+
+        # # Agregar el QGraphicsPixmapItem a la escena
+        # self.scene.addItem(pixmap_item) 
+
+        # # Establecer la escena en el QGraphicsView
+        # """qgv es el nombre del la ventana qgraphics view en el main_window.ui"""
+        # self.qgv.setScene(self.scene)
+
+    # Genera un png vacio para el organigrama creado
+    def generar_imagen(self,titulo):
+        
+        # Genero un grafo en blanco
+        graph = grafos.generate_graph()
+
+        # Crea una direccion para guardar la imagen
+        image_path = f'INTERFAZ\{titulo}'
+
+        # Convierte a png
+        graph.format = 'png'
+
+        # Y renderiza dicha imagen
+        graph.render(filename=image_path, cleanup=True)
+        
+        
+    # Agregar imagen 
+    def agregar_imagen(self,nombre):
+
+        # Crear un QPixmap y cargar una imagen en él
+        pixmap =  QPixmap(f"INTERFAZ\{nombre}.png")
+
+        print(f"INTERFAZ\{nombre}.png")
+
         # Crear un QGraphicsPixmapItem con el QPixmap
         pixmap_item = QGraphicsPixmapItem(pixmap)
 
-        # Agregar el QGraphicsPixmapItem a la escena
+        # Elimina la anterio imagen y agrega el QGraphicsPixmapItem a la escena
+        self.scene.clear()
         self.scene.addItem(pixmap_item) 
 
         # Establecer la escena en el QGraphicsView
         """qgv es el nombre del la ventana qgraphics view en el main_window.ui"""
-        self.qgv.setScene(self.scene)
-        
+        self.qgv.setScene(self.scene) 
 
     # Despliega todos los organigramas para ser seleccionado
     def despliega_organigramas(self):
@@ -137,6 +173,10 @@ class MainWindow(QMainWindow):
         # Cerrar la conexión a la base de datos
         database.disconnect()
 
+    # Agrega los organigramas al inicio del combo box
+    def agregar_organigrama(self,titulo):
+        self.lista_organigramas.addItem(titulo)
+
     #Despliega toda la informacion del organigrama seleccionado
     def organigrama_seleccionado(self, index):
 
@@ -151,19 +191,20 @@ class MainWindow(QMainWindow):
         id_option = rows[0][0]
         print(id_option)
 
-
+        # Obtengo todas las dependencias del organigrama
         data_depencencias = database.buscarData("Dependencia",f"id_organigrama='{id_option}'",["nombre"])
         print("Nombre de las dependencias")
         for dependencia in data_depencencias:
             print(f"Nombre dependencia:{dependencia[0]}")
 
+        # Obtengo todas las personas del organigrama
         data_personas = database.buscarData("Persona",f"id_organigrama='{id_option}'",["nombre"])
         print("Nombre de las personas")
         for persona in data_personas:
             print(f"Nombre persona:{persona[0]}")
 
-        # Mostrar el mensaje en el QLabel
-        # self.message_label.setText("Apretaste la opción: " + selected_option)
+        # agregamos la imagen del organigrama
+        self.agregar_imagen(selected_option)  
 
     #Ver El formulario de la dependencia
     def create_Dependencia(self):
@@ -174,7 +215,8 @@ class MainWindow(QMainWindow):
     #ver el formulario de organigrama
     def create_organigrama(self):
         self.form_organigrama = FormOrganigrama()
-        self.form_organigrama.enviar_organigrama_signal.connect(self.add_rect_slot)
+        self.form_organigrama.enviar_organigrama_signal.connect(self.agregar_organigrama)
+        self.form_organigrama.enviar_organigrama_signal.connect(self.generar_imagen)
         self.form_organigrama.show()
 
     # #abrir el organigrama
@@ -270,7 +312,7 @@ class MainWindow(QMainWindow):
         self.formulario.show()
     
 class FormOrganigrama(QWidget):
-    enviar_organigrama_signal = pyqtSignal(str, str)
+    enviar_organigrama_signal = pyqtSignal(str)
 
     def __init__(self, parent=None):
         super(FormOrganigrama, self).__init__(parent)
@@ -288,24 +330,10 @@ class FormOrganigrama(QWidget):
         org = Organigrama(titulo, fecha)
         database.connect()
         database.insertarData("Organigrama", org.get_dict())
-        #self.enviar_organigrama_signal.emit(titulo, fecha)
-        self.close()
+        self.enviar_organigrama_signal.emit(titulo)
         database.disconnect()
-        self.generar_imagen()
-    
-    def generar_imagen(self):
-        # Genero un grafo en blanco
-        graph = grafos.generate_graph
-        titulo = self.titulo_lineEdit.text()
-
-        # Crea una direccion para guardar la imagen
-        image_path = f'.\{titulo}'
-
-        # Convierte a png
-        graph.format = 'png'
-
-        # Y renderiza dicha imagen
-        graph.render(filename=image_path, cleanup=True)
+        #cierra ventana
+        self.close()
         
         
 
