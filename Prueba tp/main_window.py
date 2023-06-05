@@ -456,7 +456,7 @@ class FormEditarPersona(QWidget):
         database.connect()
 
         # Obtengo el id del organigrama
-        rows = database.buscarData("Personas",f"nombre='{selected_option}'",["ci","apellido","nombre","telefono","direccion","salario"])
+        rows = database.buscarData("Persona",f"nombre='{selected_option}'",["ci","apellido","nombre","telefono","direccion","salario"])
         print(rows)
     def e_persona(self):
         database.connect()
