@@ -94,11 +94,13 @@ class MainWindow(QMainWindow):
         self.crear_organigrama.clicked.connect(self.create_organigrama)
         # self.abrir_organigrama.clicked.connect(self.open_organigrama)
         self.lista_organigramas.currentIndexChanged.connect(self.organigrama_seleccionado)
+        
         self.agregar_persona.clicked.connect(self.abrir_form_persona)
         self.action_PDF.triggered.connect(self.exportar_a_pdf)
         self.action_IMAGEN.triggered.connect(self.exportar_a_imagen)
         self.actionInforme_por_dependencia.triggered.connect(self.Personal_Dependencia)
-
+        self.editar_persona.clicked.connect(self.abrir_form_editar_persona)
+        #despliega los nombres de los organigramas en el combox
         self.despliega_organigramas()
         
 
@@ -231,7 +233,10 @@ class MainWindow(QMainWindow):
     def abrir_form_persona(self):
         self.form_persona = FormPersona(self.organigrama_activo)
         self.form_persona.show()
-
+    #abrir el formulario de editar persona    
+    def abrir_form_editar_persona(self):
+        self.form_persona = FormEditarPersona(self.organigrama_activo)
+        self.form_persona.show()
     #exporta la escena de graphics view como PDF    
     def exportar_a_pdf(self):
         file_dialog = QFileDialog()
@@ -420,7 +425,7 @@ class FormPersona(QWidget):
     # Depliega las dependencias en el formulario persona
     def despliega_dependencias(self):
 
-        print(self.id_organigrama)
+        #print(self.id_organigrama)
         # Ejecutar una consulta para obtener los datos de la base de datos
         database.connect()
         data = database.buscarData("Dependencia", f"id_organigrama={self.id_organigrama}",["nombre"])
@@ -430,7 +435,81 @@ class FormPersona(QWidget):
         # Cerrar la conexión a la base de datos
         database.disconnect()
 
+class FormEditarPersona(QWidget):
+    def __init__(self, id_organigrama):
+        super(FormEditarPersona, self).__init__()
+        self.setWindowTitle("Editar Persona")
+        self.id_organigrama = id_organigrama
+        loadUi("form_editar_persona.ui", self)
+        self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
+        self.boton_editar.clicked.connect(self.e_persona)
+        self.despliega_personas()
+        self.despliega_dependencias()
+        self.lista_personas.currentIndexChanged.connect(self.persona_seleccionada)
+
+    def persona_seleccionada(self, index):
         
+        # Obtener el nombre de la opción seleccionada
+        selected_option = self.lista_personas.currentText()
+        
+        # Conectamos a la base de datos
+        database.connect()
+
+        # Obtengo el id del organigrama
+        rows = database.buscarData("Personas",f"nombre='{selected_option}'",["ci","apellido","nombre","telefono","direccion","salario"])
+        print(rows)
+    def e_persona(self):
+        database.connect()
+
+        ci = self.campo_ci.text()
+        nombre = self.campo_nombre.text()
+        apellido = self.campo_apellido.text()
+        telefono = self.campo_telefono.text()
+        direccion = self.campo_direccion.text()
+        dependencia = self.lista_dependencias.currentText()
+        salario = self.campo_salario.text()
+
+        #Conexion a la base de datos
+        
+        rows = database.buscarData("Dependencia", f"nombre = '{dependencia}'", ["id"])
+        id_dep = rows[0][0]
+        persona = Persona(ci, apellido, nombre, telefono, direccion, id_dep, int(salario))
+
+        # Envio de los datos del formulario persona a la base de datos
+        database.insertarData("Persona", persona.getDict())
+
+        # Desconexion a la base de datos
+        database.disconnect()
+
+        # self.close()
+        # Este self close no esta de mas? ya que en database.disconnect() ya desconecta
+
+    # Depliega las personas en el formulario persona
+    def despliega_personas(self):
+        # Ejecutar una consulta para obtener los datos de la base de datos
+        database.connect()
+        data = database.buscarData("Persona", f"id_organigrama= {self.id_organigrama}",["nombre"])
+        # Agregar los datos al combo box lista_personas
+        for item in data:
+            self.lista_personas.addItem(item[0])
+        # Cerrar la conexión a la base de datos
+        database.disconnect()
+
+    # Depliega las dependencias en el formulario persona
+    def despliega_dependencias(self):
+        #database.buscarData("Organigrama", f"id = {organigrama_activo}", ["nombre"])
+        # Ejecutar una consulta para obtener los datos de la base de datos
+        database.connect()
+        data = database.buscarData("Dependencia", f"id_organigrama= {self.id_organigrama}",["nombre"])
+        # Agregar los datos al combo box lista_dependencias
+        for item in data:
+            self.lista_dependencias.addItem(item[0])
+        # Cerrar la conexión a la base de datos
+        database.disconnect()
+
+
+        
+           
 class GraphWindow(QMainWindow):
 
     def __init__(self, graph, nombre_archivo):
