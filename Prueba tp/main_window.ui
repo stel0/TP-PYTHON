@@ -50,7 +50,7 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>INTERFAZ/ICONOS/icons8-brillo-100.png</normaloff>INTERFAZ/ICONOS/icons8-brillo-100.png</iconset>
+        <normaloff>INTERFAZ/ICONOS/icons8-modo-oscuro-100.png</normaloff>INTERFAZ/ICONOS/icons8-modo-oscuro-100.png</iconset>
       </property>
       <property name="iconSize">
        <size>
