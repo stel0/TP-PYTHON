@@ -88,7 +88,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QComboBox" name="comboBox_2">
+        <widget class="QComboBox" name="lista_organigramas">
          <property name="minimumSize">
           <size>
            <width>100</width>

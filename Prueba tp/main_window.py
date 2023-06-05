@@ -23,7 +23,7 @@ import sqlite3
 import csv
 from PyQt5.QtCore import QUrl
 from PyQt5.QtGui import QDesktopServices,QIcon
-DATABASE = "base1.db"
+DATABASE = "base2.db"
 database = Database(DATABASE)
 organigrama_activo = 1
 
@@ -53,6 +53,7 @@ class MainWindow(QMainWindow):
         self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
         # Cargar el archivo .ui
         loadUi("main_window.ui", self)
+
         database.connect()
         rows = database.buscarData("Organigrama", f"id = {organigrama_activo}", ["nombre"])
         if len(rows) != 0:
@@ -64,10 +65,54 @@ class MainWindow(QMainWindow):
         self.crear_dependencia.clicked.connect(self.create_Dependencia)
         self.crear_organigrama.clicked.connect(self.create_organigrama)
         # self.abrir_organigrama.clicked.connect(self.open_organigrama)
+        self.combo_box = self.lista_organigramas
+        self.combo_box.currentIndexChanged.connect(self.combo_box_selected)
         self.agregar_persona.clicked.connect(self.abrir_form_persona)
         self.action_PDF.triggered.connect(self.exportar_a_pdf)
         self.action_IMAGEN.triggered.connect(self.exportar_a_imagen)
         # self.actionInforme_por_dependencia.triggered.connect(self.Personal_Dependencia)
+
+        self.populate_combobox()
+
+    def populate_combobox(self):
+        # Ejecutar una consulta para obtener los datos de la base de datos
+        # self.cursor.execute("SELECT nombre FROM Organigrama")
+        # data = self.cursor.fetchall()
+        database.connect()
+        data = database.buscarData("Organigrama", None,["nombre"])
+
+        # Agregar los datos al combo box
+        for item in data:
+            self.combo_box.addItem(item[0])
+
+        # Cerrar la conexión a la base de datos
+        database.disconnect()
+
+    def combo_box_selected(self, index):
+        # Obtener el nombre de la opción seleccionada
+        selected_option = self.combo_box.currentText()
+        
+        # Conectamos a la base de datos
+        database.connect()
+
+        # Obtengo el id del organigrama
+        rows = database.buscarData("Organigrama",f"nombre='{selected_option}'",["id"])
+        id_option = rows[0][0]
+        print(id_option)
+
+        data_depencencias = database.buscarData("Dependencia",f"id_organigrama='{id_option}'",["nombre"])
+        print("Nombre de las dependencias")
+        for dependencia in data_depencencias:
+            print(f"Nombre dependencia:{dependencia[0]}")
+
+        data_personas = database.buscarData("Persona",f"id_organigrama='{id_option}'",["nombre"])
+        print("Nombre de las personas")
+        for persona in data_personas:
+            print(f"Nombre persona:{persona[0]}")
+
+        # Mostrar el mensaje en el QLabel
+        # self.message_label.setText("Apretaste la opción: " + selected_option)
+
     #Ver El formulario de la dependencia
     def create_Dependencia(self):
         self.form_window = FormDependencia()

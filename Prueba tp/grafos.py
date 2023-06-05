@@ -5,7 +5,7 @@ from PyQt5.QtCore import Qt
 from graphviz import Digraph
 from Database import Database
 
-DATABASE = "base1.db"
+DATABASE = "base2.db"
 db = Database(DATABASE)
 db.connect()
 def generate_graph():
