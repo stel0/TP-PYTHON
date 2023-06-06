@@ -47,15 +47,13 @@ class MyGraphicsView(QGraphicsView):
     
 class formulario_informe(QWidget):
     def __init__(self, id_organigrama):
-        super(formulario_informe, self).__init__()
+        #super(formulario_informe, self).__init__()
         self.id_organigrama=id_organigrama
         uic.loadUi("form_informe_dependencia.ui", self)
         self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
-        # self.enviar_dependencia_2.clicked.connect(self.enviar_dato_dependencia)
-        self.dependencia_select.currentIndexChanged.connect(self.enviar_dato_dependencia)
         self.enviar_dependencia_2.clicked.connect(self.enviar_dato_dependencia)
         self.despliega_dependenciass()
-
+    
     # Depliega las dependencias en el formulario persona
     def despliega_dependenciass(self):
         #print(self.id_organigrama)
@@ -99,12 +97,10 @@ class formulario_informe(QWidget):
 
 class formulario_informe_dependencia_sucesoras(QWidget):
     def __init__(self, id_organigrama):
-        super(formulario_informe_dependencia_sucesoras, self).__init__()
+        #super(formulario_informe_dependencia_sucesoras, self).__init__()
         self.id_organigrama=id_organigrama
-        uic.loadUi("form_informe_dependencia_sucesora.ui", self)
+        uic.loadUi("form_informe_dependencia_sucesoras.ui", self)
         self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
-        # self.enviar_dependencia_2.clicked.connect(self.enviar_dato_dependencia)
-        self.elige_dependencia.currentIndexChanged.connect(self.enviar_dato_dependencia)
         self.enviar_dependencia_3.clicked.connect(self.enviar_dato_dependencia)
         self.despliega_dependenciass()
 
@@ -121,30 +117,141 @@ class formulario_informe_dependencia_sucesoras(QWidget):
         database.disconnect()
     
     def enviar_dato_dependencia(self):
+        # TODO: muestra las personas de la dependencia y también a las personas que estan debajo
+
+
+        # database.connect()
+        # selected_option=self.elige_dependencia.currentText()
+        # dep=database.buscarData("Dependencia",f"nombre='{selected_option}'",["id"])
+        # id_dep=dep[0][0]
+
+        # # Obtengo el id del organigrama
+        # personas = database.buscarData("Persona", f"id_dependencia='{id_dep}'", ["nombre", "apellido"])
+        # nombres = []
+        # for persona in personas:
+        #     nombres.append(f"{persona[1]} {persona[0]}")
+        # nombres_normalizados = []
+
+        # for nombre in nombres:
+        #     nombre_normalizado = nombre.strip().title()
+        #     nombres_normalizados.append(nombre_normalizado)
+        # nombres_ordenados = sorted(nombres_normalizados)
+
+        # with open("Personal_Por_Dependencia_Sucesoras.txt", "w") as file:
+        #     for nombre in nombres_ordenados:
+        #         file.write(nombre + "\n")
+        # database.disconnect()
+
+        # informe = "Personal_Por_Dependencia_Sucesoras.txt"
+        # QDesktopServices.openUrl(QUrl.fromLocalFile(informe))
+        self.close()
+
+class formulario_informe_salario_dependencia(QWidget):
+    def __init__(self, id_organigrama):
+        #super(formulario_informe_salario_dependencia, self).__init__()
+        self.id_organigrama=id_organigrama
+        uic.loadUi("form_informe_salario_dependencia.ui", self)
+        self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
+        self.enviar_dependencia_4.clicked.connect(self.enviar_dato_dependencia)
+        self.despliega_dependenciass()
+
+    # Depliega las dependencias en el formulario persona
+    def despliega_dependenciass(self):
+        #print(self.id_organigrama)
+        # Ejecutar una consulta para obtener los datos de la base de datos
         database.connect()
-        selected_option=self.elige_dependencia.currentText()
-        dep=database.buscarData("Dependencia",f"nombre='{selected_option}'",["id"])
-        id_dep=dep[0][0]
-
-        # Obtengo el id del organigrama
-        personas = database.buscarData("Persona", f"id_dependencia='{id_dep}'", ["nombre", "apellido"])
-        nombres = []
-        for persona in personas:
-            nombres.append(f"{persona[1]} {persona[0]}")
-        nombres_normalizados = []
-
-        for nombre in nombres:
-            nombre_normalizado = nombre.strip().title()
-            nombres_normalizados.append(nombre_normalizado)
-        nombres_ordenados = sorted(nombres_normalizados)
-
-        with open("Personal_Por_Dependencia_Sucesoras.txt", "w") as file:
-            for nombre in nombres_ordenados:
-                file.write(nombre + "\n")
+        data = database.buscarData("Dependencia", f"id_organigrama={self.id_organigrama}",["nombre"])
+        # Agregar los datos al combo box lista_dependencias
+        for item in data:
+            self.selecionador_depende.addItem(item[0])
+        # Cerrar la conexión a la base de datos
         database.disconnect()
+    
+    def enviar_dato_dependencia(self):
+        # TODO: mostrar salario por dependencia
+        '''
+        Salario por Dependencia: Para una dependencia, presenta la cantidad de 
+        personal y el total de salarios para la dependencia. 
+        No incluye a las dependencias sucesoras.   
+        '''
+        # database.connect()
+        # selected_option=self.selecionador_depende.currentText()
+        # dep=database.buscarData("Dependencia",f"nombre='{selected_option}'",["id"])
+        # id_dep=dep[0][0]
 
-        informe = "Personal_Por_Dependencia_Sucesoras.txt"
-        QDesktopServices.openUrl(QUrl.fromLocalFile(informe))
+        # # Obtengo el id del organigrama
+        # personas = database.buscarData("Persona", f"id_dependencia='{id_dep}'", ["nombre", "apellido"])
+        # nombres = []
+        # for persona in personas:
+        #     nombres.append(f"{persona[1]} {persona[0]}")
+        # nombres_normalizados = []
+
+        # for nombre in nombres:
+        #     nombre_normalizado = nombre.strip().title()
+        #     nombres_normalizados.append(nombre_normalizado)
+        # nombres_ordenados = sorted(nombres_normalizados)
+
+        # with open("Salario_Por_Dependencia.txt", "w") as file:
+        #     for nombre in nombres_ordenados:
+        #         file.write(nombre + "\n")
+        # database.disconnect()
+
+        # informe = "Salario_Por_Dependencia.txt"
+        # QDesktopServices.openUrl(QUrl.fromLocalFile(informe))
+        self.close()
+
+class formulario_informe_salario_dependencia_sucesoras(QWidget):
+    def __init__(self, id_organigrama):
+        #super(formulario_informe_salario_dependencia_sucesoras, self).__init__()
+        self.id_organigrama=id_organigrama
+        uic.loadUi("form_informe_salario_dependencia_extendido.ui", self)
+        self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
+        self.enviar_dependencia_5.clicked.connect(self.enviar_dato_dependencia)
+        self.despliega_dependenciass()
+
+    # Depliega las dependencias en el formulario persona
+    def despliega_dependenciass(self):
+        #print(self.id_organigrama)
+        # Ejecutar una consulta para obtener los datos de la base de datos
+        database.connect()
+        data = database.buscarData("Dependencia", f"id_organigrama={self.id_organigrama}",["nombre"])
+        # Agregar los datos al combo box lista_dependencias
+        for item in data:
+            self.selecionador_dependencia.addItem(item[0])
+        # Cerrar la conexión a la base de datos
+        database.disconnect()
+    
+    def enviar_dato_dependencia(self):
+        # TODO: mostrar salario por dependencia extendido, personas por debajo
+        '''
+        Salario por Dependencia extendido: Para una dependencia, presenta la 
+        cantidad de personal y el total de salarios para la dependencia. 
+        Incluye el detalle de las dependencias sucesoras.
+        '''
+        # database.connect()
+        # selected_option=self.selecionador_dependencia.currentText()
+        # dep=database.buscarData("Dependencia",f"nombre='{selected_option}'",["id"])
+        # id_dep=dep[0][0]
+
+        # # Obtengo el id del organigrama
+        # personas = database.buscarData("Persona", f"id_dependencia='{id_dep}'", ["nombre", "apellido"])
+        # nombres = []
+        # for persona in personas:
+        #     nombres.append(f"{persona[1]} {persona[0]}")
+        # nombres_normalizados = []
+
+        # for nombre in nombres:
+        #     nombre_normalizado = nombre.strip().title()
+        #     nombres_normalizados.append(nombre_normalizado)
+        # nombres_ordenados = sorted(nombres_normalizados)
+
+        # with open("Salario_Por_Dependencia.txt", "w") as file:
+        #     for nombre in nombres_ordenados:
+        #         file.write(nombre + "\n")
+        # database.disconnect()
+
+        # informe = "Salario_Por_Dependencia.txt"
+        # QDesktopServices.openUrl(QUrl.fromLocalFile(informe))
         self.close()
 
 class MainWindow(QMainWindow):
@@ -172,9 +279,9 @@ class MainWindow(QMainWindow):
 
         self.actionInforme_por_dependencia.triggered.connect(self.Personal_Dependencia)
         self.actionPersonal_por_Dependencia_extendido.triggered.connect(self.Personal_Dependencia_Sucesoras)
+        self.actionSalario_por_Dependencia.triggered.connect(self.Salario_Dependencia)
+        self.actionSalario_por_Dependencia_extendido.triggered.connect(self.Salario_Dependencia_Sucesoras)
         
-        self.actionSalario_por_Dependencia.triggered.connect(self.Personal_Dependencia)
-        self.actionSalario_por_Dependencia_extendido.triggered.connect(self.Personal_Dependencia)
         self.editar_persona.clicked.connect(self.abrir_form_editar_persona)
         self.color_button.clicked.connect(self.cambiar_color_menu)
         #despliega los nombres de los organigramas en el combox
@@ -367,22 +474,22 @@ class MainWindow(QMainWindow):
             image.save(filename)
 
     #cambiar a cuadro de texto 
-    def add_rect_slot(self, titulo, fecha):
-        rect = QGraphicsRectItem()
-        rect.setRect(0, 0, 200, 100)
-        rect.setPos(50, 50)
-        rect.setFlag(QGraphicsRectItem.ItemIsMovable)  # Hacer que el rectángulo sea movible
+    # def add_rect_slot(self, titulo, fecha):
+    #     rect = QGraphicsRectItem()
+    #     rect.setRect(0, 0, 200, 100)
+    #     rect.setPos(50, 50)
+    #     rect.setFlag(QGraphicsRectItem.ItemIsMovable)  # Hacer que el rectángulo sea movible
 
-        rect.setBrush(Qt.white)  # Establecer el fondo del rectángulo como blanco
+    #     rect.setBrush(Qt.white)  # Establecer el fondo del rectángulo como blanco
 
-        text = QGraphicsTextItem(rect)  # Hacer que el rectángulo sea el padre del texto
-        text.setDefaultTextColor(Qt.black)  # Establecer el color del texto como negro
-        text.setPlainText(f"Título: {titulo}\nFecha: {fecha}")
-        text.setPos(rect.rect().topLeft() + QPointF(10, 10))  # Posicionar el texto dentro del rectángulo
+    #     text = QGraphicsTextItem(rect)  # Hacer que el rectángulo sea el padre del texto
+    #     text.setDefaultTextColor(Qt.black)  # Establecer el color del texto como negro
+    #     text.setPlainText(f"Título: {titulo}\nFecha: {fecha}")
+    #     text.setPos(rect.rect().topLeft() + QPointF(10, 10))  # Posicionar el texto dentro del rectángulo
 
-        self.qgv_scene.addItem(rect)
-        self.qgv_scene.addItem(text)
-        self.qgv.setScene(self.qgv_scene)
+    #     self.qgv_scene.addItem(rect)
+    #     self.qgv_scene.addItem(text)
+    #     self.qgv.setScene(self.qgv_scene)
 
     # def update_graph(self, nombre_archivo):
     #     image_path = f'grafos/{nombre_archivo}'  # Cambio de extensión a .png
@@ -413,6 +520,14 @@ class MainWindow(QMainWindow):
 
     def Personal_Dependencia_Sucesoras(self):
         self.formulario=formulario_informe_dependencia_sucesoras(self.organigrama_activo)
+        self.formulario.show()
+
+    def Salario_Dependencia(self):
+        self.formulario=formulario_informe_salario_dependencia(self.organigrama_activo)
+        self.formulario.show()
+
+    def Salario_Dependencia_Sucesoras(self):
+        self.formulario=formulario_informe_salario_dependencia_sucesoras(self.organigrama_activo)
         self.formulario.show()
 
     def cambiar_color_menu(self):
@@ -722,15 +837,5 @@ class GraphWindow(QMainWindow):
 if __name__ == '__main__':
     app = QApplication([])
     window = MainWindow()
-    # Crear una instancia de MyGraphicsView
-    graphics_view = MyGraphicsView()
-
-# Llamar al método display_image y proporcionar la ruta de la imagen
-    file_path = 'dependency_graph.png.png'
-    graphics_view.display_image(file_path)
-
-    # Mostrar la ventana principal que contiene el QGraphicsView
-    # graphics_view.show()
-
     window.show()
     app.exec_()

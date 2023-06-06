@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>200</width>
+    <height>250</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>200</width>
+    <height>250</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>200</width>
+    <height>250</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color:#27263c;</string>
+  </property>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>40</y>
+     <width>400</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>400</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="font">
+    <font>
+     <family>Candara</family>
+     <pointsize>9</pointsize>
+     <weight>75</weight>
+     <italic>false</italic>
+     <bold>true</bold>
+     <underline>false</underline>
+     <strikeout>false</strikeout>
+     <kerning>false</kerning>
+    </font>
+   </property>
+   <property name="cursor">
+    <cursorShape>ArrowCursor</cursorShape>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:white;</string>
+   </property>
+   <property name="text">
+    <string>Selecciona la dependencia:</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="selecionador_depende">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>80</y>
+     <width>161</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background:rgb(170, 170, 255);</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="enviar_dependencia_4">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>150</y>
+     <width>151</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>35</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>16777215</width>
+     <height>35</height>
+    </size>
+   </property>
+   <property name="font">
+    <font>
+     <family>Candara</family>
+     <pointsize>10</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background:rgb(170, 170, 255);</string>
+   </property>
+   <property name="text">
+    <string>Enviar</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
