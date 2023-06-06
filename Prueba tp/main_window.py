@@ -47,7 +47,7 @@ class MyGraphicsView(QGraphicsView):
     
 class formulario_informe(QWidget):
     def __init__(self, id_organigrama):
-        #super(formulario_informe, self).__init__()
+        super(formulario_informe, self).__init__()
         self.id_organigrama=id_organigrama
         uic.loadUi("form_informe_dependencia.ui", self)
         self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
@@ -69,11 +69,11 @@ class formulario_informe(QWidget):
     def enviar_dato_dependencia(self):
         database.connect()
         selected_option=self.dependencia_select.currentText()
-        dep=database.buscarData("Dependencia",f"nombre='{selected_option}'",["id"])
+        dep=database.buscarData("Dependencia",f"nombre='{selected_option}' AND id_organigrama={self.id_organigrama}",["id"])
         id_dep=dep[0][0]
 
           # Obtengo el id del organigrama
-        personas = database.buscarData("Persona", f"id_dependencia='{id_dep}'", ["nombre", "apellido"])
+        personas = database.buscarData("Persona", f"id_dependencia='{id_dep}' AND id_organigrama={self.id_organigrama}", ["nombre", "apellido"])
         nombres = []
         for persona in personas:
             nombres.append(f"{persona[1]} {persona[0]}")
@@ -97,7 +97,7 @@ class formulario_informe(QWidget):
 
 class formulario_informe_dependencia_sucesoras(QWidget):
     def __init__(self, id_organigrama):
-        #super(formulario_informe_dependencia_sucesoras, self).__init__()
+        super(formulario_informe_dependencia_sucesoras, self).__init__()
         self.id_organigrama=id_organigrama
         uic.loadUi("form_informe_dependencia_sucesoras.ui", self)
         self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
@@ -118,37 +118,49 @@ class formulario_informe_dependencia_sucesoras(QWidget):
     
     def enviar_dato_dependencia(self):
         # TODO: muestra las personas de la dependencia y también a las personas que estan debajo
+        database.connect()
+        selected_option=self.elige_dependencia.currentText()
+        dep=database.buscarData("Dependencia",f"nombre='{selected_option}' AND id_organigrama={self.id_organigrama}",["id"])
+        id_dep=dep[0][0]
 
+        # Obtengo el id del organigrama
+        personas = database.buscarData("Persona", f"id_dependencia='{id_dep}' AND id_organigrama={self.id_organigrama}", ["id", "nombre", "apellido"])
+        nombres = []
+        id_personas = []
+        for persona in personas:
+            nombres.append(f"{persona[2]} {persona[1]}")
+            id_personas.append(persona[0])
 
-        # database.connect()
-        # selected_option=self.elige_dependencia.currentText()
-        # dep=database.buscarData("Dependencia",f"nombre='{selected_option}'",["id"])
-        # id_dep=dep[0][0]
+        nombres_normalizados = []
+        personas_dict = {}
 
-        # # Obtengo el id del organigrama
-        # personas = database.buscarData("Persona", f"id_dependencia='{id_dep}'", ["nombre", "apellido"])
-        # nombres = []
-        # for persona in personas:
-        #     nombres.append(f"{persona[1]} {persona[0]}")
-        # nombres_normalizados = []
+        for nombre in nombres:
+            nombre_normalizado = nombre.strip().title()
+            nombres_normalizados.append(nombre_normalizado)
+        
+        for i in range(len(nombres_normalizados)):
+            personas_dict[nombres_normalizados[i]] = id_personas[i]
+        print(personas_dict)
+        nombres_ordenados = sorted(nombres_normalizados)
 
-        # for nombre in nombres:
-        #     nombre_normalizado = nombre.strip().title()
-        #     nombres_normalizados.append(nombre_normalizado)
-        # nombres_ordenados = sorted(nombres_normalizados)
+        with open("Personal_Por_Dependencia_Sucesoras.txt", "w") as file:
+            for nombre in nombres_ordenados:
+                file.write(nombre + "\n")
+                id_persona = personas_dict[nombre]
+                dependencias = database.buscarData("Dependencia", f"manager_id = {id_persona} AND id_organigrama = {self.id_organigrama}", ["nombre"])
+                print(dependencias)
+                for dependencia in dependencias:
+                    file.write("\t" + dependencia[0] + "\n")
+        
+        database.disconnect()
 
-        # with open("Personal_Por_Dependencia_Sucesoras.txt", "w") as file:
-        #     for nombre in nombres_ordenados:
-        #         file.write(nombre + "\n")
-        # database.disconnect()
-
-        # informe = "Personal_Por_Dependencia_Sucesoras.txt"
-        # QDesktopServices.openUrl(QUrl.fromLocalFile(informe))
+        informe = "Personal_Por_Dependencia_Sucesoras.txt"
+        QDesktopServices.openUrl(QUrl.fromLocalFile(informe))
         self.close()
 
 class formulario_informe_salario_dependencia(QWidget):
     def __init__(self, id_organigrama):
-        #super(formulario_informe_salario_dependencia, self).__init__()
+        super(formulario_informe_salario_dependencia, self).__init__()
         self.id_organigrama=id_organigrama
         uic.loadUi("form_informe_salario_dependencia.ui", self)
         self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
@@ -174,35 +186,37 @@ class formulario_informe_salario_dependencia(QWidget):
         personal y el total de salarios para la dependencia. 
         No incluye a las dependencias sucesoras.   
         '''
-        # database.connect()
-        # selected_option=self.selecionador_depende.currentText()
-        # dep=database.buscarData("Dependencia",f"nombre='{selected_option}'",["id"])
-        # id_dep=dep[0][0]
+        database.connect()
+        selected_option=self.selecionador_depende.currentText()
+        dep=database.buscarData("Dependencia",f"nombre='{selected_option}' AND id_organigrama={self.id_organigrama}",["id"])
+        id_dep=dep[0][0]
 
-        # # Obtengo el id del organigrama
-        # personas = database.buscarData("Persona", f"id_dependencia='{id_dep}'", ["nombre", "apellido"])
-        # nombres = []
-        # for persona in personas:
-        #     nombres.append(f"{persona[1]} {persona[0]}")
-        # nombres_normalizados = []
+          # Obtengo el id del organigrama
+        personas = database.buscarData("Persona", f"id_dependencia='{id_dep}' AND id_organigrama={self.id_organigrama}", ["nombre", "apellido", "salario"])
+        nombres = []
+        personas_dict = {}
+        for persona in personas:
+            nombres.append(f"{persona[1]} {persona[0]}")
+        nombres_normalizados = []
+        for i in range(len(nombres)):
+            nombre_normalizado = nombres[i].strip().title()
+            nombres_normalizados.append(nombre_normalizado)
+            personas_dict[nombre_normalizado] = personas[i][2]
 
-        # for nombre in nombres:
-        #     nombre_normalizado = nombre.strip().title()
-        #     nombres_normalizados.append(nombre_normalizado)
-        # nombres_ordenados = sorted(nombres_normalizados)
+        nombres_ordenados = sorted(nombres_normalizados)
 
-        # with open("Salario_Por_Dependencia.txt", "w") as file:
-        #     for nombre in nombres_ordenados:
-        #         file.write(nombre + "\n")
-        # database.disconnect()
+        with open("Salario_Por_Dependencia.txt", "w") as file:
+            for nombre in nombres_ordenados:
+                file.write(f"{nombre}: {personas_dict[nombre]}\n")
 
-        # informe = "Salario_Por_Dependencia.txt"
-        # QDesktopServices.openUrl(QUrl.fromLocalFile(informe))
+        database.disconnect()
+        informe = "Salario_Por_Dependencia.txt"
+        QDesktopServices.openUrl(QUrl.fromLocalFile(informe))
         self.close()
 
 class formulario_informe_salario_dependencia_sucesoras(QWidget):
     def __init__(self, id_organigrama):
-        #super(formulario_informe_salario_dependencia_sucesoras, self).__init__()
+        super(formulario_informe_salario_dependencia_sucesoras, self).__init__()
         self.id_organigrama=id_organigrama
         uic.loadUi("form_informe_salario_dependencia_extendido.ui", self)
         self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
@@ -228,30 +242,56 @@ class formulario_informe_salario_dependencia_sucesoras(QWidget):
         cantidad de personal y el total de salarios para la dependencia. 
         Incluye el detalle de las dependencias sucesoras.
         '''
-        # database.connect()
-        # selected_option=self.selecionador_dependencia.currentText()
-        # dep=database.buscarData("Dependencia",f"nombre='{selected_option}'",["id"])
-        # id_dep=dep[0][0]
+        database.connect()
+        selected_option = self.selecionador_dependencia.currentText()
+        dep = database.buscarData("Dependencia",f"nombre='{selected_option}' AND id_organigrama={self.id_organigrama}",["id"])
+        id_dep = dep[0][0]
+        informe = "Salario_Por_Dependencia_Extendido.txt"
+        # Obtengo el id del organigrama
+        personas = database.buscarData("Persona", f"id_dependencia='{id_dep}' AND id_organigrama={self.id_organigrama}", ["id", "nombre", "apellido", "salario"])
+        nombres = []
+        for persona in personas:
+            nombres.append(f"{persona[2]} {persona[1]}")
+        nombres_normalizados = []
+        # id_dict contiene el id como value
+        # y el nombre como key
+        id_dict = {}
+        # salario_dict contiene el salario como value
+        # y el nombre como key
+        salario_dict = {}
+        for i in range(len(nombres)):
+            nombre_normalizado = nombres[i].strip().title()
+            nombres_normalizados.append(nombre_normalizado)
+            id_dict[nombre_normalizado] = personas[i][0]
+            salario_dict[nombre_normalizado] = personas[i][3]
+        nombres_ordenados = sorted(nombres_normalizados)
 
-        # # Obtengo el id del organigrama
-        # personas = database.buscarData("Persona", f"id_dependencia='{id_dep}'", ["nombre", "apellido"])
-        # nombres = []
-        # for persona in personas:
-        #     nombres.append(f"{persona[1]} {persona[0]}")
-        # nombres_normalizados = []
+        with open(informe, "w") as file:
+            for nombre in nombres_ordenados:
+                file.write(f"{nombre}: {salario_dict[nombre]}\n")
+                id_persona = id_dict[nombre]
+                dependencias = database.buscarData("Dependencia", f"manager_id = {id_persona} AND id_organigrama = {self.id_organigrama}", ["id", "nombre"])
+                for dependencia in dependencias:
+                    id_dep = dependencia[0]
+                    personas = database.buscarData("Persona", f"id_dependencia='{id_dep}' AND id_organigrama={self.id_organigrama}", ["id", "nombre", "apellido", "salario"])
+                    print(personas)
+                    nombres1 = []
+                    for persona in personas:
+                        nombres1.append(f"{persona[2]} {persona[1]}")
+                    nombres_normalizados = []
+                    salario_dict1 = {}
+                    if len(personas) > 0:
+                        file.write(f"\t{dependencia[1]}\n")
+                        for i in range(len(nombres1)):
+                            nombre_normalizado = nombres1[i].strip().title()
+                            nombres_normalizados.append(nombre_normalizado)
+                            salario_dict1[nombre_normalizado] = personas[i][3]
+                        nombres_ordenados1 = sorted(nombres_normalizados)
+                        for nombre in nombres_ordenados1:
+                            file.write(f"\t\t{nombre}: {salario_dict1[nombre]}\n")
+        database.disconnect()
 
-        # for nombre in nombres:
-        #     nombre_normalizado = nombre.strip().title()
-        #     nombres_normalizados.append(nombre_normalizado)
-        # nombres_ordenados = sorted(nombres_normalizados)
-
-        # with open("Salario_Por_Dependencia.txt", "w") as file:
-        #     for nombre in nombres_ordenados:
-        #         file.write(nombre + "\n")
-        # database.disconnect()
-
-        # informe = "Salario_Por_Dependencia.txt"
-        # QDesktopServices.openUrl(QUrl.fromLocalFile(informe))
+        QDesktopServices.openUrl(QUrl.fromLocalFile(informe))
         self.close()
 
 class MainWindow(QMainWindow):
