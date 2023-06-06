@@ -55,7 +55,37 @@ class Database:
         try:
             self.cur.execute(stmt)
             res = self.cur.fetchall()
-        except sqlite3.Error:
-            print("SQL::BAD REQUEST")
+        except sqlite3.Error as e:
+            print(f"SQL::BAD REQUEST {e}")
             res = -1
         return res
+    
+    """
+    Funcion para hacer un update query simple, no implementa ORDER BY ni LIMIT
+    tabla: la tabla a ser modificada
+    columns: lista de str con el nombre de las columnas a ser modificadas
+    condition: condicion para saber que fila modificar
+    """
+    def updateData(self, tabla: str, columns: list, values:list, condition: str):
+        columnas = ""
+        # teniendo en cuenta la naturaleza del update, la longitud de values es la misma que columns
+        for i in range(len(columns)-1):
+            if type(values[i]) != str:
+                columnas += columns[i] + f" = {values[i]}, "
+            else:
+                columnas += columns[i] + f" = '{values[i]}', "
+        if type(values[len(columns)-1]) != str:
+            columnas += columns[len(columns)-1] + f" = {values[len(columns)-1]}"
+        else:
+            columnas += columns[len(columns)-1] + f" = '{values[len(columns)-1]}'"
+        
+        stmt = f"UPDATE {tabla} SET {columnas} WHERE {condition}"
+        print(stmt)
+
+        try:
+            self.cur.execute(stmt)
+        except sqlite3.Error as e:
+            print(f"Error: {e}")
+            return
+        self.conn.commit()
+        

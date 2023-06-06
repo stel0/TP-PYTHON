@@ -440,6 +440,8 @@ class FormEditarPersona(QWidget):
         super(FormEditarPersona, self).__init__()
         self.setWindowTitle("Editar Persona")
         self.id_organigrama = id_organigrama
+        self.lista_id = []
+        self.selected_id = 0
         loadUi("form_editar_persona.ui", self)
         self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
         self.boton_editar.clicked.connect(self.e_persona)
@@ -450,14 +452,21 @@ class FormEditarPersona(QWidget):
     def persona_seleccionada(self, index):
         
         # Obtener el nombre de la opción seleccionada
-        selected_option = self.lista_personas.currentText()
+        selected_index = self.lista_personas.currentIndex()
+        self.selected_id = self.lista_id[selected_index]
         
         # Conectamos a la base de datos
         database.connect()
 
         # Obtengo el id del organigrama
-        rows = database.buscarData("Persona",f"nombre='{selected_option}'",["ci","apellido","nombre","telefono","direccion","salario"])
-        print(rows)
+        rows = database.buscarData("Persona",f"id={self.selected_id}",["ci","apellido","nombre","telefono","direccion","salario"])
+        self.campo_ci.setText(rows[0][0])
+        self.campo_apellido.setText(rows[0][1])
+        self.campo_nombre.setText(rows[0][2])
+        self.campo_telefono.setText(rows[0][3])
+        self.campo_direccion.setText(rows[0][4])
+        self.campo_salario.setText(str(rows[0][5]))
+        #print(rows)
     def e_persona(self):
         database.connect()
 
@@ -466,32 +475,27 @@ class FormEditarPersona(QWidget):
         apellido = self.campo_apellido.text()
         telefono = self.campo_telefono.text()
         direccion = self.campo_direccion.text()
-        dependencia = self.lista_dependencias.currentText()
         salario = self.campo_salario.text()
 
         #Conexion a la base de datos
-        
-        rows = database.buscarData("Dependencia", f"nombre = '{dependencia}'", ["id"])
-        id_dep = rows[0][0]
-        persona = Persona(ci, apellido, nombre, telefono, direccion, id_dep, int(salario))
-
-        # Envio de los datos del formulario persona a la base de datos
-        database.insertarData("Persona", persona.getDict())
-
+        database.updateData("Persona", ["ci", "apellido", "nombre", "telefono", "direccion", "salario"], 
+                            [ci, apellido, nombre, telefono, direccion, int(salario)], f"id = {self.selected_id}")
         # Desconexion a la base de datos
         database.disconnect()
 
-        # self.close()
+        self.close()
         # Este self close no esta de mas? ya que en database.disconnect() ya desconecta
+        # Se usa para cerrar el form
 
     # Depliega las personas en el formulario persona
     def despliega_personas(self):
         # Ejecutar una consulta para obtener los datos de la base de datos
         database.connect()
-        data = database.buscarData("Persona", f"id_organigrama= {self.id_organigrama}",["nombre"])
+        data = database.buscarData("Persona", f"id_organigrama= {self.id_organigrama}",["id", "nombre"])
         # Agregar los datos al combo box lista_personas
         for item in data:
-            self.lista_personas.addItem(item[0])
+            self.lista_personas.addItem(item[1])
+            self.lista_id.append(item[0])
         # Cerrar la conexión a la base de datos
         database.disconnect()
 
