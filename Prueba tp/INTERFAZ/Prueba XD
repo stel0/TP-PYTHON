@@ -1,0 +1,10 @@
+digraph {
+	Nolose [label="Titulo: Nolose
+Apellido: Riveros
+Nombre: Fernando"]
+	CEO -> Nolose [label=""]
+	Nolose1 [label="Titulo: Nolose1
+Apellido: Riveros
+Nombre: Fernando"]
+	CEO -> Nolose1 [label=""]
+}

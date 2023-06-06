@@ -1,0 +1,14 @@
+digraph {
+	Titilio [label="Titulo: Titilio
+Apellido: Riveros
+Nombre: Elias"]
+	CEO -> Titilio [label=""]
+	Prueba1 [label="Titulo: Prueba1
+Apellido: Paredes
+Nombre: Atilio"]
+	Titilio -> Prueba1 [label=""]
+	Prueba [label="Titulo: Prueba
+Apellido: Riveros
+Nombre: Elias"]
+	CEO -> Prueba [label=""]
+}

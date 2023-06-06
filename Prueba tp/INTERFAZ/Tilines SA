@@ -84,4 +84,15 @@ Nombre: Elias"]
 Apellido: Riveros
 Nombre: Elias"]
 	CEO -> hOLA [label=""]
+	pruba12 [label="Titulo: pruba12
+Apellido: Riveros
+Nombre: Elias"]
+	CEO -> pruba12 [label=""]
+	Pruba123123 [label="Titulo: Pruba123123
+Apellido: Riveros
+Nombre: Elias"]
+	CEO -> Pruba123123 [label=""]
+	"Marta Vera" [label="Apellido: Vera
+Nombre: Marta"]
+	CEO -> "Marta Vera" [label=""]
 }

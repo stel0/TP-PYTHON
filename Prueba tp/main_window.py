@@ -10,6 +10,7 @@ from PyQt5.QtWidgets import (
     QGraphicsRectItem,
     QFileDialog,
     QWidget,
+    QDialog,
     QGraphicsPixmapItem,
     QLabel
 )
@@ -87,9 +88,6 @@ class formulario_informe(QWidget):
         QDesktopServices.openUrl(QUrl.fromLocalFile(informe))
         self.close()
 
-        
-
-
 class MainWindow(QMainWindow):
     def __init__(self): 
         super(MainWindow, self).__init__()
@@ -102,7 +100,6 @@ class MainWindow(QMainWindow):
 
         """Id del organigrama activo"""    
         self.organigrama_activo = 0
-
         #Botones del main window y call de funciones
         self.crear_dependencia.clicked.connect(self.create_Dependencia)
         self.crear_organigrama.clicked.connect(self.create_organigrama)
@@ -194,8 +191,24 @@ class MainWindow(QMainWindow):
         database.disconnect()
 
     # Agrega los organigramas al inicio del combo box
-    def agregar_organigrama(self,titulo):
+    def agregar_organigrama(self, titulo, id_org):
         self.lista_organigramas.addItem(titulo)
+        self.lista_organigramas.setCurrentText(titulo)
+        self.organigrama_activo = id_org
+        # Obtengo todas las dependencias del organigrama
+        data_depencencias = database.buscarData("Dependencia",f"id_organigrama='{id_org}'",["nombre"])
+        #print("Nombre de las dependencias")
+        # for dependencia in data_depencencias:
+        #     print(f"Nombre dependencia:{dependencia[0]}")
+
+        # Obtengo todas las personas del organigrama
+        data_personas = database.buscarData("Persona",f"id_organigrama='{id_org}'",["nombre"])
+        #print("Nombre de las personas")
+        # for persona in data_personas:
+        #     print(f"Nombre persona:{persona[0]}")
+
+        # agregamos la imagen del organigrama
+        self.agregar_imagen(titulo) 
 
     #Despliega toda la informacion del organigrama seleccionado
     def organigrama_seleccionado(self, index):
@@ -233,11 +246,15 @@ class MainWindow(QMainWindow):
         self.form_window.enviar_dependencia_signal.connect(self.add_dependencia_rect)
         self.form_window.show()
 
+    def crear_jefe(self):
+        self.form_jefe = FormJefe(self.organigrama_activo)
+        self.form_jefe.show()
     #ver el formulario de organigrama
     def create_organigrama(self):
         self.form_organigrama = FormOrganigrama()
         self.form_organigrama.enviar_organigrama_signal.connect(self.agregar_organigrama)
         self.form_organigrama.enviar_organigrama_signal.connect(self.generar_imagen)
+        self.form_organigrama.enviar_organigrama_signal.connect(self.crear_jefe)
         self.form_organigrama.show()
 
     # #abrir el organigrama
@@ -319,7 +336,7 @@ class MainWindow(QMainWindow):
     #abre el formulario de dependencias y crea los nodos
     def add_dependencia_rect(self):
         graph = grafos.generate_graph()
-        grafos.generar_grafo(graph, 0, 1)
+        grafos.generar_grafo(graph, 0, self.organigrama_activo)
         nombre = self.lista_organigramas.currentText()
         # Generar el gráfico y guardar la imagen en un archivo
         graph_file = f'INTERFAZ\{nombre}'
@@ -355,14 +372,13 @@ class MainWindow(QMainWindow):
 
             # Restaurar los colores originales del centralwidget
             self.centralwidget.setStyleSheet("")
+
 class FormOrganigrama(QWidget):
-    enviar_organigrama_signal = pyqtSignal(str)
+    enviar_organigrama_signal = pyqtSignal(str, int)
 
     def __init__(self, parent=None):
         super(FormOrganigrama, self).__init__(parent)
         self.setWindowTitle("Formulario Organigrama")
-
-
         loadUi("form_organigrama.ui", self)
         self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
         self.enviar_button.clicked.connect(self.enviar_organigrama)
@@ -374,7 +390,13 @@ class FormOrganigrama(QWidget):
         org = Organigrama(titulo, fecha)
         database.connect()
         database.insertarData("Organigrama", org.get_dict())
-        self.enviar_organigrama_signal.emit(titulo)
+        organigramas = database.buscarData("Organigrama", f"nombre = '{titulo}'", ["id"])
+        # org id tomara el id del ultimo organigrama ingresado con el nombre titulo, lo que nos permite tener mas de un org con
+        # el mismo nombre
+        for org in organigramas:
+            org_id = org[0]
+
+        self.enviar_organigrama_signal.emit(titulo, org_id)
         database.disconnect()
         #cierra ventana
         self.close()
@@ -387,7 +409,7 @@ class FormDependencia(QWidget):
         self.setWindowTitle("Formulario dependencia")
         self.id_organigrama = id_organigrama
         self.lista_id = []
-        self.selected_id = 0
+        self.selected_id = 1
         loadUi("form_dependencia.ui", self)
         self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
         self.enviar_dependencia.clicked.connect(self.e_dependencia)
@@ -400,6 +422,9 @@ class FormDependencia(QWidget):
         # Ejecutar una consulta para obtener los datos de la base de datos
         database.connect()
         data = database.buscarData("Persona", f"id_organigrama= {self.id_organigrama} ",["id", "nombre"])
+        # si no desplegamos el combobox al crear la dependencia, no se cambia el selected_id ya que no se llama a persona_seleccionada
+        # por lo tanto, hacemos que se seleccione por default a la primera persona del combo_box
+        self.selected_id = data[0][0]
         # Agregar los datos al combo box lista_personas
         for item in data:
             self.elegir_lider.addItem(item[1])
@@ -437,6 +462,43 @@ class FormDependencia(QWidget):
         self.close()  
         # Cerrar la ventana de formulario
 
+class FormJefe(QWidget):
+    def __init__(self,id_organigrama):
+        super(FormJefe, self).__init__()
+        self.setWindowTitle("Formulario Jefe")
+        self.cerrar = False
+        loadUi("form_jefe.ui", self)
+        self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
+        self.boton_enviar.clicked.connect(self.e_jefe)
+
+        """ id_organigrama: es el id del organigrama al que pertenece esa persona """
+        self.id_organigrama = id_organigrama
+    
+    def closeEvent(self, event):
+        if self.cerrar:
+            event.accept()
+        else:
+            event.ignore()
+
+    def e_jefe(self):
+        ci = self.campo_ci.text()
+        nombre = self.campo_nombre.text()
+        apellido = self.campo_apellido.text()
+        telefono = self.campo_telefono.text()
+        direccion = self.campo_direccion.text()
+        salario = self.campo_salario.text()
+
+        #Conexion a la base de datos
+        database.connect()
+        persona = Persona(ci, apellido, nombre, telefono, direccion, 0 ,self.id_organigrama, int(salario))
+
+        # Envio de los datos del formulario persona a la base de datos
+        database.insertarData("Persona", persona.getDict())
+        # Desconexion a la base de datos
+        database.disconnect()
+        # cerramos el form
+        self.cerrar = True
+        self.close()
 
 class FormPersona(QWidget):
     def __init__(self,id_organigrama):
@@ -466,7 +528,7 @@ class FormPersona(QWidget):
         #Conexion a la base de datos
         database.connect()
 
-        rows = database.buscarData("Dependencia", f"nombre = '{dependencia}'", ["id"])
+        rows = database.buscarData("Dependencia", f"nombre = '{dependencia}' AND id_organigrama = {self.id_organigrama}", ["id"])
         id_dep = rows[0][0]
         print(id_dep)
         persona = Persona(ci, apellido, nombre, telefono, direccion, id_dep,self.id_organigrama, int(salario))

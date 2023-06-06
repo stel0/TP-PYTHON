@@ -1,0 +1,10 @@
+digraph {
+	Prueba [label="Titulo: Prueba
+Apellido: Sotelo
+Nombre: Santiago"]
+	CEO -> Prueba [label=""]
+	Hola [label="Titulo: Hola
+Apellido: Sotelo
+Nombre: Santiago"]
+	CEO -> Hola [label=""]
+}

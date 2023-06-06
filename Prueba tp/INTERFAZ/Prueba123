@@ -1,0 +1,6 @@
+digraph {
+	holpa [label="Titulo: holpa
+Apellido: asdasd
+Nombre: aelrikj"]
+	CEO -> holpa [label=""]
+}
