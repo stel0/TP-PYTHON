@@ -214,7 +214,7 @@ class MainWindow(QMainWindow):
     #Ver El formulario de la dependencia
     def create_Dependencia(self):
         self.form_window = FormDependencia(self.organigrama_activo)
-        # self.form_window.enviar_dependencia_signal.connect(self.add_dependencia_rect)
+        self.form_window.enviar_dependencia_signal.connect(self.add_dependencia_rect)
         self.form_window.show()
 
     #ver el formulario de organigrama
@@ -304,18 +304,13 @@ class MainWindow(QMainWindow):
     def add_dependencia_rect(self):
         graph = grafos.generate_graph()
         grafos.generar_grafo(graph, 0, 1)
-
+        nombre = self.lista_organigramas.currentText()
         # Generar el gráfico y guardar la imagen en un archivo
-        graph_file = 'INTERFAZ\Tilines SA.png'
+        graph_file = f'INTERFAZ\{nombre}'
         graph.format = 'png'
         graph.render(graph_file)
-
-        # Mostrar la imagen en la vista gráfica
-        self.graphics_view.display_image(graph_file)
-
-        # Obtener la ruta completa del archivo generado
-        file_path = os.path.abspath(graph_file)
-        return file_path
+        
+        self.agregar_imagen(nombre)
     
     def Personal_Dependencia(self):
         self.formulario=formulario_informe()
