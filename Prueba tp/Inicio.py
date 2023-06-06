@@ -34,7 +34,7 @@ class MainWindow(QMainWindow):
     def ver(self):
         # Cargar y mostrar la nueva ventana
         self.new_window = mw()
-        self.new_window.show()
+        self.new_window.showMaximized()
         mw.create_Dependencia
         mw.create_organigrama
         mw.abrir_form_persona

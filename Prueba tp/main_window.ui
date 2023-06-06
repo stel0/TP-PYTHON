@@ -182,6 +182,34 @@
         </widget>
        </item>
        <item>
+        <widget class="QPushButton" name="editar_dependencia">
+         <property name="maximumSize">
+          <size>
+           <width>200</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Candara</family>
+           <pointsize>9</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background:rgb(170, 170, 255);</string>
+         </property>
+         <property name="text">
+          <string>Editar Dependencia</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>INTERFAZ/ICONOS/icons8-computadoras-conectando-30.png</normaloff>INTERFAZ/ICONOS/icons8-computadoras-conectando-30.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QPushButton" name="agregar_persona">
          <property name="maximumSize">
           <size>
@@ -250,7 +278,35 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="eliminar_nodo">
+        <widget class="QPushButton" name="eliminar_dependencia">
+         <property name="maximumSize">
+          <size>
+           <width>200</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Candara</family>
+           <pointsize>9</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background:rgb(170, 170, 255);</string>
+         </property>
+         <property name="text">
+          <string>Eliminar Dependencia</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>INTERFAZ/ICONOS/icons8-eliminar-24.png</normaloff>INTERFAZ/ICONOS/icons8-eliminar-24.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="eliminar_persona">
          <property name="minimumSize">
           <size>
            <width>110</width>
@@ -278,7 +334,7 @@
           <string notr="true">background:rgb(170, 170, 255);</string>
          </property>
          <property name="text">
-          <string>Eliminar nodo</string>
+          <string>Eliminar Persona</string>
          </property>
          <property name="icon">
           <iconset>
@@ -297,7 +353,7 @@
      <x>0</x>
      <y>0</y>
      <width>1100</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="styleSheet">

@@ -55,6 +55,7 @@ class formulario_informe(QWidget):
         self.dependencia_select.currentIndexChanged.connect(self.enviar_dato_dependencia)
         self.enviar_dependencia_2.clicked.connect(self.enviar_dato_dependencia)
         self.despliega_dependenciass()
+
     # Depliega las dependencias en el formulario persona
     def despliega_dependenciass(self):
         #print(self.id_organigrama)
@@ -66,6 +67,7 @@ class formulario_informe(QWidget):
             self.dependencia_select.addItem(item[0])
         # Cerrar la conexión a la base de datos
         database.disconnect()
+    
     def enviar_dato_dependencia(self):
         database.connect()
         selected_option=self.dependencia_select.currentText()
@@ -95,6 +97,55 @@ class formulario_informe(QWidget):
         QDesktopServices.openUrl(QUrl.fromLocalFile(informe))
         self.close()
 
+class formulario_informe_dependencia_sucesoras(QWidget):
+    def __init__(self, id_organigrama):
+        super(formulario_informe_dependencia_sucesoras, self).__init__()
+        self.id_organigrama=id_organigrama
+        uic.loadUi("form_informe_dependencia_sucesora.ui", self)
+        self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
+        # self.enviar_dependencia_2.clicked.connect(self.enviar_dato_dependencia)
+        self.elige_dependencia.currentIndexChanged.connect(self.enviar_dato_dependencia)
+        self.enviar_dependencia_3.clicked.connect(self.enviar_dato_dependencia)
+        self.despliega_dependenciass()
+
+    # Depliega las dependencias en el formulario persona
+    def despliega_dependenciass(self):
+        #print(self.id_organigrama)
+        # Ejecutar una consulta para obtener los datos de la base de datos
+        database.connect()
+        data = database.buscarData("Dependencia", f"id_organigrama={self.id_organigrama}",["nombre"])
+        # Agregar los datos al combo box lista_dependencias
+        for item in data:
+            self.elige_dependencia.addItem(item[0])
+        # Cerrar la conexión a la base de datos
+        database.disconnect()
+    
+    def enviar_dato_dependencia(self):
+        database.connect()
+        selected_option=self.elige_dependencia.currentText()
+        dep=database.buscarData("Dependencia",f"nombre='{selected_option}'",["id"])
+        id_dep=dep[0][0]
+
+        # Obtengo el id del organigrama
+        personas = database.buscarData("Persona", f"id_dependencia='{id_dep}'", ["nombre", "apellido"])
+        nombres = []
+        for persona in personas:
+            nombres.append(f"{persona[1]} {persona[0]}")
+        nombres_normalizados = []
+
+        for nombre in nombres:
+            nombre_normalizado = nombre.strip().title()
+            nombres_normalizados.append(nombre_normalizado)
+        nombres_ordenados = sorted(nombres_normalizados)
+
+        with open("Personal_Por_Dependencia_Sucesoras.txt", "w") as file:
+            for nombre in nombres_ordenados:
+                file.write(nombre + "\n")
+        database.disconnect()
+
+        informe = "Personal_Por_Dependencia_Sucesoras.txt"
+        QDesktopServices.openUrl(QUrl.fromLocalFile(informe))
+        self.close()
 
 class MainWindow(QMainWindow):
     def __init__(self): 
@@ -115,10 +166,13 @@ class MainWindow(QMainWindow):
         self.lista_organigramas.currentIndexChanged.connect(self.organigrama_seleccionado)
         
         self.agregar_persona.clicked.connect(self.abrir_form_persona)
+
         self.action_PDF.triggered.connect(self.exportar_a_pdf)
         self.action_IMAGEN.triggered.connect(self.exportar_a_imagen)
+
         self.actionInforme_por_dependencia.triggered.connect(self.Personal_Dependencia)
-        self.actionPersonal_por_Dependencia_extendido.triggered.connect(self.Personal_Dependencia)
+        self.actionPersonal_por_Dependencia_extendido.triggered.connect(self.Personal_Dependencia_Sucesoras)
+        
         self.actionSalario_por_Dependencia.triggered.connect(self.Personal_Dependencia)
         self.actionSalario_por_Dependencia_extendido.triggered.connect(self.Personal_Dependencia)
         self.editar_persona.clicked.connect(self.abrir_form_editar_persona)
@@ -356,6 +410,11 @@ class MainWindow(QMainWindow):
     def Personal_Dependencia(self):
         self.formulario=formulario_informe(self.organigrama_activo)
         self.formulario.show()
+
+    def Personal_Dependencia_Sucesoras(self):
+        self.formulario=formulario_informe_dependencia_sucesoras(self.organigrama_activo)
+        self.formulario.show()
+
     def cambiar_color_menu(self):
         # Verificar el estado actual del menú
         if self.menuBar().styleSheet() == "":
@@ -408,7 +467,6 @@ class FormOrganigrama(QWidget):
         database.disconnect()
         #cierra ventana
         self.close()
-
 
 class FormDependencia(QWidget):
     enviar_dependencia_signal = pyqtSignal(str)
@@ -638,8 +696,7 @@ class FormEditarPersona(QWidget):
     #         self.lista_dependencias.addItem(item[0])
     #     # Cerrar la conexión a la base de datos
     #     database.disconnect()
-   
-           
+            
 class GraphWindow(QMainWindow):
 
     def __init__(self, graph, nombre_archivo):
@@ -661,7 +718,6 @@ class GraphWindow(QMainWindow):
         self.scene.addPixmap(pixmap)
         self.view.fitInView(self.scene.sceneRect(), Qt.KeepAspectRatio)  # Ajuste de la vista
         self.resize(pixmap.width(), pixmap.height())
-
 
 if __name__ == '__main__':
     app = QApplication([])
