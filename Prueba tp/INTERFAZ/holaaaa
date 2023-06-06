@@ -1,5 +1,6 @@
 digraph {
-	"Mateo Alvarenga" [label="Apellido: Alvarenga
+	empleado1 [label="Titulo: empleado1
+Apellido: Alvarenga
 Nombre: Mateo"]
-	CEO -> "Mateo Alvarenga" [label=""]
+	CEO -> empleado1 [label=""]
 }

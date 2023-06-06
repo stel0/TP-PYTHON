@@ -77,16 +77,24 @@ class formulario_informe(QWidget):
         nombres = []
         for persona in personas:
             nombres.append(f"{persona[1]} {persona[0]}")
-        nombres.sort()
-        with open("nombres.txt", "w") as file:
-            for nombre in nombres:
+        nombres_normalizados = []
+
+        for nombre in nombres:
+            nombre_normalizado = nombre.strip().title()
+            nombres_normalizados.append(nombre_normalizado)
+
+        nombres_ordenados = sorted(nombres_normalizados)
+
+        with open("Personal_Por_Dependencia.txt", "w") as file:
+            for nombre in nombres_ordenados:
                 file.write(nombre + "\n")
-        
+
         database.disconnect()
 
-        informe = "nombres.txt"
+        informe = "Personal_Por_Dependencia.txt"
         QDesktopServices.openUrl(QUrl.fromLocalFile(informe))
         self.close()
+
 
 class MainWindow(QMainWindow):
     def __init__(self): 
