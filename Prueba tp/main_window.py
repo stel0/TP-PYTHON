@@ -10,7 +10,8 @@ from PyQt5.QtWidgets import (
     QGraphicsRectItem,
     QFileDialog,
     QWidget,
-    QGraphicsPixmapItem
+    QGraphicsPixmapItem,
+    QLabel
 )
 from PyQt5.QtPrintSupport import QPrinter
 from PyQt5.uic import loadUi
@@ -100,6 +101,7 @@ class MainWindow(QMainWindow):
         self.action_IMAGEN.triggered.connect(self.exportar_a_imagen)
         self.actionInforme_por_dependencia.triggered.connect(self.Personal_Dependencia)
         self.editar_persona.clicked.connect(self.abrir_form_editar_persona)
+        self.color_button.clicked.connect(self.cambiar_color_menu)
         #despliega los nombres de los organigramas en el combox
         self.despliega_organigramas()
         
@@ -318,7 +320,30 @@ class MainWindow(QMainWindow):
     def Personal_Dependencia(self):
         self.formulario=formulario_informe()
         self.formulario.show()
-    
+    def cambiar_color_menu(self):
+        # Verificar el estado actual del menú
+        if self.menuBar().styleSheet() == "":
+            # Cambiar el color del menú y las palabras en el menú
+            self.menuBar().setStyleSheet("background-color: rgb(170, 170, 255); color: black; ")
+
+            # Cambiar el color de label_organigrama
+            label_organigrama = self.findChild(QLabel, "label_organigrama")
+            if label_organigrama:
+                label_organigrama.setStyleSheet("background-color: white; color: black;")
+
+            # Cambiar el color del centralwidget
+            self.centralwidget.setStyleSheet("background-color: white; color: black;")
+        else:
+            # Restaurar los colores originales del menú y las palabras en el menú
+            self.menuBar().setStyleSheet("")
+
+            # Restaurar los colores originales de label_organigrama
+            label_organigrama = self.findChild(QLabel, "label_organigrama")
+            if label_organigrama:
+                label_organigrama.setStyleSheet("background-color: #27263c; color: white;")
+
+            # Restaurar los colores originales del centralwidget
+            self.centralwidget.setStyleSheet("")
 class FormOrganigrama(QWidget):
     enviar_organigrama_signal = pyqtSignal(str)
 
