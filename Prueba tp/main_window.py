@@ -452,8 +452,8 @@ class MainWindow(QMainWindow):
             printer.setOutputFileName(filename)
 
             # Establecer el tamaño de página en el objeto QPrinter
-            printer.setPageSize(QPrinter.A4)
-
+            printer.setPageSize(QPrinter.A0)
+            printer.setFullPage(True)  # Ajustar contenido al tamaño máximo en una página
             painter = QPainter(printer)
             self.qgv.render(painter)
             painter.end()
