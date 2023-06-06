@@ -15,6 +15,14 @@ Nombre: Miguel David"]
 Apellido: Ayala
 Nombre: Miguel David"]
 	Gerente -> prubaw1 [label=""]
+	Hola [label="Titulo: Hola
+Apellido: Ayala
+Nombre: Miguel David"]
+	Gerente -> Hola [label=""]
+	ajkshdfaKLK [label="Titulo: ajkshdfaKLK
+Apellido: Ayala
+Nombre: Miguel David"]
+	Gerente -> ajkshdfaKLK [label=""]
 	Prueba12 [label="Titulo: Prueba12
 Apellido: Sotelo
 Nombre: Santiago"]
@@ -67,4 +75,8 @@ Nombre: Elias"]
 Apellido: Riveros
 Nombre: Elias"]
 	CEO -> Chau3 [label=""]
+	hOLA [label="Titulo: hOLA
+Apellido: Riveros
+Nombre: Elias"]
+	CEO -> hOLA [label=""]
 }

@@ -358,39 +358,61 @@ class FormOrganigrama(QWidget):
 
 
 class FormDependencia(QWidget):
-    enviar_dependencia_signal = pyqtSignal(str, str,str)
-    # def __init__(self,parent=None):
-    #     super(FormDependencia, self).__init__(parent)
-    def __init__(self,organigrama_id):
+    enviar_dependencia_signal = pyqtSignal(str)
+    def __init__(self,id_organigrama):
         super(FormDependencia, self).__init__()
         self.setWindowTitle("Formulario dependencia")
-
+        self.id_organigrama = id_organigrama
+        self.lista_id = []
+        self.selected_id = 0
         loadUi("form_dependencia.ui", self)
         self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
         self.enviar_dependencia.clicked.connect(self.e_dependencia)
-
+        self.despliega_personas()
         """ id_organigrama: es el id del organigrama al que pertenece esa persona """
-        self.organigrama_id = organigrama_id
+        
+        self.elegir_lider.currentIndexChanged.connect(self.persona_seleccionada)
+
+    def despliega_personas(self):
+        # Ejecutar una consulta para obtener los datos de la base de datos
+        database.connect()
+        data = database.buscarData("Persona", f"id_organigrama= {self.id_organigrama} ",["id", "nombre"])
+        # Agregar los datos al combo box lista_personas
+        for item in data:
+            self.elegir_lider.addItem(item[1])
+            self.lista_id.append(item[0])
+        # Cerrar la conexión a la base de datos
+        database.disconnect()
+
+    def persona_seleccionada(self):
+        
+        # Obtener el nombre de la opción seleccionada
+        selected_index = self.elegir_lider.currentIndex()
+        self.selected_id = self.lista_id[selected_index]
+        
 
     def e_dependencia(self):
         # TODO: validar que el lider ingresado exista
         nombre_dep = self.input_dependencia_nombre.text()
-        nombre_lider = self.input_dependencia_nombre_lider.text()
-        apellido_lider = self.input_dependencia_apellido_lider.text()
         
         database.connect()
-        rows = database.buscarData("Persona", f"nombre = '{nombre_lider}' AND apellido = '{apellido_lider}'", ["id"])
-        
+
+        rows = database.buscarData("Persona", f"id = {self.selected_id}", ["nombre","apellido"])
+
+
         if len(rows) == 0 or rows == -1:
             print("Error al crear la dependencia")
             return
         
-        id_lider = rows[0][0] 
-        dependencia = Dependencia(nombre_dep, id_lider,self.organigrama_id)
+        id_lider = self.selected_id
+
+        dependencia = Dependencia(nombre_dep, id_lider,self.id_organigrama)
+
         database.insertarData("Dependencia", dependencia.getDict())
-        self.enviar_dependencia_signal.emit(nombre_dep,nombre_lider,apellido_lider)
+        self.enviar_dependencia_signal.emit(nombre_dep)
         database.disconnect()
-        self.close()  # Cerrar la ventana de formulario
+        self.close()  
+        # Cerrar la ventana de formulario
 
 
 class FormPersona(QWidget):

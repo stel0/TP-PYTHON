@@ -105,25 +105,6 @@
      <string>Ingrese el nombre de la dependencia:</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="input_dependencia_nombre_lider">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>160</y>
-      <width>181</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="minimumSize">
-     <size>
-      <width>0</width>
-      <height>25</height>
-     </size>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background:rgb(170, 170, 255);</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
@@ -145,14 +126,14 @@
      <string notr="true">color:white;</string>
     </property>
     <property name="text">
-     <string>Ingrese el nombre del líder:</string>
+     <string>Elegir lider:</string>
     </property>
    </widget>
    <widget class="QPushButton" name="enviar_dependencia">
     <property name="geometry">
      <rect>
       <x>60</x>
-      <y>290</y>
+      <y>180</y>
       <width>181</width>
       <height>35</height>
      </rect>
@@ -187,43 +168,14 @@
      <string>Enviar</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_4">
+   <widget class="QComboBox" name="elegir_lider">
     <property name="geometry">
      <rect>
       <x>60</x>
-      <y>200</y>
-      <width>301</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Candara</family>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color:white;</string>
-    </property>
-    <property name="text">
-     <string>Ingrese el apellido del líder:</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="input_dependencia_apellido_lider">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>230</y>
+      <y>150</y>
       <width>181</width>
-      <height>31</height>
+      <height>22</height>
      </rect>
-    </property>
-    <property name="minimumSize">
-     <size>
-      <width>0</width>
-      <height>25</height>
-     </size>
     </property>
     <property name="styleSheet">
      <string notr="true">background:rgb(170, 170, 255);</string>
