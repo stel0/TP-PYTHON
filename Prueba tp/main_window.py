@@ -481,7 +481,7 @@ class FormEditarPersona(QWidget):
         self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
         self.boton_editar.clicked.connect(self.e_persona)
         self.despliega_personas()
-        self.despliega_dependencias()
+        #self.despliega_dependencias()
         self.lista_personas.currentIndexChanged.connect(self.persona_seleccionada)
 
     def persona_seleccionada(self, index):
@@ -535,19 +535,17 @@ class FormEditarPersona(QWidget):
         database.disconnect()
 
     # Depliega las dependencias en el formulario persona
-    def despliega_dependencias(self):
-        #database.buscarData("Organigrama", f"id = {organigrama_activo}", ["nombre"])
-        # Ejecutar una consulta para obtener los datos de la base de datos
-        database.connect()
-        data = database.buscarData("Dependencia", f"id_organigrama= {self.id_organigrama}",["nombre"])
-        # Agregar los datos al combo box lista_dependencias
-        for item in data:
-            self.lista_dependencias.addItem(item[0])
-        # Cerrar la conexión a la base de datos
-        database.disconnect()
-
-
-        
+    # def despliega_dependencias(self):
+    #     #database.buscarData("Organigrama", f"id = {organigrama_activo}", ["nombre"])
+    #     # Ejecutar una consulta para obtener los datos de la base de datos
+    #     database.connect()
+    #     data = database.buscarData("Dependencia", f"id_organigrama= {self.id_organigrama}",["nombre"])
+    #     # Agregar los datos al combo box lista_dependencias
+    #     for item in data:
+    #         self.lista_dependencias.addItem(item[0])
+    #     # Cerrar la conexión a la base de datos
+    #     database.disconnect()
+   
            
 class GraphWindow(QMainWindow):
 
