@@ -31,6 +31,10 @@ Nombre: Santiago"]
 Apellido: Sotelo
 Nombre: Santiago"]
 	Gerente -> noseman [label=""]
+	ojoojetin [label="Titulo: ojoojetin
+Apellido: Sotelo
+Nombre: Santiago"]
+	Gerente -> ojoojetin [label=""]
 	Marketing [label="Titulo: Marketing
 Apellido: Riveros
 Nombre: Elias"]

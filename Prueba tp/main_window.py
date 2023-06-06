@@ -50,7 +50,8 @@ class formulario_informe(QWidget):
         self.id_organigrama=id_organigrama
         uic.loadUi("form_informe_dependencia.ui", self)
         self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
-        self.enviar_dependencia_2.clicked.connect(self.enviar_dato_dependencia)
+        # self.enviar_dependencia_2.clicked.connect(self.enviar_dato_dependencia)
+        self.dependencia_select.currentIndexChanged.connect(self.enviar_dato_dependencia)
         self.despliega_dependenciass()
     # Depliega las dependencias en el formulario persona
     def despliega_dependenciass(self):
@@ -64,7 +65,19 @@ class formulario_informe(QWidget):
         # Cerrar la conexión a la base de datos
         database.disconnect()
     def enviar_dato_dependencia(self):
-        self.close()
+        database.connect()
+        selected_option=self.dependencia_select.currentText()
+        dep=database.buscarData("Dependencia",f"nombre='{selected_option}'",["id"])
+        id_dep=dep[0][0]
+
+          # Obtengo el id del organigrama
+        personas = database.buscarData("Persona",f"id_dependencia='{id_dep}'",["nombre","apellido"])
+        nombres=[]
+        for persona in personas:
+            nombres.append(f"{persona[1]} {persona[0]}")
+        sorted(nombres)
+        print(nombres)
+        database.disconnect()
 
 
 class MainWindow(QMainWindow):
