@@ -46,9 +46,10 @@ Nombre: Miguel"]
 Apellido: Riveros
 Nombre: Elias"]
 	CEO -> Hola [label=""]
-	"Miguel Ayala" [label="Apellido: Ayala
+	fercho [label="Titulo: fercho
+Apellido: Ayala
 Nombre: Miguel"]
-	Hola -> "Miguel Ayala" [label=""]
+	Hola -> fercho [label=""]
 	"No se lgm" [label="Titulo: No se lgm
 Apellido: Riveros
 Nombre: Elias"]

@@ -16,7 +16,7 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtPrintSupport import QPrinter
 from PyQt5.uic import loadUi
 from PyQt5 import uic
-
+import subprocess
 import grafos
 from Database import Database
 from Organigrama import Organigrama
@@ -52,6 +52,7 @@ class formulario_informe(QWidget):
         self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
         # self.enviar_dependencia_2.clicked.connect(self.enviar_dato_dependencia)
         self.dependencia_select.currentIndexChanged.connect(self.enviar_dato_dependencia)
+        self.enviar_dependencia_2.clicked.connect(self.enviar_dato_dependencia)
         self.despliega_dependenciass()
     # Depliega las dependencias en el formulario persona
     def despliega_dependenciass(self):
@@ -71,13 +72,22 @@ class formulario_informe(QWidget):
         id_dep=dep[0][0]
 
           # Obtengo el id del organigrama
-        personas = database.buscarData("Persona",f"id_dependencia='{id_dep}'",["nombre","apellido"])
-        nombres=[]
+        personas = database.buscarData("Persona", f"id_dependencia='{id_dep}'", ["nombre", "apellido"])
+        nombres = []
         for persona in personas:
             nombres.append(f"{persona[1]} {persona[0]}")
-        sorted(nombres)
-        print(nombres)
+        nombres.sort()
+        with open("nombres.txt", "w") as file:
+            for nombre in nombres:
+                file.write(nombre + "\n")
+        
         database.disconnect()
+
+        informe = "nombres.txt"
+        QDesktopServices.openUrl(QUrl.fromLocalFile(informe))
+        self.close()
+
+        
 
 
 class MainWindow(QMainWindow):
