@@ -65,7 +65,7 @@
     <string>Selecciona la dependencia:</string>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboBox">
+  <widget class="QComboBox" name="dependencia_select">
    <property name="geometry">
     <rect>
      <x>20</x>
