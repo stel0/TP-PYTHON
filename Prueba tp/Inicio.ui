@@ -70,6 +70,10 @@
        <property name="text">
         <string>Ayuda</string>
        </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>INTERFAZ/ICONOS/icons8-ayuda-96.png</normaloff>INTERFAZ/ICONOS/icons8-ayuda-96.png</iconset>
+       </property>
       </widget>
      </item>
      <item row="2" column="0">
@@ -79,6 +83,10 @@
        </property>
        <property name="text">
         <string>Salir</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>INTERFAZ/ICONOS/icons8-salir-100.png</normaloff>INTERFAZ/ICONOS/icons8-salir-100.png</iconset>
        </property>
       </widget>
      </item>
@@ -95,6 +103,10 @@
        </property>
        <property name="text">
         <string>Organigrama</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>INTERFAZ/ICONOS/icons8-genealogía-100.png</normaloff>INTERFAZ/ICONOS/icons8-genealogía-100.png</iconset>
        </property>
       </widget>
      </item>
