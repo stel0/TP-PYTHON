@@ -12,7 +12,8 @@ from PyQt5.QtWidgets import (
     QWidget,
     QDialog,
     QGraphicsPixmapItem,
-    QLabel
+    QLabel,
+    QMessageBox
 )
 from PyQt5.QtPrintSupport import QPrinter
 from PyQt5.uic import loadUi
@@ -712,22 +713,36 @@ class FormPersona(QWidget):
         direccion = self.campo_direccion.text()
         dependencia = self.lista_dependencias.currentText()
         salario = self.campo_salario.text()
+        if ci.isdigit() and telefono.isdigit() and salario.isdigit() and len(nombre)>0 and len(apellido)>0 and len(dependencia)>0 and len(direccion)>0:
+        # Continuar con el procesamiento de los datos
+                    #Conexion a la base de datos
+            database.connect()
 
-        #Conexion a la base de datos
-        database.connect()
+            rows = database.buscarData("Dependencia", f"nombre = '{dependencia}' AND id_organigrama = {self.id_organigrama}", ["id"])
+            id_dep = rows[0][0]
+            print(id_dep)
+            persona = Persona(ci, apellido, nombre, telefono, direccion, id_dep,self.id_organigrama, int(salario))
 
-        rows = database.buscarData("Dependencia", f"nombre = '{dependencia}' AND id_organigrama = {self.id_organigrama}", ["id"])
-        id_dep = rows[0][0]
-        print(id_dep)
-        persona = Persona(ci, apellido, nombre, telefono, direccion, id_dep,self.id_organigrama, int(salario))
+            # Envio de los datos del formulario persona a la base de datos
+            database.insertarData("Persona", persona.getDict())
 
-        # Envio de los datos del formulario persona a la base de datos
-        database.insertarData("Persona", persona.getDict())
+            # Desconexion a la base de datos
+            database.disconnect()
+            self.close()
+        else:
+            # Mostrar cuadro de diálogo de error
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Warning)
+            msg.setWindowTitle("Error")
+            msg.setText("Error, Revisa tus campos.")
+            
+            # Cambiar el color del texto a blanco
+            msg.setStyleSheet("background-color: #27263c; color: white;")
+            
+            # Mostrar el cuadro de diálogo de manera no modal
+            msg.exec_()
 
-        # Desconexion a la base de datos
-        database.disconnect()
-
-        self.close()
+        
 
 
     # Depliega las dependencias en el formulario persona
@@ -784,16 +799,29 @@ class FormEditarPersona(QWidget):
         telefono = self.campo_telefono.text()
         direccion = self.campo_direccion.text()
         salario = self.campo_salario.text()
+        if ci.isdigit() and telefono.isdigit() and salario.isdigit() and len(nombre)>0 and len(apellido)>0  and len(direccion)>0:
+        # Continuar con el procesamiento de los datos
+            #Conexion a la base de datos
+            database.updateData("Persona", ["ci", "apellido", "nombre", "telefono", "direccion", "salario"], 
+                                [ci, apellido, nombre, telefono, direccion, int(salario)], f"id = {self.selected_id}")
+            # Desconexion a la base de datos
+            database.disconnect()
 
-        #Conexion a la base de datos
-        database.updateData("Persona", ["ci", "apellido", "nombre", "telefono", "direccion", "salario"], 
-                            [ci, apellido, nombre, telefono, direccion, int(salario)], f"id = {self.selected_id}")
-        # Desconexion a la base de datos
-        database.disconnect()
-
-        self.close()
-        # Este self close no esta de mas? ya que en database.disconnect() ya desconecta
-        # Se usa para cerrar el form
+            self.close()
+            # Este self close no esta de mas? ya que en database.disconnect() ya desconecta
+            # Se usa para cerrar el form
+        else:
+            # Mostrar cuadro de diálogo de error
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Warning)
+            msg.setWindowTitle("Error")
+            msg.setText("Error, Revisa tus campos.")
+            
+            # Cambiar el color del texto a blanco
+            msg.setStyleSheet("background-color: #27263c; color: white;")
+            
+            # Mostrar el cuadro de diálogo de manera no modal
+            msg.exec_()
 
     # Depliega las personas en el formulario persona
     def despliega_personas(self):
