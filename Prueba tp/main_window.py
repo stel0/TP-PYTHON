@@ -31,6 +31,77 @@ from PyQt5.QtGui import QDesktopServices,QIcon
 DATABASE = "base2.db"
 database = Database(DATABASE)
 
+class eliminar_dependencia_form(QWidget):
+    actualizarOrganigrama = pyqtSignal(str) #actua como actualizador del qgv
+    def __init__(self, id_organigrama):
+        super(eliminar_dependencia_form, self).__init__()
+        self.id_organigrama=id_organigrama
+        uic.loadUi("eliminar_dependencia.ui",self)
+        self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
+        self.btn_eliminar_dependencia.clicked.connect(self.eliminar_dependencia)
+        self.despliega_dependencias()
+
+    def despliega_dependencias(self):
+        #print(self.id_organigrama)
+        # Ejecutar una consulta para obtener los datos de la base de datos
+        database.connect()
+        data = database.buscarData("Dependencia", f"id_organigrama={self.id_organigrama}",["nombre"])
+        # Agregar los datos al combo box lista_dependencias
+        for item in data:
+            self.elige_dependencia.addItem(item[0])
+        # Cerrar la conexión a la base de datos
+        database.disconnect()
+
+    def eliminar_dependencia(self):
+        dependencia = self.elige_dependencia.currentText()
+
+        database.connect()
+
+        dependenciaData = database.buscarData("Dependencia",f"nombre = '{dependencia}'",["manager_id"])
+        manager_id = dependenciaData[0][0]
+        database.deleteRecord("Dependencia",f"manager_id = {manager_id}")
+
+        self.actualizarOrganigrama.emit("a")
+        database.disconnect()
+
+        self.close()
+
+class eliminar_persona_form(QWidget):
+    actualizarOrganigrama = pyqtSignal(str)
+    def __init__(self, id_organigrama):
+        super(eliminar_persona_form, self).__init__()
+        self.id_organigrama=id_organigrama
+        uic.loadUi("eliminar_persona.ui",self)
+        self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
+        self.btn_eliminar_persona.clicked.connect(self.eliminar_persona)
+        self.despliega_personas()
+        self.mw = MainWindow()
+
+    def eliminar_persona(self):
+        database.connect()
+        nombre = self.elige_persona.currentText()
+        personaId = ''.join(filter(str.isdigit,nombre))
+
+        database.deleteRecord("Persona",f"id = {personaId}")
+        print(f"Se ha eliminado con exito {nombre} :)")
+        nombreOrganigrama = database.buscarData("Organigrama",f"id = {self.id_organigrama}",["nombre"])
+        nombreOrganigrama = nombreOrganigrama[0][0]
+        database.disconnect()
+
+        self.actualizarOrganigrama.emit("a")
+        self.close()
+
+    def despliega_personas(self):
+        #print(self.id_organigrama)
+        # Ejecutar una consulta para obtener los datos de la base de datos
+        database.connect()
+        data = database.buscarData("Persona", f"id_organigrama={self.id_organigrama}",["id","nombre"])
+        # Agregar los datos al combo box lista_dependencias
+        for item in data:
+            self.elige_persona.addItem(f"{item[0]} - {item[1]}")
+        # Cerrar la conexión a la base de datos
+        database.disconnect()
+
 class MainWindow(QMainWindow):
     def __init__(self): 
         super(MainWindow, self).__init__()
@@ -58,6 +129,10 @@ class MainWindow(QMainWindow):
         self.boton_editar_dependencia.clicked.connect(self.editar_dependencia)
         self.editar_persona.clicked.connect(self.abrir_form_editar_persona)
         self.color_button.clicked.connect(self.cambiar_color_menu)
+
+        self.eliminar_dependencia.clicked.connect(self.openEliminarDependencia)
+        self.eliminar_persona.clicked.connect(self.openEliminarPersona)
+
         #despliega los nombres de los organigramas en el combox
         self.despliega_organigramas()
 
@@ -76,7 +151,6 @@ class MainWindow(QMainWindow):
 
         # Y renderiza dicha imagen
         graph.render(filename=image_path, cleanup=True)
-        
         
     # Agregar imagen 
     def agregar_imagen(self,nombre):
@@ -168,6 +242,12 @@ class MainWindow(QMainWindow):
     def crear_jefe(self):
         self.form_jefe = FormJefe(self.organigrama_activo)
         self.form_jefe.show()
+   
+    def openEliminarDependencia(self):
+        self.formWindow = eliminar_dependencia_form(self.organigrama_activo)
+        self.formWindow.actualizarOrganigrama.connect(self.generar_grafo)
+        self.formWindow.show()
+   
     #ver el formulario de organigrama
     def create_organigrama(self):
         self.form_organigrama = FormOrganigrama()
@@ -176,6 +256,11 @@ class MainWindow(QMainWindow):
         self.form_organigrama.enviar_organigrama_signal.connect(self.crear_jefe)
         self.form_organigrama.show()
 
+    def openEliminarPersona(self):
+        self.formWindow = eliminar_persona_form(self.organigrama_activo)
+        self.formWindow.actualizarOrganigrama.connect(self.generar_grafo)
+        self.formWindow.show()
+    
     #abrir el formulario de persona
     def abrir_form_persona(self):
         self.form_persona = FormPersona(self.organigrama_activo)

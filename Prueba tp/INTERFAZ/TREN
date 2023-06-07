@@ -1,10 +1,5 @@
 digraph {
-	pendeja [label="Titulo: pendeja
-Apellido: kakroto
+	"goku kakroto" [label="Apellido: kakroto
 Nombre: goku"]
-	CEO -> pendeja [label=""]
-	pendex [label="Titulo: pendex
-Apellido: kakroto
-Nombre: goku"]
-	CEO -> pendex [label=""]
+	CEO -> "goku kakroto" [label=""]
 }

@@ -1,0 +1,5 @@
+digraph {
+	"Saiyajin Goky" [label="Apellido: Goky
+Nombre: Saiyajin"]
+	CEO -> "Saiyajin Goky" [label=""]
+}

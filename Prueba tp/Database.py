@@ -89,3 +89,16 @@ class Database:
             return
         self.conn.commit()
         
+        """
+    Funcion para Borrar
+    tabla: la tabla a ser modificada
+    condition: condicion para saber que fila borrar
+    """
+    def deleteRecord(self, tabla: str, condition: str):
+        stmt = f"DELETE from {tabla} WHERE {condition}"
+        try:
+            self.cur.execute(stmt)
+        except sqlite3.Error as e:
+            print(f"Error: {e}")
+            return
+        self.conn.commit()
