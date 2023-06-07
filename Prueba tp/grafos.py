@@ -1,7 +1,7 @@
 from graphviz import Digraph
 from Database import Database
 
-DATABASE = "base2.db"
+DATABASE = "base.db"
 db = Database(DATABASE)
 db.connect()
 def generate_graph():
@@ -14,7 +14,7 @@ def generate_node(graph, nombre_dependencia, label):
 def connect_nodes(graph, node1_label, node2_label, edge_label):
     graph.edge(node1_label, node2_label, edge_label)
 
-def generar_grafo(graph, id_dependencia, id_organigrama):
+def generar_grafo(graph, id_dependencia, id_organigrama,nom_org):
     res_jefe = db.buscarData("Persona", f"id_dependencia = {id_dependencia} AND id_organigrama = {id_organigrama}", ["id", "apellido", "nombre"])
     print(res_jefe)
     if len(res_jefe) != 0:
@@ -23,7 +23,7 @@ def generar_grafo(graph, id_dependencia, id_organigrama):
             res_dep = db.buscarData("Dependencia", f"id = {id_dependencia} AND id_organigrama = {id_organigrama}", ["nombre"])
             nombre_dep = res_dep[0][0]
         else:
-            nombre_dep = "CEO"
+            nombre_dep = nom_org
 
         for jefe in res_jefe:
             id = jefe[0]
@@ -36,7 +36,7 @@ def generar_grafo(graph, id_dependencia, id_organigrama):
                 for dependencia in dependencias:
                     generate_node(graph, dependencia[1], f"Titulo: {dependencia[1]}\nApellido: {apellido}\nNombre: {nombre}")
                     connect_nodes(graph, nombre_dep, dependencia[1], "")
-                    generar_grafo(graph, dependencia[0], id_organigrama)
+                    generar_grafo(graph, dependencia[0], id_organigrama,nom_org)
             else:
                 generate_node(graph, f"{nombre} {apellido}", f"Apellido: {apellido}\nNombre: {nombre}")
                 connect_nodes(graph, nombre_dep, f"{nombre} {apellido}", "")

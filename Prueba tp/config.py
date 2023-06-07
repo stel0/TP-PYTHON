@@ -4,7 +4,7 @@
 
 import sqlite3
 
-con = sqlite3.connect("base2.db")
+con = sqlite3.connect("base.db")
 cur = con.cursor()
 
 cur.execute(""" CREATE TABLE Dependencia (

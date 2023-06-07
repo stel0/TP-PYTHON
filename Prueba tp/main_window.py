@@ -1,4 +1,4 @@
-import os
+from reportlab.pdfgen import canvas
 from PyQt5.QtCore import Qt, QPointF, QRect, pyqtSignal
 from PyQt5.QtGui import QPainter, QPixmap, QImage
 from PyQt5.QtWidgets import (
@@ -28,7 +28,7 @@ import sqlite3
 import csv
 from PyQt5.QtCore import QUrl
 from PyQt5.QtGui import QDesktopServices,QIcon
-DATABASE = "base2.db"
+DATABASE = "base.db"
 database = Database(DATABASE)
 
 class eliminar_dependencia_form(QWidget):
@@ -272,40 +272,36 @@ class MainWindow(QMainWindow):
     
     #exporta la escena de graphics view como PDF    
     def exportar_a_pdf(self):
-        file_dialog = QFileDialog()
-        filename, _ = file_dialog.getSaveFileName(self, "Guardar como PDF", "", "Archivos PDF (*.pdf)")
+    # Obtener el nombre del archivo y la ruta de la imagen
+        nombre = self.lista_organigramas.currentText()
+        ruta_imagen = f"INTERFAZ\{nombre}.png"
+        ruta_pdf = f"INTERFAZ\{nombre}.pdf"
+        # Abrir la imagen con QImage
+        imagen = QImage(ruta_imagen)
 
-        if filename:
-            printer = QPrinter(QPrinter.HighResolution)
-            printer.setOutputFormat(QPrinter.PdfFormat)
-            printer.setOutputFileName(filename)
+        # Crear un objeto canvas de ReportLab para generar el PDF
+        c = canvas.Canvas(ruta_pdf)
+        # Definir las dimensiones del PDF basado en las dimensiones de la imagen
+        ancho = imagen.width()
+        alto = imagen.height()
+        c.setPageSize((ancho, alto))
 
-            # Establecer el tamaño de página en el objeto QPrinter
-            printer.setPageSize(QPrinter.A0)
-            printer.setFullPage(True)  # Ajustar contenido al tamaño máximo en una página
-            painter = QPainter(printer)
-            self.qgv.render(painter)
-            painter.end()
-
-    #exporta la escena de graphics view como PNG         
+        # Dibujar la imagen en el PDF
+        c.drawImage(ruta_imagen, 0, 0, ancho, alto)
+        # Guardar el PDF y cerrar el objeto canvas
+        c.save()
+        #abrir directamente el pdf
+        QDesktopServices.openUrl(QUrl.fromLocalFile(f"INTERFAZ\{nombre}.pdf"))
+              
     def exportar_a_imagen(self):
-        file_dialog = QFileDialog()
-        filename, _ = file_dialog.getSaveFileName(self, "Guardar como imagen", "", "Archivos de imagen (*.png *.jpg *.jpeg)")
-
-        if filename:
-            image = QImage(self.graphics_view.viewport().size(), QImage.Format_ARGB32)
-            image.fill(Qt.transparent)
-
-            painter = QPainter(image)
-            self.qgv.render(painter)
-            painter.end()
-
-            image.save(filename)
+        nombre = self.lista_organigramas.currentText()
+        QDesktopServices.openUrl(QUrl.fromLocalFile(f"INTERFAZ\{nombre}.png"))
 
     def generar_grafo(self):
         graph = grafos.generate_graph()
-        grafos.generar_grafo(graph, 0, self.organigrama_activo)
         nombre = self.lista_organigramas.currentText()
+        grafos.generar_grafo(graph, 0, self.organigrama_activo, nombre)
+        
         # Generar el gráfico y guardar la imagen en un archivo
         graph_file = f'INTERFAZ\{nombre}'
         graph.format = 'png'

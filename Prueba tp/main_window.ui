@@ -61,21 +61,6 @@
      </widget>
     </item>
     <item>
-     <widget class="QLabel" name="label_organigrama">
-      <property name="font">
-       <font>
-        <family>Candara</family>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color:white;</string>
-      </property>
-      <property name="text">
-       <string>Organigrama: 1</string>
-      </property>
-     </widget>
-    </item>
-    <item>
      <widget class="QGraphicsView" name="qgv">
       <property name="styleSheet">
        <string notr="true">background:rgb(170, 170, 255);</string>
@@ -353,7 +338,7 @@
      <x>0</x>
      <y>0</y>
      <width>1100</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="styleSheet">

@@ -1,0 +1,30 @@
+digraph {
+	"CESAR FOUNDER" [label="Titulo: CESAR FOUNDER
+Apellido: Fleitas
+Nombre: Fernando"]
+	CESAR -> "CESAR FOUNDER" [label=""]
+	"CESAR FOUNDER2" [label="Titulo: CESAR FOUNDER2
+Apellido: Figueredo
+Nombre: Elias"]
+	"CESAR FOUNDER" -> "CESAR FOUNDER2" [label=""]
+	"CESAR FOUNDER 6" [label="Titulo: CESAR FOUNDER 6
+Apellido: Bbenitez
+Nombre: Matias"]
+	"CESAR FOUNDER2" -> "CESAR FOUNDER 6" [label=""]
+	"CESAR FOUNDER 3" [label="Titulo: CESAR FOUNDER 3
+Apellido: Riveros
+Nombre: Marcelo"]
+	"CESAR FOUNDER" -> "CESAR FOUNDER 3" [label=""]
+	"CESAR FOUNDER 4" [label="Titulo: CESAR FOUNDER 4
+Apellido: Segovia
+Nombre: Carlos"]
+	"CESAR FOUNDER" -> "CESAR FOUNDER 4" [label=""]
+	"CESAR FOUNDER 5" [label="Titulo: CESAR FOUNDER 5
+Apellido: ICM
+Nombre: Sebas"]
+	"CESAR FOUNDER" -> "CESAR FOUNDER 5" [label=""]
+	"CESAR FOUNDER 7" [label="Titulo: CESAR FOUNDER 7
+Apellido: Fer
+Nombre: fer"]
+	"CESAR FOUNDER" -> "CESAR FOUNDER 7" [label=""]
+}
