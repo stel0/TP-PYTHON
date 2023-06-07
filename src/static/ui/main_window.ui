@@ -167,6 +167,27 @@
         </widget>
        </item>
        <item>
+        <widget class="QPushButton" name="Graficar_dependencia">
+         <property name="font">
+          <font>
+           <family>Candara</family>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background:rgb(170, 170, 255);</string>
+         </property>
+         <property name="text">
+          <string>Graficar Por Dependencia</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../icons/icons8-grafico-64.png</normaloff>../icons/icons8-grafico-64.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QPushButton" name="boton_editar_dependencia">
          <property name="minimumSize">
           <size>
@@ -356,7 +377,7 @@
      <x>0</x>
      <y>0</y>
      <width>1400</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <property name="styleSheet">
