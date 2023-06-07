@@ -1,0 +1,14 @@
+digraph {
+	FIUNA [label="Titulo: FIUNA
+Apellido: fdadf
+Nombre: asdf"]
+	Nuevo -> FIUNA [label=""]
+	POLI [label="Titulo: POLI
+Apellido: fdadf
+Nombre: asdf"]
+	Nuevo -> POLI [label=""]
+	prueba [label="Titulo: prueba
+Apellido: DECANO
+Nombre: ELIAS"]
+	POLI -> prueba [label=""]
+}

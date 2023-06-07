@@ -11,10 +11,16 @@ Nombre: Elias"]
 Apellido: Bbenitez
 Nombre: Matias"]
 	"CESAR FOUNDER2" -> "CESAR FOUNDER 6" [label=""]
+	"Atililo Paredes" [label="Apellido: Paredes
+Nombre: Atililo"]
+	"CESAR FOUNDER2" -> "Atililo Paredes" [label=""]
 	"CESAR FOUNDER 3" [label="Titulo: CESAR FOUNDER 3
 Apellido: Riveros
 Nombre: Marcelo"]
 	ds -> "CESAR FOUNDER 3" [label=""]
+	"fdsfa safdas" [label="Apellido: safdas
+Nombre: fdsfa"]
+	"CESAR FOUNDER 3" -> "fdsfa safdas" [label=""]
 	"CESAR FOUNDER 4" [label="Titulo: CESAR FOUNDER 4
 Apellido: Segovia
 Nombre: Carlos"]
@@ -23,8 +29,4 @@ Nombre: Carlos"]
 Apellido: ICM
 Nombre: Sebas"]
 	ds -> "CESAR FOUNDER 5" [label=""]
-	"CESAR FOUNDER 7" [label="Titulo: CESAR FOUNDER 7
-Apellido: Fer
-Nombre: fer"]
-	ds -> "CESAR FOUNDER 7" [label=""]
 }

@@ -191,12 +191,12 @@ class MainWindow(QMainWindow):
         self.lista_organigramas.setCurrentText(titulo)
         self.organigrama_activo = id_org
         # Obtengo todas las dependencias del organigrama
-        data_depencencias = database.buscarData("Dependencia",f"id_organigrama='{id_org}'",["nombre"])
+        #data_depencencias = database.buscarData("Dependencia",f"id_organigrama='{id_org}'",["nombre"])
         #print("Nombre de las dependencias")
         # for dependencia in data_depencencias:
         #     print(f"Nombre dependencia:{dependencia[0]}")
         # Obtengo todas las personas del organigrama
-        data_personas = database.buscarData("Persona",f"id_organigrama='{id_org}'",["nombre"])
+        #data_personas = database.buscarData("Persona",f"id_organigrama='{id_org}'",["nombre"])
         #print("Nombre de las personas")
         # for persona in data_personas:
         #     print(f"Nombre persona:{persona[0]}")
@@ -214,11 +214,11 @@ class MainWindow(QMainWindow):
         id_option = rows[0][0]
         self.organigrama_activo = id_option
         # Obtengo todas las dependencias del organigrama
-        data_depencencias = database.buscarData("Dependencia",f"id_organigrama='{id_option}'",["nombre"])
-        print("Nombre de las dependencias")
+        #data_depencencias = database.buscarData("Dependencia",f"id_organigrama='{id_option}'",["nombre"])
+        #print("Nombre de las dependencias")
         # Obtengo todas las personas del organigrama
-        data_personas = database.buscarData("Persona",f"id_organigrama='{id_option}'",["nombre"])
-        print("Nombre de las personas")
+        #data_personas = database.buscarData("Persona",f"id_organigrama='{id_option}'",["nombre"])
+        #print("Nombre de las personas")
 
         self.agregar_imagen(selected_option)  
 
@@ -227,7 +227,7 @@ class MainWindow(QMainWindow):
         database.connect()
         data = database.buscarData("Persona", f"id_organigrama= {self.organigrama_activo} ",["id", "nombre"])
         database.disconnect()
-
+        # si hubo un error al ejecutar la query, retornar
         if data != -1:
             self.form_window = FormDependencia(self.organigrama_activo)
             self.form_window.enviar_dependencia_signal.connect(self.generar_grafo)
@@ -656,7 +656,6 @@ class FormOrganigrama(QWidget):
         self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
         self.enviar_button.clicked.connect(self.enviar_organigrama)
     def enviar_organigrama(self):
-        # TODO: validar que el campo fecha sea una fecha valida
         titulo = self.titulo_lineEdit.text()
         fecha = self.fecha_lineEdit.text()
         org = Organigrama(titulo, fecha)
@@ -721,34 +720,56 @@ class FormDependencia(QWidget):
         database.disconnect()
 
     def persona_seleccionada(self):
-        
         # Obtener el nombre de la opción seleccionada
         selected_index = self.elegir_lider.currentIndex()
         self.selected_id = self.lista_id[selected_index]
-        
 
     def e_dependencia(self):
-        # TODO: validar que el lider ingresado exista
         nombre_dep = self.input_dependencia_nombre.text()
-        if len(nombre_dep)>0:
+        if len(nombre_dep) > 0:
             database.connect()
-
             rows = database.buscarData("Persona", f"id = {self.selected_id}", ["nombre","apellido"])
-
 
             if len(rows) == 0 or rows == -1:
                 print("Error al crear la dependencia")
                 return
             
+            # Como en el organigrama mostramos las dependencias como nodos, significa que 
+            # no pueden haber más de 5 dependencias debajo de una dependencia superior.
+            # Los pasos para evitar esto son los siguientes:
+            #   * Conseguir el id de la dependencia a la cual pertenece el lider
+            #   * Ver todas las personas que pertenecen a esa dependencia
+            #   * Ver cuantas dependencias tienen como manager_id alguna id de las personas anteriores
+
             id_lider = self.selected_id
+            # Conseguir id de la dependencia a la cual pertenece el líder
+            id_dep = database.buscarData("Persona", f"id={id_lider}", ["id_dependencia"])
+            # Ver todas las personas que pertenecen a esa dependencia
+            personas = database.buscarData("Persona", f"id_dependencia={id_dep[0][0]}", ["id"])
+            cantidad_nodos = 0
+            for persona in personas:
+                # Ver cuantas dependencias tienen como manager a alguna de las personas
+                res = database.buscarData("Dependencia", f"manager_id = {persona[0]}")
+                cantidad_nodos += len(res)
+            if cantidad_nodos < 5:
+                dependencia = Dependencia(nombre_dep, id_lider,self.id_organigrama)
+                database.insertarData("Dependencia", dependencia.getDict())
+                self.enviar_dependencia_signal.emit(nombre_dep)
+                database.disconnect()
+                self.close()  
+                # Cerrar la ventana de formulario
+            else:
+                 # Mostrar cuadro de diálogo de error
+                msg = QMessageBox()
+                msg.setIcon(QMessageBox.Warning)
+                msg.setWindowTitle("Error")
+                msg.setText("Error, límite alcanzado.")
 
-            dependencia = Dependencia(nombre_dep, id_lider,self.id_organigrama)
+                # Cambiar el color del texto a blanco
+                msg.setStyleSheet("background-color: #27263c; color: white;")
 
-            database.insertarData("Dependencia", dependencia.getDict())
-            self.enviar_dependencia_signal.emit(nombre_dep)
-            database.disconnect()
-            self.close()  
-            # Cerrar la ventana de formulario
+                # Mostrar el cuadro de diálogo de manera no modal
+                msg.exec_()
         else:
             # Mostrar cuadro de diálogo de error
             msg = QMessageBox()
