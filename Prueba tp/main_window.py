@@ -28,6 +28,8 @@ import sqlite3
 import csv
 from PyQt5.QtCore import QUrl
 from PyQt5.QtGui import QDesktopServices,QIcon
+from datetime import datetime
+import re
 DATABASE = "base.db"
 database = Database(DATABASE)
 
@@ -650,24 +652,37 @@ class FormOrganigrama(QWidget):
         loadUi("form_organigrama.ui", self)
         self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
         self.enviar_button.clicked.connect(self.enviar_organigrama)
-
     def enviar_organigrama(self):
         # TODO: validar que el campo fecha sea una fecha valida
         titulo = self.titulo_lineEdit.text()
         fecha = self.fecha_lineEdit.text()
         org = Organigrama(titulo, fecha)
-        database.connect()
-        database.insertarData("Organigrama", org.get_dict())
-        organigramas = database.buscarData("Organigrama", f"nombre = '{titulo}'", ["id"])
-        # org id tomara el id del ultimo organigrama ingresado con el nombre titulo, lo que nos permite tener mas de un org con
-        # el mismo nombre
-        for org in organigramas:
-            org_id = org[0]
+        if len(titulo)>0 and len(fecha)>0 :
+            database.connect()
+            database.insertarData("Organigrama", org.get_dict())
+            organigramas = database.buscarData("Organigrama", f"nombre = '{titulo}'", ["id"])
+            # org id tomara el id del ultimo organigrama ingresado con el nombre titulo, lo que nos permite tener mas de un org con
+            # el mismo nombre
+            for org in organigramas:
+                org_id = org[0]
 
-        self.enviar_organigrama_signal.emit(titulo, org_id)
-        database.disconnect()
-        #cierra ventana
-        self.close()
+            self.enviar_organigrama_signal.emit(titulo, org_id)
+            database.disconnect()
+            #cierra ventana
+            self.close()
+        else:
+            # Mostrar cuadro de diálogo de error
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Warning)
+            msg.setWindowTitle("Error")
+            msg.setText("Error, Revisa tus campos.")
+            
+            # Cambiar el color del texto a blanco
+            msg.setStyleSheet("background-color: #27263c; color: white;")
+            
+            # Mostrar el cuadro de diálogo de manera no modal
+            msg.exec_()
+
 
 class FormDependencia(QWidget):
     enviar_dependencia_signal = pyqtSignal(str)
@@ -709,25 +724,37 @@ class FormDependencia(QWidget):
     def e_dependencia(self):
         # TODO: validar que el lider ingresado exista
         nombre_dep = self.input_dependencia_nombre.text()
-        
-        database.connect()
+        if len(nombre_dep)>0:
+            database.connect()
 
-        rows = database.buscarData("Persona", f"id = {self.selected_id}", ["nombre","apellido"])
+            rows = database.buscarData("Persona", f"id = {self.selected_id}", ["nombre","apellido"])
 
 
-        if len(rows) == 0 or rows == -1:
-            print("Error al crear la dependencia")
-            return
-        
-        id_lider = self.selected_id
+            if len(rows) == 0 or rows == -1:
+                print("Error al crear la dependencia")
+                return
+            
+            id_lider = self.selected_id
 
-        dependencia = Dependencia(nombre_dep, id_lider,self.id_organigrama)
+            dependencia = Dependencia(nombre_dep, id_lider,self.id_organigrama)
 
-        database.insertarData("Dependencia", dependencia.getDict())
-        self.enviar_dependencia_signal.emit(nombre_dep)
-        database.disconnect()
-        self.close()  
-        # Cerrar la ventana de formulario
+            database.insertarData("Dependencia", dependencia.getDict())
+            self.enviar_dependencia_signal.emit(nombre_dep)
+            database.disconnect()
+            self.close()  
+            # Cerrar la ventana de formulario
+        else:
+            # Mostrar cuadro de diálogo de error
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Warning)
+            msg.setWindowTitle("Error")
+            msg.setText("Error, Revisa tus campos.")
+            
+            # Cambiar el color del texto a blanco
+            msg.setStyleSheet("background-color: #27263c; color: white;")
+            
+            # Mostrar el cuadro de diálogo de manera no modal
+            msg.exec_()
 
 class FormEditarDependencia(QWidget):
     editar_dependencia_signal = pyqtSignal(str)
@@ -765,14 +792,27 @@ class FormEditarDependencia(QWidget):
     def edit_dependencia(self):
         # TODO: validar que el lider ingresado exista
         nombre_dep = self.input_dependencia_nombre.text()
-        
-        database.connect()
+        if len(nombre_dep)>0:
+            database.connect()
 
-        database.updateData("Dependencia", ["nombre"], [nombre_dep], f"id = {self.selected_id}")
-        self.editar_dependencia_signal.emit(nombre_dep)
-        database.disconnect()
-        self.close()  
-        # Cerrar la ventana de formulario
+            database.updateData("Dependencia", ["nombre"], [nombre_dep], f"id = {self.selected_id}")
+            self.editar_dependencia_signal.emit(nombre_dep)
+            database.disconnect()
+            self.close()  
+            # Cerrar la ventana de formulario
+        else:
+            # Mostrar cuadro de diálogo de error
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Warning)
+            msg.setWindowTitle("Error")
+            msg.setText("Error, Revisa tus campos.")
+            
+            # Cambiar el color del texto a blanco
+            msg.setStyleSheet("background-color: #27263c; color: white;")
+            
+            # Mostrar el cuadro de diálogo de manera no modal
+            msg.exec_()
+
         
 class FormJefe(QWidget):
     def __init__(self,id_organigrama):
@@ -799,19 +839,30 @@ class FormJefe(QWidget):
         telefono = self.campo_telefono.text()
         direccion = self.campo_direccion.text()
         salario = self.campo_salario.text()
+        if ci.isdigit() and telefono.isdigit() and salario.isdigit() and len(nombre)>0 and len(apellido)>0  and len(direccion)>0 and len(ci)>0 and len(telefono)>0 and len(salario)>0:
+            #Conexion a la base de datos
+            database.connect()
+            persona = Persona(ci, apellido, nombre, telefono, direccion, 0 ,self.id_organigrama, int(salario))
 
-        #Conexion a la base de datos
-        database.connect()
-        persona = Persona(ci, apellido, nombre, telefono, direccion, 0 ,self.id_organigrama, int(salario))
-
-        # Envio de los datos del formulario persona a la base de datos
-        database.insertarData("Persona", persona.getDict())
-        # Desconexion a la base de datos
-        database.disconnect()
-        # cerramos el form
-        self.cerrar = True
-        self.close()
-
+            # Envio de los datos del formulario persona a la base de datos
+            database.insertarData("Persona", persona.getDict())
+            # Desconexion a la base de datos
+            database.disconnect()
+            # cerramos el form
+            self.cerrar = True
+            self.close()
+        else:
+            # Mostrar cuadro de diálogo de error
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Warning)
+            msg.setWindowTitle("Error")
+            msg.setText("Error, Revisa tus campos.")
+            
+            # Cambiar el color del texto a blanco
+            msg.setStyleSheet("background-color: #27263c; color: white;")
+            
+            # Mostrar el cuadro de diálogo de manera no modal
+            msg.exec_()
 class FormPersona(QWidget):
     def __init__(self,id_organigrama):
         super(FormPersona, self).__init__()
@@ -836,7 +887,7 @@ class FormPersona(QWidget):
         direccion = self.campo_direccion.text()
         dependencia = self.lista_dependencias.currentText()
         salario = self.campo_salario.text()
-        if ci.isdigit() and telefono.isdigit() and salario.isdigit() and len(nombre)>0 and len(apellido)>0 and len(dependencia)>0 and len(direccion)>0:
+        if ci.isdigit() and telefono.isdigit() and salario.isdigit() and len(ci)>0 and len(telefono)>0 and len(salario)>0 and len(nombre)>0 and len(apellido)>0 and len(dependencia)>0 and len(direccion)>0:
         # Continuar con el procesamiento de los datos
                     #Conexion a la base de datos
             database.connect()
