@@ -655,32 +655,35 @@ class FormOrganigrama(QWidget):
         titulo = self.titulo_lineEdit.text()
         fecha = self.fecha_lineEdit.text()
         org = Organigrama(titulo, fecha)
-        if len(titulo)>0 and len(fecha)>0 :
-            database.connect()
-            database.insertarData("Organigrama", org.get_dict())
-            organigramas = database.buscarData("Organigrama", f"nombre = '{titulo}'", ["id"])
-            # org id tomara el id del ultimo organigrama ingresado con el nombre titulo, lo que nos permite tener mas de un org con
-            # el mismo nombre
-            for org in organigramas:
-                org_id = org[0]
-
-            self.enviar_organigrama_signal.emit(titulo, org_id)
-            database.disconnect()
-            #cierra ventana
-            self.close()
+        if len(titulo) > 0 and len(fecha) > 0:
+            if re.match(r'^\d{2}/\d{2}/\d{4}$', fecha):
+                org = Organigrama(titulo, fecha)
+                database.connect()
+                database.insertarData("Organigrama", org.get_dict())
+                organigramas = database.buscarData("Organigrama", f"nombre = '{titulo}'", ["id"])
+                for org in organigramas:
+                    org_id = org[0]
+                self.enviar_organigrama_signal.emit(titulo, org_id)
+                database.disconnect()
+                self.close()
+            else:
+                # Mostrar cuadro de diálogo de error de fecha inválida
+                msg = QMessageBox()
+                msg.setIcon(QMessageBox.Warning)
+                msg.setWindowTitle("Error")
+                msg.setText("La fecha debe tener el formato dd/mm/aaaa.")
+                msg.setIconPixmap(QPixmap("INTERFAZ/ICONOS/error.png"))
+                msg.setStyleSheet("background-color: #27263c; color: white;")
+                msg.exec_()
         else:
-            # Mostrar cuadro de diálogo de error
+            # Mostrar cuadro de diálogo de error de campos vacíos
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Warning)
             msg.setWindowTitle("Error")
-            msg.setText("Error, Revisa tus campos.")
-            
-            # Cambiar el color del texto a blanco
+            msg.setText("Error, revisa tus campos.")
+            msg.setIconPixmap(QPixmap("INTERFAZ/ICONOS/error.png"))
             msg.setStyleSheet("background-color: #27263c; color: white;")
-            
-            # Mostrar el cuadro de diálogo de manera no modal
             msg.exec_()
-
 
 class FormDependencia(QWidget):
     enviar_dependencia_signal = pyqtSignal(str)
@@ -804,7 +807,7 @@ class FormEditarDependencia(QWidget):
             msg.setIcon(QMessageBox.Warning)
             msg.setWindowTitle("Error")
             msg.setText("Error, Revisa tus campos.")
-            
+            msg.setIconPixmap(QPixmap("INTERFAZ/ICONOS/error.png"))
             # Cambiar el color del texto a blanco
             msg.setStyleSheet("background-color: #27263c; color: white;")
             
@@ -855,7 +858,7 @@ class FormJefe(QWidget):
             msg.setIcon(QMessageBox.Warning)
             msg.setWindowTitle("Error")
             msg.setText("Error, Revisa tus campos.")
-            
+            msg.setIconPixmap(QPixmap("INTERFAZ/ICONOS/error.png"))
             # Cambiar el color del texto a blanco
             msg.setStyleSheet("background-color: #27263c; color: white;")
             
@@ -907,7 +910,7 @@ class FormPersona(QWidget):
             msg.setIcon(QMessageBox.Warning)
             msg.setWindowTitle("Error")
             msg.setText("Error, Revisa tus campos.")
-            
+            msg.setIconPixmap(QPixmap("INTERFAZ/ICONOS/error.png"))
             # Cambiar el color del texto a blanco
             msg.setStyleSheet("background-color: #27263c; color: white;")
             
@@ -988,7 +991,7 @@ class FormEditarPersona(QWidget):
             msg.setIcon(QMessageBox.Warning)
             msg.setWindowTitle("Error")
             msg.setText("Error, Revisa tus campos.")
-            
+            msg.setIconPixmap(QPixmap("INTERFAZ/ICONOS/error.png"))
             # Cambiar el color del texto a blanco
             msg.setStyleSheet("background-color: #27263c; color: white;")
             
