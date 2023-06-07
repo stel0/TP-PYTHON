@@ -58,6 +58,9 @@
     <property name="styleSheet">
      <string notr="true">background-color:rgb(170, 170, 255);</string>
     </property>
+    <property name="maxLength">
+     <number>15</number>
+    </property>
    </widget>
    <widget class="QLineEdit" name="campo_apellido">
     <property name="geometry">
@@ -78,6 +81,9 @@
      <string notr="true">background-color:rgb(170, 170, 255);
 </string>
     </property>
+    <property name="maxLength">
+     <number>15</number>
+    </property>
    </widget>
    <widget class="QLineEdit" name="campo_nombre">
     <property name="geometry">
@@ -96,6 +102,9 @@
     </property>
     <property name="styleSheet">
      <string notr="true">background-color:rgb(170, 170, 255);</string>
+    </property>
+    <property name="maxLength">
+     <number>15</number>
     </property>
    </widget>
    <widget class="QLineEdit" name="campo_telefono">
@@ -116,6 +125,9 @@
     <property name="styleSheet">
      <string notr="true">background-color:rgb(170, 170, 255);</string>
     </property>
+    <property name="maxLength">
+     <number>12</number>
+    </property>
    </widget>
    <widget class="QLineEdit" name="campo_direccion">
     <property name="geometry">
@@ -134,6 +146,9 @@
     </property>
     <property name="styleSheet">
      <string notr="true">background-color:rgb(170, 170, 255);</string>
+    </property>
+    <property name="maxLength">
+     <number>30</number>
     </property>
    </widget>
    <widget class="QLabel" name="label">
@@ -291,6 +306,9 @@
     </property>
     <property name="styleSheet">
      <string notr="true">background-color:rgb(170, 170, 255);</string>
+    </property>
+    <property name="maxLength">
+     <number>9</number>
     </property>
    </widget>
    <widget class="QLabel" name="label_8">

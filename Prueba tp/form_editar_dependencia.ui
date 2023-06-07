@@ -55,6 +55,9 @@
     <property name="styleSheet">
      <string notr="true">background:rgb(170, 170, 255);</string>
     </property>
+    <property name="maxLength">
+     <number>20</number>
+    </property>
    </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
