@@ -34,17 +34,16 @@ DATABASE = "base.db"
 database = Database(DATABASE)
 
 class eliminar_dependencia_form(QWidget):
-    actualizarOrganigrama = pyqtSignal(str) #actua como actualizador del qgv
+    actualizarOrganigrama = pyqtSignal(str) # Actua como actualizador del qgv
     def __init__(self, id_organigrama):
         super(eliminar_dependencia_form, self).__init__()
-        self.id_organigrama=id_organigrama
-        uic.loadUi("eliminar_dependencia.ui",self)
-        self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
-        self.btn_eliminar_dependencia.clicked.connect(self.eliminar_dependencia)
-        self.despliega_dependencias()
+        self.id_organigrama=id_organigrama # ID del organigrama actual
+        uic.loadUi("eliminar_dependencia.ui",self) # Formulario eliminar dependencia  
+        self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png")) 
+        self.btn_eliminar_dependencia.clicked.connect(self.eliminar_dependencia) # Invoca a la funcion eliminar
+        self.despliega_dependencias() # Despliega las dependencias
 
     def despliega_dependencias(self):
-        #print(self.id_organigrama)
         # Ejecutar una consulta para obtener los datos de la base de datos
         database.connect()
         data = database.buscarData("Dependencia", f"id_organigrama={self.id_organigrama}",["nombre"])
@@ -55,13 +54,12 @@ class eliminar_dependencia_form(QWidget):
         database.disconnect()
 
     def eliminar_dependencia(self):
-        dependencia = self.elige_dependencia.currentText()
-
-        database.connect()
-        dependenciaData = database.buscarData("Dependencia",f"nombre = '{dependencia}'",["manager_id"])
-        manager_id = dependenciaData[0][0]
-        if manager_id:
-            database.deleteRecord("Dependencia",f"manager_id = {manager_id}")
+        dependencia = self.elige_dependencia.currentText() # Nombre de la dependencia
+        database.connect() # Conecta a la base de datos
+        dependenciaData = database.buscarData("Dependencia",f"nombre = '{dependencia}'",["manager_id"]) # Consulta a la base de datos
+        manager_id = dependenciaData[0][0] # Obtener el manager id 
+        if manager_id: 
+            database.deleteRecord("Dependencia",f"manager_id = {manager_id}") 
         else:
             print("No se puede eliminar dependencia del lider")
 
