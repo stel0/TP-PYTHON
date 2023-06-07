@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1500</width>
-    <height>900</height>
+    <width>1100</width>
+    <height>700</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>1500</width>
-    <height>900</height>
+    <width>1100</width>
+    <height>700</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -77,15 +77,6 @@
     </item>
     <item>
      <widget class="QGraphicsView" name="qgv">
-      <property name="cursor" stdset="0">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="mouseTracking">
-       <bool>true</bool>
-      </property>
-      <property name="tabletTracking">
-       <bool>true</bool>
-      </property>
       <property name="styleSheet">
        <string notr="true">background:rgb(170, 170, 255);</string>
       </property>
@@ -98,7 +89,7 @@
         <widget class="QPushButton" name="crear_organigrama">
          <property name="minimumSize">
           <size>
-           <width>110</width>
+           <width>100</width>
            <height>0</height>
           </size>
          </property>
@@ -135,7 +126,7 @@
         <widget class="QComboBox" name="lista_organigramas">
          <property name="minimumSize">
           <size>
-           <width>110</width>
+           <width>100</width>
            <height>30</height>
           </size>
          </property>
@@ -157,7 +148,7 @@
         <widget class="QPushButton" name="crear_dependencia">
          <property name="minimumSize">
           <size>
-           <width>110</width>
+           <width>100</width>
            <height>0</height>
           </size>
          </property>
@@ -191,13 +182,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="editar_dependencia">
-         <property name="minimumSize">
-          <size>
-           <width>110</width>
-           <height>0</height>
-          </size>
-         </property>
+        <widget class="QPushButton" name="boton_editar_dependencia">
          <property name="maximumSize">
           <size>
            <width>200</width>
@@ -212,9 +197,6 @@
            <bold>true</bold>
           </font>
          </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
          <property name="styleSheet">
           <string notr="true">background:rgb(170, 170, 255);</string>
          </property>
@@ -223,18 +205,12 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>INTERFAZ/ICONOS/icons8-editar-usuaria-96.png</normaloff>INTERFAZ/ICONOS/icons8-editar-usuaria-96.png</iconset>
+           <normaloff>INTERFAZ/ICONOS/icons8-computadoras-conectando-30.png</normaloff>INTERFAZ/ICONOS/icons8-computadoras-conectando-30.png</iconset>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="agregar_persona">
-         <property name="minimumSize">
-          <size>
-           <width>110</width>
-           <height>0</height>
-          </size>
-         </property>
          <property name="maximumSize">
           <size>
            <width>200</width>
@@ -297,18 +273,12 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>INTERFAZ/ICONOS/icons8-editar-90.png</normaloff>INTERFAZ/ICONOS/icons8-editar-90.png</iconset>
+           <normaloff>INTERFAZ/ICONOS/icons8-cliente-100.png</normaloff>INTERFAZ/ICONOS/icons8-cliente-100.png</iconset>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="eliminar_dependencia">
-         <property name="minimumSize">
-          <size>
-           <width>110</width>
-           <height>0</height>
-          </size>
-         </property>
          <property name="maximumSize">
           <size>
            <width>200</width>
@@ -322,9 +292,6 @@
            <weight>75</weight>
            <bold>true</bold>
           </font>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
          </property>
          <property name="styleSheet">
           <string notr="true">background:rgb(170, 170, 255);</string>
@@ -371,7 +338,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>INTERFAZ/ICONOS/icons8-retire-hombre-usuario-100.png</normaloff>INTERFAZ/ICONOS/icons8-retire-hombre-usuario-100.png</iconset>
+           <normaloff>INTERFAZ/ICONOS/icons8-eliminar-24.png</normaloff>INTERFAZ/ICONOS/icons8-eliminar-24.png</iconset>
          </property>
         </widget>
        </item>
@@ -385,8 +352,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1500</width>
-     <height>22</height>
+     <width>1100</width>
+     <height>21</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -432,37 +399,21 @@
    </property>
   </action>
   <action name="actionInforme_por_dependencia">
-   <property name="icon">
-    <iconset>
-     <normaloff>INTERFAZ/ICONOS/icons8-historial-médico-100.png</normaloff>INTERFAZ/ICONOS/icons8-historial-médico-100.png</iconset>
-   </property>
    <property name="text">
     <string>Personal por Dependencia</string>
    </property>
   </action>
   <action name="actionPersonal_por_Dependencia_extendido">
-   <property name="icon">
-    <iconset>
-     <normaloff>INTERFAZ/ICONOS/icons8-historial-médico-100.png</normaloff>INTERFAZ/ICONOS/icons8-historial-médico-100.png</iconset>
-   </property>
    <property name="text">
     <string>Personal por Dependencia extendido</string>
    </property>
   </action>
   <action name="actionSalario_por_Dependencia">
-   <property name="icon">
-    <iconset>
-     <normaloff>INTERFAZ/ICONOS/icons8-historial-médico-100.png</normaloff>INTERFAZ/ICONOS/icons8-historial-médico-100.png</iconset>
-   </property>
    <property name="text">
     <string>Salario por Dependencia</string>
    </property>
   </action>
   <action name="actionSalario_por_Dependencia_extendido">
-   <property name="icon">
-    <iconset>
-     <normaloff>INTERFAZ/ICONOS/icons8-historial-médico-100.png</normaloff>INTERFAZ/ICONOS/icons8-historial-médico-100.png</iconset>
-   </property>
    <property name="text">
     <string>Salario por Dependencia extendido</string>
    </property>

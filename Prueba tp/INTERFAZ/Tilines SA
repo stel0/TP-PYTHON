@@ -7,6 +7,12 @@ Nombre: Elias"]
 Apellido: Ayala
 Nombre: Miguel David"]
 	Gerente -> Pruebanose [label=""]
+	"Martin Rodriguez" [label="Apellido: Rodriguez
+Nombre: Martin"]
+	Pruebanose -> "Martin Rodriguez" [label=""]
+	"Patricia Riveros" [label="Apellido: Riveros
+Nombre: Patricia"]
+	Pruebanose -> "Patricia Riveros" [label=""]
 	Prueba123 [label="Titulo: Prueba123
 Apellido: Ayala
 Nombre: Miguel David"]
@@ -35,21 +41,21 @@ Nombre: Santiago"]
 Apellido: Sotelo
 Nombre: Santiago"]
 	Gerente -> ojoojetin [label=""]
-	Marketing [label="Titulo: Marketing
-Apellido: Riveros
-Nombre: Elias"]
-	CEO -> Marketing [label=""]
-	"Miguel Ayala" [label="Apellido: Ayala
-Nombre: Miguel"]
-	Marketing -> "Miguel Ayala" [label=""]
 	Hola [label="Titulo: Hola
 Apellido: Riveros
 Nombre: Elias"]
 	CEO -> Hola [label=""]
-	fercho [label="Titulo: fercho
+	"Miguel Ayala" [label="Apellido: Ayala
+Nombre: Miguel"]
+	Hola -> "Miguel Ayala" [label=""]
+	Hola [label="Titulo: Hola
+Apellido: Riveros
+Nombre: Elias"]
+	CEO -> Hola [label=""]
+	ferxxxxooo [label="Titulo: ferxxxxooo
 Apellido: Ayala
 Nombre: Miguel"]
-	Hola -> fercho [label=""]
+	Hola -> ferxxxxooo [label=""]
 	"No se lgm" [label="Titulo: No se lgm
 Apellido: Riveros
 Nombre: Elias"]
