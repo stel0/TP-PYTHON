@@ -32,7 +32,7 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>50</x>
       <y>10</y>
       <width>451</width>
       <height>61</height>
@@ -40,7 +40,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>16</pointsize>
+      <pointsize>18</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
@@ -51,46 +51,36 @@
     <property name="text">
      <string>ORGANIFILE</string>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
    </widget>
    <widget class="QWidget" name="widget" native="true">
     <property name="geometry">
      <rect>
-      <x>260</x>
-      <y>70</y>
+      <x>290</x>
+      <y>110</y>
       <width>218</width>
-      <height>271</height>
+      <height>251</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="1" column="0">
-      <widget class="QPushButton" name="Ayuda">
-       <property name="styleSheet">
-        <string notr="true">background:rgb(170, 170, 255);</string>
-       </property>
-       <property name="text">
-        <string>Ayuda</string>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>INTERFAZ/ICONOS/icons8-ayuda-96.png</normaloff>INTERFAZ/ICONOS/icons8-ayuda-96.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
+     <item row="5" column="0">
       <widget class="QPushButton" name="Salir">
        <property name="styleSheet">
-        <string notr="true">background:rgb(170, 170, 255);</string>
+        <string notr="true">background:rgb(170, 170, 255);
+padding:5px;</string>
        </property>
        <property name="text">
         <string>Salir</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>INTERFAZ/ICONOS/icons8-salir-100.png</normaloff>INTERFAZ/ICONOS/icons8-salir-100.png</iconset>
+         <normaloff>../icons/icons8-salir-100.png</normaloff>../icons/icons8-salir-100.png</iconset>
        </property>
       </widget>
      </item>
-     <item row="0" column="0">
+     <item row="3" column="0">
       <widget class="QPushButton" name="Ver_main_window">
        <property name="minimumSize">
         <size>
@@ -98,15 +88,37 @@
          <height>0</height>
         </size>
        </property>
+       <property name="font">
+        <font>
+         <family>Candara</family>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="styleSheet">
-        <string notr="true">background:rgb(170, 170, 255);</string>
+        <string notr="true">background:rgb(170, 170, 255);
+padding:5px;</string>
        </property>
        <property name="text">
         <string>Organigrama</string>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>INTERFAZ/ICONOS/icons8-genealogía-100.png</normaloff>INTERFAZ/ICONOS/icons8-genealogía-100.png</iconset>
+         <normaloff>../icons/icons8-genealogía-50(1).png</normaloff>../icons/icons8-genealogía-50(1).png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QPushButton" name="Ayuda">
+       <property name="styleSheet">
+        <string notr="true">background:rgb(170, 170, 255);
+padding:5px;</string>
+       </property>
+       <property name="text">
+        <string>Ayuda</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>../icons/icons8-ayuda-96.png</normaloff>../icons/icons8-ayuda-96.png</iconset>
        </property>
       </widget>
      </item>
@@ -118,10 +130,10 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>100</y>
-      <width>221</width>
-      <height>211</height>
+      <x>50</x>
+      <y>130</y>
+      <width>211</width>
+      <height>201</height>
      </rect>
     </property>
     <property name="maximumSize">
@@ -139,7 +151,7 @@
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>INTERFAZ/ICONOS/icons8-genealogía-100.png</normaloff>INTERFAZ/ICONOS/icons8-genealogía-100.png</iconset>
+      <normaloff>../icons/icons8-genealogía-100.png</normaloff>../icons/icons8-genealogía-100.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -155,7 +167,7 @@
      <x>0</x>
      <y>0</y>
      <width>550</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

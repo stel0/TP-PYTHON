@@ -50,7 +50,7 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>INTERFAZ/ICONOS/icons8-modo-oscuro-100.png</normaloff>INTERFAZ/ICONOS/icons8-modo-oscuro-100.png</iconset>
+        <normaloff>../icons/icons8-modo-oscuro-100.png</normaloff>../icons/icons8-modo-oscuro-100.png</iconset>
       </property>
       <property name="iconSize">
        <size>
@@ -103,7 +103,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>INTERFAZ/ICONOS/icons8-estructura-de-árbol-50.png</normaloff>INTERFAZ/ICONOS/icons8-estructura-de-árbol-50.png</iconset>
+           <normaloff>../icons/icons8-estructura-de-árbol-50.png</normaloff>../icons/icons8-estructura-de-árbol-50.png</iconset>
          </property>
         </widget>
        </item>
@@ -162,7 +162,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>INTERFAZ/ICONOS/icons8-computadoras-conectando-30.png</normaloff>INTERFAZ/ICONOS/icons8-computadoras-conectando-30.png</iconset>
+           <normaloff>../icons/icons8-computadoras-conectando-30.png</normaloff>../icons/icons8-computadoras-conectando-30.png</iconset>
          </property>
         </widget>
        </item>
@@ -196,7 +196,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>INTERFAZ/ICONOS/icons8-editar-90.png</normaloff>INTERFAZ/ICONOS/icons8-editar-90.png</iconset>
+           <normaloff>../icons/icons8-editar-90.png</normaloff>../icons/icons8-editar-90.png</iconset>
          </property>
         </widget>
        </item>
@@ -233,7 +233,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>INTERFAZ/ICONOS/icons8-cliente-100.png</normaloff>INTERFAZ/ICONOS/icons8-cliente-100.png</iconset>
+           <normaloff>../icons/icons8-cliente-100.png</normaloff>../icons/icons8-cliente-100.png</iconset>
          </property>
         </widget>
        </item>
@@ -270,7 +270,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>INTERFAZ/ICONOS/icons8-editar-usuaria-96.png</normaloff>INTERFAZ/ICONOS/icons8-editar-usuaria-96.png</iconset>
+           <normaloff>../icons/icons8-editar-usuaria-96.png</normaloff>../icons/icons8-editar-usuaria-96.png</iconset>
          </property>
         </widget>
        </item>
@@ -304,7 +304,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>INTERFAZ/ICONOS/icons8-eliminar-24.png</normaloff>INTERFAZ/ICONOS/icons8-eliminar-24.png</iconset>
+           <normaloff>../icons/icons8-eliminar-24.png</normaloff>../icons/icons8-eliminar-24.png</iconset>
          </property>
         </widget>
        </item>
@@ -341,7 +341,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>INTERFAZ/ICONOS/icons8-retire-hombre-usuario-100.png</normaloff>INTERFAZ/ICONOS/icons8-retire-hombre-usuario-100.png</iconset>
+           <normaloff>../icons/icons8-retire-hombre-usuario-100.png</normaloff>../icons/icons8-retire-hombre-usuario-100.png</iconset>
          </property>
         </widget>
        </item>
@@ -356,7 +356,7 @@
      <x>0</x>
      <y>0</y>
      <width>1400</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -404,7 +404,7 @@
   <action name="actionInforme_por_dependencia">
    <property name="icon">
     <iconset>
-     <normaloff>INTERFAZ/ICONOS/icons8-historial-médico-100.png</normaloff>INTERFAZ/ICONOS/icons8-historial-médico-100.png</iconset>
+     <normaloff>../icons/icons8-historial-médico-100.png</normaloff>../icons/icons8-historial-médico-100.png</iconset>
    </property>
    <property name="text">
     <string>Personal por Dependencia</string>
@@ -413,7 +413,7 @@
   <action name="actionPersonal_por_Dependencia_extendido">
    <property name="icon">
     <iconset>
-     <normaloff>INTERFAZ/ICONOS/icons8-historial-médico-100.png</normaloff>INTERFAZ/ICONOS/icons8-historial-médico-100.png</iconset>
+     <normaloff>../icons/icons8-historial-médico-100.png</normaloff>../icons/icons8-historial-médico-100.png</iconset>
    </property>
    <property name="text">
     <string>Personal por Dependencia extendido</string>
@@ -422,7 +422,7 @@
   <action name="actionSalario_por_Dependencia">
    <property name="icon">
     <iconset>
-     <normaloff>INTERFAZ/ICONOS/icons8-historial-médico-100.png</normaloff>INTERFAZ/ICONOS/icons8-historial-médico-100.png</iconset>
+     <normaloff>../icons/icons8-historial-médico-100.png</normaloff>../icons/icons8-historial-médico-100.png</iconset>
    </property>
    <property name="text">
     <string>Salario por Dependencia</string>
@@ -431,7 +431,7 @@
   <action name="actionSalario_por_Dependencia_extendido">
    <property name="icon">
     <iconset>
-     <normaloff>INTERFAZ/ICONOS/icons8-historial-médico-100.png</normaloff>INTERFAZ/ICONOS/icons8-historial-médico-100.png</iconset>
+     <normaloff>../icons/icons8-historial-médico-100.png</normaloff>../icons/icons8-historial-médico-100.png</iconset>
    </property>
    <property name="text">
     <string>Salario por Dependencia extendido</string>
@@ -440,7 +440,7 @@
   <action name="action_PDF">
    <property name="icon">
     <iconset>
-     <normaloff>INTERFAZ/ICONOS/icons8-pdf-80.png</normaloff>INTERFAZ/ICONOS/icons8-pdf-80.png</iconset>
+     <normaloff>../icons/icons8-pdf-80.png</normaloff>../icons/icons8-pdf-80.png</iconset>
    </property>
    <property name="text">
     <string>Como PDF</string>
@@ -449,7 +449,7 @@
   <action name="action_IMAGEN">
    <property name="icon">
     <iconset>
-     <normaloff>INTERFAZ/ICONOS/icons8-imagen-100.png</normaloff>INTERFAZ/ICONOS/icons8-imagen-100.png</iconset>
+     <normaloff>../icons/icons8-imagen-100.png</normaloff>../icons/icons8-imagen-100.png</iconset>
    </property>
    <property name="text">
     <string>Como IMAGEN</string>

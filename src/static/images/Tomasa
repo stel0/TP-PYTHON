@@ -1,0 +1,6 @@
+digraph {
+	Direcrot [label="Titulo: Direcrot
+Apellido: Jef
+Nombre: besos"]
+	Tomasa -> Direcrot [label=""]
+}

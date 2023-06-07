@@ -8,9 +8,9 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__()
         self.setWindowTitle("Mi Aplicación")
         self.setFixedSize(600, 600)  # Establecer tamaño fijo de 600x600 píxeles
-        self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
+        self.setWindowIcon(QIcon("static\\icons\\icono_superior.png"))
         # Cargar el archivo .ui
-        loadUi("Inicio.ui", self)
+        loadUi("static\\ui\\Inicio.ui", self)
 
         # Conectar señales y slots si es necesario
         #self.Informes.clicked.connect(self.open_file_dialog)

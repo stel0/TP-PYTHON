@@ -8,7 +8,7 @@ from Inicio import MainWindow as mw
 class SplashScreen(QDialog):
     def __init__(self):
         super(SplashScreen, self).__init__()
-        loadUi("carga.ui", self)
+        loadUi("static\\ui\\carga.ui", self)
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.timer = QBasicTimer()
         self.step = 0
