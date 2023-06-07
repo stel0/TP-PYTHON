@@ -64,8 +64,14 @@
     <property name="styleSheet">
      <string notr="true">background-color:rgb(170, 170, 255);</string>
     </property>
+    <property name="inputMethodHints">
+     <set>Qt::ImhPreferNumbers</set>
+    </property>
     <property name="maxLength">
      <number>15</number>
+    </property>
+    <property name="placeholderText">
+     <string/>
     </property>
    </widget>
    <widget class="QLineEdit" name="campo_apellido">
