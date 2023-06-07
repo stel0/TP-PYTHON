@@ -1,6 +1,6 @@
 from reportlab.pdfgen import canvas
 from PyQt5.QtCore import  pyqtSignal
-from PyQt5.QtGui import  QPixmap, QImage
+from PyQt5.QtGui import  QPixmap, QImage, QPainter
 from PyQt5.QtWidgets import (
     QApplication,
     QMainWindow,
@@ -8,7 +8,8 @@ from PyQt5.QtWidgets import (
     QWidget,
     QGraphicsPixmapItem,
     QLabel,
-    QMessageBox
+    QMessageBox,
+    QGraphicsView
 )
 from PyQt5.QtPrintSupport import QPrinter
 from PyQt5.uic import loadUi
@@ -38,7 +39,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Mi Aplicación")
         self.setWindowIcon(QIcon("static\\icons\\icono_superior.png"))
         uic.loadUi("static\\ui\\main_window.ui", self)# Cargar el archivo .ui
-
+        self.setupUi()
         self.scene = QGraphicsScene() #Utilizamos esto?
         """Id del organigrama activo"""    
         self.organigrama_activo = 0
@@ -79,7 +80,13 @@ class MainWindow(QMainWindow):
         #despliega los nombres de los organigramas en el combox
         self.despliega_organigramas()
 
+    def setupUi(self):
+        # Encuentra el QGraphicsView por su nombre
+        self.graphicsView = self.findChild(QGraphicsView, "qgv")
 
+        # Habilita el desplazamiento con el cursor
+        self.graphicsView.setDragMode(QGraphicsView.ScrollHandDrag)
+        self.graphicsView.setRenderHint(QPainter.Antialiasing)  # Opcional, para mejorar la calidad de la representación
     def generar_imagen(self,titulo):# Genera un png vacio para el organigrama creado
         
         graph = grafos.generate_graph() # Genero un grafo en blanco
