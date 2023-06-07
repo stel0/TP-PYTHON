@@ -268,7 +268,6 @@ class MainWindow(QMainWindow):
             # Restaurar los colores originales del centralwidget
             self.centralwidget.setStyleSheet("")
 
-  
 class formulario_informe(QWidget):
     def __init__(self, id_organigrama):
         super(formulario_informe, self).__init__()
