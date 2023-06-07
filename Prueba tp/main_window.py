@@ -56,10 +56,11 @@ class eliminar_dependencia_form(QWidget):
     def eliminar_dependencia(self):
         dependencia = self.elige_dependencia.currentText() # Nombre de la dependencia
         database.connect() # Conecta a la base de datos
-        dependenciaData = database.buscarData("Dependencia",f"nombre = '{dependencia}'",["manager_id"]) # Consulta a la base de datos
+        # Consulta a la base de datos
+        dependenciaData = database.buscarData("Dependencia",f"nombre = '{dependencia}' AND id_organigrama = {self.id_organigrama}",["manager_id"])
         manager_id = dependenciaData[0][0] # Obtener el manager id 
         if manager_id: 
-            database.deleteRecord("Dependencia",f"manager_id = {manager_id}") 
+            database.deleteRecord("Dependencia",f"manager_id = {manager_id} AND nombre = '{dependencia}'") 
         else:
             print("No se puede eliminar dependencia del lider")
 
@@ -84,7 +85,11 @@ class eliminar_persona_form(QWidget):
         nombre = self.elige_persona.currentText()
         personaId = ''.join(filter(str.isdigit,nombre))
 
-        if personaId != 0:
+        # si la persona a eliminar tiene id_dependencia = 0, significa que es el jefe del organigrama,
+        # por lo que no permitimos borrar esa entrada
+        res = database.buscarData("Persona", f"id = {personaId} AND id_organigrama = {self.id_organigrama}", ["id_dependencia"])
+        id_dep = res[0][0]
+        if id_dep != 0:
             database.deleteRecord("Persona",f"id = {personaId}")
             print(f"Se ha eliminado con exito {nombre} :)")
         else:
