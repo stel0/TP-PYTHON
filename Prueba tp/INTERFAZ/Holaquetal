@@ -1,10 +1,14 @@
 digraph {
-	Prueba [label="Titulo: Prueba
+	Hola2 [label="Titulo: Hola2
 Apellido: Sotelo
 Nombre: Santiago"]
-	CEO -> Prueba [label=""]
+	CEO -> Hola2 [label=""]
 	Hola [label="Titulo: Hola
 Apellido: Sotelo
 Nombre: Santiago"]
 	CEO -> Hola [label=""]
+	holakeq23 [label="Titulo: holakeq23
+Apellido: Sotelo
+Nombre: Santiago"]
+	CEO -> holakeq23 [label=""]
 }

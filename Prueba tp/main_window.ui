@@ -182,7 +182,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="editar_dependencia">
+        <widget class="QPushButton" name="boton_editar_dependencia">
          <property name="maximumSize">
           <size>
            <width>200</width>

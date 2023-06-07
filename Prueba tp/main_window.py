@@ -30,21 +30,245 @@ from PyQt5.QtGui import QDesktopServices,QIcon
 DATABASE = "base2.db"
 database = Database(DATABASE)
 
-class MyGraphicsView(QGraphicsView):
-    def __init__(self, parent=None):
-        super(MyGraphicsView, self).__init__(parent)
-        self.qgv_scene = QGraphicsScene()
-        self.setScene(self.qgv_scene)
+class MainWindow(QMainWindow):
+    def __init__(self): 
+        super(MainWindow, self).__init__()
+        self.setWindowTitle("Mi Aplicación")
+        
+        self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
+        # Cargar el archivo .ui
+        uic.loadUi("main_window.ui", self)
+        self.scene = QGraphicsScene()
 
-    def display_image(self, image_path):
-        image = QImage(image_path)
-        if image.isNull():
-            return
+        """Id del organigrama activo"""    
+        self.organigrama_activo = 0
 
-        pixmap = QPixmap.fromImage(image)
-        pixmap_item = self.qgv_scene.addPixmap(pixmap)
-        self.setSceneRect(pixmap_item.boundingRect())
+        #Botones del main window y call de funciones
+        self.crear_dependencia.clicked.connect(self.create_Dependencia)
+        self.crear_organigrama.clicked.connect(self.create_organigrama)
+        self.lista_organigramas.currentIndexChanged.connect(self.organigrama_seleccionado)
+        self.agregar_persona.clicked.connect(self.abrir_form_persona)
+        self.action_PDF.triggered.connect(self.exportar_a_pdf)
+        self.action_IMAGEN.triggered.connect(self.exportar_a_imagen)
+        self.actionInforme_por_dependencia.triggered.connect(self.Personal_Dependencia)
+        self.actionPersonal_por_Dependencia_extendido.triggered.connect(self.Personal_Dependencia_Sucesoras)
+        self.actionSalario_por_Dependencia.triggered.connect(self.Salario_Dependencia)
+        self.actionSalario_por_Dependencia_extendido.triggered.connect(self.Salario_Dependencia_Sucesoras)
+        self.boton_editar_dependencia.clicked.connect(self.editar_dependencia)
+        self.editar_persona.clicked.connect(self.abrir_form_editar_persona)
+        self.color_button.clicked.connect(self.cambiar_color_menu)
+        #despliega los nombres de los organigramas en el combox
+        self.despliega_organigramas()
+
+
+    # Genera un png vacio para el organigrama creado
+    def generar_imagen(self,titulo):
+        
+        # Genero un grafo en blanco
+        graph = grafos.generate_graph()
+
+        # Crea una direccion para guardar la imagen
+        image_path = f'INTERFAZ\{titulo}'
+
+        # Convierte a png
+        graph.format = 'png'
+
+        # Y renderiza dicha imagen
+        graph.render(filename=image_path, cleanup=True)
+        
+        
+    # Agregar imagen 
+    def agregar_imagen(self,nombre):
+
+        # Crear un QPixmap y cargar una imagen en él
+        pixmap =  QPixmap(f"INTERFAZ\{nombre}.png")
+
+        # Crear un QGraphicsPixmapItem con el QPixmap
+        pixmap_item = QGraphicsPixmapItem(pixmap)
+
+        # Elimina la anterio imagen y agrega el QGraphicsPixmapItem a la escena
+        self.scene.clear()
+        self.scene.addItem(pixmap_item) 
+
+        # Establecer la escena en el QGraphicsView
+        """qgv es el nombre del la ventana qgraphics view en el main_window.ui"""
+        self.qgv.setScene(self.scene) 
+
+    # Despliega todos los organigramas para ser seleccionado
+    def despliega_organigramas(self):
+
+        # Ejecutar una consulta para obtener los datos de la base de datos
+        database.connect()
+        data = database.buscarData("Organigrama", None,["nombre"])
+
+        # Agregar los datos al combo box
+        for item in data:
+            self.lista_organigramas.addItem(item[0])
+
+        # Cerrar la conexión a la base de datos
+        database.disconnect()
+
+    # Agrega los organigramas al inicio del combo box
+    def agregar_organigrama(self, titulo, id_org):
+        self.lista_organigramas.addItem(titulo)
+        self.lista_organigramas.setCurrentText(titulo)
+        self.organigrama_activo = id_org
+        # Obtengo todas las dependencias del organigrama
+        data_depencencias = database.buscarData("Dependencia",f"id_organigrama='{id_org}'",["nombre"])
+        #print("Nombre de las dependencias")
+        # for dependencia in data_depencencias:
+        #     print(f"Nombre dependencia:{dependencia[0]}")
+
+        # Obtengo todas las personas del organigrama
+        data_personas = database.buscarData("Persona",f"id_organigrama='{id_org}'",["nombre"])
+        #print("Nombre de las personas")
+        # for persona in data_personas:
+        #     print(f"Nombre persona:{persona[0]}")
+
+        # agregamos la imagen del organigrama
+        self.agregar_imagen(titulo) 
+
+    #Despliega toda la informacion del organigrama seleccionado
+    def organigrama_seleccionado(self, index):
+        
+        # Obtener el nombre de la opción seleccionada
+        selected_option = self.lista_organigramas.currentText()
+        
+        # Conectamos a la base de datos
+        database.connect()
+
+        # Obtengo el id del organigrama
+        rows = database.buscarData("Organigrama",f"nombre='{selected_option}'",["id"])
+        id_option = rows[0][0]
+        self.organigrama_activo = id_option
+        
+
+        # Obtengo todas las dependencias del organigrama
+        data_depencencias = database.buscarData("Dependencia",f"id_organigrama='{id_option}'",["nombre"])
+        print("Nombre de las dependencias")
+
+        # Obtengo todas las personas del organigrama
+        data_personas = database.buscarData("Persona",f"id_organigrama='{id_option}'",["nombre"])
+        print("Nombre de las personas")
+
+        self.agregar_imagen(selected_option)  
+
+    #Ver El formulario de la dependencia
+    def create_Dependencia(self):
+        self.form_window = FormDependencia(self.organigrama_activo)
+        self.form_window.enviar_dependencia_signal.connect(self.generar_grafo)
+        self.form_window.show()
+
+    def editar_dependencia(self):
+        self.form_dependencia = FormEditarDependencia(self.organigrama_activo)
+        self.form_dependencia.editar_dependencia_signal.connect(self.generar_grafo)
+        self.form_dependencia.show()
+
+    def crear_jefe(self):
+        self.form_jefe = FormJefe(self.organigrama_activo)
+        self.form_jefe.show()
+    #ver el formulario de organigrama
+    def create_organigrama(self):
+        self.form_organigrama = FormOrganigrama()
+        self.form_organigrama.enviar_organigrama_signal.connect(self.agregar_organigrama)
+        self.form_organigrama.enviar_organigrama_signal.connect(self.generar_imagen)
+        self.form_organigrama.enviar_organigrama_signal.connect(self.crear_jefe)
+        self.form_organigrama.show()
+
+    #abrir el formulario de persona
+    def abrir_form_persona(self):
+        self.form_persona = FormPersona(self.organigrama_activo)
+        self.form_persona.show()
+    #abrir el formulario de editar persona    
+    def abrir_form_editar_persona(self):
+        self.form_persona = FormEditarPersona(self.organigrama_activo)
+        self.form_persona.show()
     
+    #exporta la escena de graphics view como PDF    
+    def exportar_a_pdf(self):
+        file_dialog = QFileDialog()
+        filename, _ = file_dialog.getSaveFileName(self, "Guardar como PDF", "", "Archivos PDF (*.pdf)")
+
+        if filename:
+            printer = QPrinter(QPrinter.HighResolution)
+            printer.setOutputFormat(QPrinter.PdfFormat)
+            printer.setOutputFileName(filename)
+
+            # Establecer el tamaño de página en el objeto QPrinter
+            printer.setPageSize(QPrinter.A0)
+            printer.setFullPage(True)  # Ajustar contenido al tamaño máximo en una página
+            painter = QPainter(printer)
+            self.qgv.render(painter)
+            painter.end()
+
+    #exporta la escena de graphics view como PNG         
+    def exportar_a_imagen(self):
+        file_dialog = QFileDialog()
+        filename, _ = file_dialog.getSaveFileName(self, "Guardar como imagen", "", "Archivos de imagen (*.png *.jpg *.jpeg)")
+
+        if filename:
+            image = QImage(self.graphics_view.viewport().size(), QImage.Format_ARGB32)
+            image.fill(Qt.transparent)
+
+            painter = QPainter(image)
+            self.qgv.render(painter)
+            painter.end()
+
+            image.save(filename)
+
+    def generar_grafo(self):
+        graph = grafos.generate_graph()
+        grafos.generar_grafo(graph, 0, self.organigrama_activo)
+        nombre = self.lista_organigramas.currentText()
+        # Generar el gráfico y guardar la imagen en un archivo
+        graph_file = f'INTERFAZ\{nombre}'
+        graph.format = 'png'
+        graph.render(graph_file)
+        
+        self.agregar_imagen(nombre)
+    
+    def Personal_Dependencia(self):
+        self.formulario=formulario_informe(self.organigrama_activo)
+        self.formulario.show()
+
+    def Personal_Dependencia_Sucesoras(self):
+        self.formulario=formulario_informe_dependencia_sucesoras(self.organigrama_activo)
+        self.formulario.show()
+
+    def Salario_Dependencia(self):
+        self.formulario=formulario_informe_salario_dependencia(self.organigrama_activo)
+        self.formulario.show()
+
+    def Salario_Dependencia_Sucesoras(self):
+        self.formulario=formulario_informe_salario_dependencia_sucesoras(self.organigrama_activo)
+        self.formulario.show()
+
+    def cambiar_color_menu(self):
+        # Verificar el estado actual del menú
+        if self.menuBar().styleSheet() == "":
+            # Cambiar el color del menú y las palabras en el menú
+            self.menuBar().setStyleSheet("background-color: rgb(170, 170, 255); color: black; ")
+
+            # Cambiar el color de label_organigrama
+            label_organigrama = self.findChild(QLabel, "label_organigrama")
+            if label_organigrama:
+                label_organigrama.setStyleSheet("background-color: white; color: black;")
+
+            # Cambiar el color del centralwidget
+            self.centralwidget.setStyleSheet("background-color: white; color: black;")
+        else:
+            # Restaurar los colores originales del menú y las palabras en el menú
+            self.menuBar().setStyleSheet("")
+
+            # Restaurar los colores originales de label_organigrama
+            label_organigrama = self.findChild(QLabel, "label_organigrama")
+            if label_organigrama:
+                label_organigrama.setStyleSheet("background-color: #27263c; color: white;")
+
+            # Restaurar los colores originales del centralwidget
+            self.centralwidget.setStyleSheet("")
+
+  
 class formulario_informe(QWidget):
     def __init__(self, id_organigrama):
         super(formulario_informe, self).__init__()
@@ -294,307 +518,6 @@ class formulario_informe_salario_dependencia_sucesoras(QWidget):
         QDesktopServices.openUrl(QUrl.fromLocalFile(informe))
         self.close()
 
-class MainWindow(QMainWindow):
-    def __init__(self): 
-        super(MainWindow, self).__init__()
-        self.setWindowTitle("Mi Aplicación")
-        
-        self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
-        # Cargar el archivo .ui
-        uic.loadUi("main_window.ui", self)
-        self.scene = QGraphicsScene()
-
-        """Id del organigrama activo"""    
-        self.organigrama_activo = 0
-        #Botones del main window y call de funciones
-        self.crear_dependencia.clicked.connect(self.create_Dependencia)
-        self.crear_organigrama.clicked.connect(self.create_organigrama)
-        # self.abrir_organigrama.clicked.connect(self.open_organigrama)
-        self.lista_organigramas.currentIndexChanged.connect(self.organigrama_seleccionado)
-        
-        self.agregar_persona.clicked.connect(self.abrir_form_persona)
-
-        self.action_PDF.triggered.connect(self.exportar_a_pdf)
-        self.action_IMAGEN.triggered.connect(self.exportar_a_imagen)
-
-        self.actionInforme_por_dependencia.triggered.connect(self.Personal_Dependencia)
-        self.actionPersonal_por_Dependencia_extendido.triggered.connect(self.Personal_Dependencia_Sucesoras)
-        self.actionSalario_por_Dependencia.triggered.connect(self.Salario_Dependencia)
-        self.actionSalario_por_Dependencia_extendido.triggered.connect(self.Salario_Dependencia_Sucesoras)
-        
-        self.editar_persona.clicked.connect(self.abrir_form_editar_persona)
-        self.color_button.clicked.connect(self.cambiar_color_menu)
-        #despliega los nombres de los organigramas en el combox
-        self.despliega_organigramas()
-        
-
-        # # Agregar imagen 
-        # # Crear un QPixmap y cargar una imagen en él
-        # pixmap =  QPixmap("INTERFAZ\dependency_graph.png.png")
-        # # pixmap = QPixmap("INTERFAZ\dependency_graph.png.png")
-        
-        # # Crear un QGraphicsPixmapItem con el QPixmap
-        # pixmap_item = QGraphicsPixmapItem(pixmap)
-
-        # # Agregar el QGraphicsPixmapItem a la escena
-        # self.scene.addItem(pixmap_item) 
-
-        # # Establecer la escena en el QGraphicsView
-        # """qgv es el nombre del la ventana qgraphics view en el main_window.ui"""
-        # self.qgv.setScene(self.scene)
-
-    # def organigrama_abierto(self):
-    #     database.connect()
-    #     rows = database.buscarData("Organigrama", f"id = {self.organigrama_activo}", ["nombre"])
-    #     if len(rows) != 0:
-    #         self.label_organigrama.setText(f"Organigrama: {rows[0][0]}")
-    #     else:
-    #         self.label_organigrama.setText("No ha seleccionado un organigrama")
-
-
-    # Genera un png vacio para el organigrama creado
-    def generar_imagen(self,titulo):
-        
-        # Genero un grafo en blanco
-        graph = grafos.generate_graph()
-
-        # Crea una direccion para guardar la imagen
-        image_path = f'INTERFAZ\{titulo}'
-
-        # Convierte a png
-        graph.format = 'png'
-
-        # Y renderiza dicha imagen
-        graph.render(filename=image_path, cleanup=True)
-        
-        
-    # Agregar imagen 
-    def agregar_imagen(self,nombre):
-
-        # Crear un QPixmap y cargar una imagen en él
-        pixmap =  QPixmap(f"INTERFAZ\{nombre}.png")
-
-        # Crear un QGraphicsPixmapItem con el QPixmap
-        pixmap_item = QGraphicsPixmapItem(pixmap)
-
-        # Elimina la anterio imagen y agrega el QGraphicsPixmapItem a la escena
-        self.scene.clear()
-        self.scene.addItem(pixmap_item) 
-
-        # Establecer la escena en el QGraphicsView
-        """qgv es el nombre del la ventana qgraphics view en el main_window.ui"""
-        self.qgv.setScene(self.scene) 
-
-    # Despliega todos los organigramas para ser seleccionado
-    def despliega_organigramas(self):
-
-        # Ejecutar una consulta para obtener los datos de la base de datos
-        database.connect()
-        data = database.buscarData("Organigrama", None,["nombre"])
-
-        # Agregar los datos al combo box
-        for item in data:
-            self.lista_organigramas.addItem(item[0])
-
-        # Cerrar la conexión a la base de datos
-        database.disconnect()
-
-    # Agrega los organigramas al inicio del combo box
-    def agregar_organigrama(self, titulo, id_org):
-        self.lista_organigramas.addItem(titulo)
-        self.lista_organigramas.setCurrentText(titulo)
-        self.organigrama_activo = id_org
-        # Obtengo todas las dependencias del organigrama
-        data_depencencias = database.buscarData("Dependencia",f"id_organigrama='{id_org}'",["nombre"])
-        #print("Nombre de las dependencias")
-        # for dependencia in data_depencencias:
-        #     print(f"Nombre dependencia:{dependencia[0]}")
-
-        # Obtengo todas las personas del organigrama
-        data_personas = database.buscarData("Persona",f"id_organigrama='{id_org}'",["nombre"])
-        #print("Nombre de las personas")
-        # for persona in data_personas:
-        #     print(f"Nombre persona:{persona[0]}")
-
-        # agregamos la imagen del organigrama
-        self.agregar_imagen(titulo) 
-
-    #Despliega toda la informacion del organigrama seleccionado
-    def organigrama_seleccionado(self, index):
-        
-        # Obtener el nombre de la opción seleccionada
-        selected_option = self.lista_organigramas.currentText()
-        
-        # Conectamos a la base de datos
-        database.connect()
-
-        # Obtengo el id del organigrama
-        rows = database.buscarData("Organigrama",f"nombre='{selected_option}'",["id"])
-        id_option = rows[0][0]
-        self.organigrama_activo = id_option
-        # print(id_option)
-
-        # Obtengo todas las dependencias del organigrama
-        data_depencencias = database.buscarData("Dependencia",f"id_organigrama='{id_option}'",["nombre"])
-        print("Nombre de las dependencias")
-        # for dependencia in data_depencencias:
-        #     print(f"Nombre dependencia:{dependencia[0]}")
-
-        # Obtengo todas las personas del organigrama
-        data_personas = database.buscarData("Persona",f"id_organigrama='{id_option}'",["nombre"])
-        print("Nombre de las personas")
-        # for persona in data_personas:
-        #     print(f"Nombre persona:{persona[0]}")
-
-        # agregamos la imagen del organigrama
-        self.agregar_imagen(selected_option)  
-
-    #Ver El formulario de la dependencia
-    def create_Dependencia(self):
-        self.form_window = FormDependencia(self.organigrama_activo)
-        self.form_window.enviar_dependencia_signal.connect(self.add_dependencia_rect)
-        self.form_window.show()
-
-    def crear_jefe(self):
-        self.form_jefe = FormJefe(self.organigrama_activo)
-        self.form_jefe.show()
-    #ver el formulario de organigrama
-    def create_organigrama(self):
-        self.form_organigrama = FormOrganigrama()
-        self.form_organigrama.enviar_organigrama_signal.connect(self.agregar_organigrama)
-        self.form_organigrama.enviar_organigrama_signal.connect(self.generar_imagen)
-        self.form_organigrama.enviar_organigrama_signal.connect(self.crear_jefe)
-        self.form_organigrama.show()
-
-    # #abrir el organigrama
-    # def open_organigrama(self):
-    #     file_dialog = QFileDialog()
-    #     filename, _ = file_dialog.getOpenFileName(self, "Abrir Organigrama", "", "Archivos de Imagen (*.png *.jpg *.jpeg)")
-    #     if filename:
-    #         print("Ruta del archivo seleccionado:", filename)
-
-    #abrir el formulario de persona
-    def abrir_form_persona(self):
-        self.form_persona = FormPersona(self.organigrama_activo)
-        self.form_persona.show()
-    #abrir el formulario de editar persona    
-    def abrir_form_editar_persona(self):
-        self.form_persona = FormEditarPersona(self.organigrama_activo)
-        self.form_persona.show()
-    #exporta la escena de graphics view como PDF    
-    def exportar_a_pdf(self):
-        file_dialog = QFileDialog()
-        filename, _ = file_dialog.getSaveFileName(self, "Guardar como PDF", "", "Archivos PDF (*.pdf)")
-
-        if filename:
-            printer = QPrinter(QPrinter.HighResolution)
-            printer.setOutputFormat(QPrinter.PdfFormat)
-            printer.setOutputFileName(filename)
-
-            # Establecer el tamaño de página en el objeto QPrinter
-            printer.setPageSize(QPrinter.A0)
-            printer.setFullPage(True)  # Ajustar contenido al tamaño máximo en una página
-            painter = QPainter(printer)
-            self.qgv.render(painter)
-            painter.end()
-
-    #exporta la escena de graphics view como PNG         
-    def exportar_a_imagen(self):
-        file_dialog = QFileDialog()
-        filename, _ = file_dialog.getSaveFileName(self, "Guardar como imagen", "", "Archivos de imagen (*.png *.jpg *.jpeg)")
-
-        if filename:
-            image = QImage(self.graphics_view.viewport().size(), QImage.Format_ARGB32)
-            image.fill(Qt.transparent)
-
-            painter = QPainter(image)
-            self.qgv.render(painter)
-            painter.end()
-
-            image.save(filename)
-
-    #cambiar a cuadro de texto 
-    # def add_rect_slot(self, titulo, fecha):
-    #     rect = QGraphicsRectItem()
-    #     rect.setRect(0, 0, 200, 100)
-    #     rect.setPos(50, 50)
-    #     rect.setFlag(QGraphicsRectItem.ItemIsMovable)  # Hacer que el rectángulo sea movible
-
-    #     rect.setBrush(Qt.white)  # Establecer el fondo del rectángulo como blanco
-
-    #     text = QGraphicsTextItem(rect)  # Hacer que el rectángulo sea el padre del texto
-    #     text.setDefaultTextColor(Qt.black)  # Establecer el color del texto como negro
-    #     text.setPlainText(f"Título: {titulo}\nFecha: {fecha}")
-    #     text.setPos(rect.rect().topLeft() + QPointF(10, 10))  # Posicionar el texto dentro del rectángulo
-
-    #     self.qgv_scene.addItem(rect)
-    #     self.qgv_scene.addItem(text)
-    #     self.qgv.setScene(self.qgv_scene)
-
-    # def update_graph(self, nombre_archivo):
-    #     image_path = f'grafos/{nombre_archivo}'  # Cambio de extensión a .png
-    #     self.graph.format = 'png'  # Cambio de formato a png
-    #     self.graph.render(filename=image_path, cleanup=True)
-    #     image = QImage(image_path)
-    #     pixmap = QPixmap.fromImage(image)
-    #     self.scene.clear()
-    #     self.scene.addPixmap(pixmap)
-    #     self.view.fitInView(self.scene.sceneRect(), Qt.KeepAspectRatio)  # Ajuste de la vista
-    #     self.resize(pixmap.width(), pixmap.height())
-    
-    #abre el formulario de dependencias y crea los nodos
-    def add_dependencia_rect(self):
-        graph = grafos.generate_graph()
-        grafos.generar_grafo(graph, 0, self.organigrama_activo)
-        nombre = self.lista_organigramas.currentText()
-        # Generar el gráfico y guardar la imagen en un archivo
-        graph_file = f'INTERFAZ\{nombre}'
-        graph.format = 'png'
-        graph.render(graph_file)
-        
-        self.agregar_imagen(nombre)
-    
-    def Personal_Dependencia(self):
-        self.formulario=formulario_informe(self.organigrama_activo)
-        self.formulario.show()
-
-    def Personal_Dependencia_Sucesoras(self):
-        self.formulario=formulario_informe_dependencia_sucesoras(self.organigrama_activo)
-        self.formulario.show()
-
-    def Salario_Dependencia(self):
-        self.formulario=formulario_informe_salario_dependencia(self.organigrama_activo)
-        self.formulario.show()
-
-    def Salario_Dependencia_Sucesoras(self):
-        self.formulario=formulario_informe_salario_dependencia_sucesoras(self.organigrama_activo)
-        self.formulario.show()
-
-    def cambiar_color_menu(self):
-        # Verificar el estado actual del menú
-        if self.menuBar().styleSheet() == "":
-            # Cambiar el color del menú y las palabras en el menú
-            self.menuBar().setStyleSheet("background-color: rgb(170, 170, 255); color: black; ")
-
-            # Cambiar el color de label_organigrama
-            label_organigrama = self.findChild(QLabel, "label_organigrama")
-            if label_organigrama:
-                label_organigrama.setStyleSheet("background-color: white; color: black;")
-
-            # Cambiar el color del centralwidget
-            self.centralwidget.setStyleSheet("background-color: white; color: black;")
-        else:
-            # Restaurar los colores originales del menú y las palabras en el menú
-            self.menuBar().setStyleSheet("")
-
-            # Restaurar los colores originales de label_organigrama
-            label_organigrama = self.findChild(QLabel, "label_organigrama")
-            if label_organigrama:
-                label_organigrama.setStyleSheet("background-color: #27263c; color: white;")
-
-            # Restaurar los colores originales del centralwidget
-            self.centralwidget.setStyleSheet("")
-
 class FormOrganigrama(QWidget):
     enviar_organigrama_signal = pyqtSignal(str, int)
 
@@ -683,6 +606,51 @@ class FormDependencia(QWidget):
         self.close()  
         # Cerrar la ventana de formulario
 
+class FormEditarDependencia(QWidget):
+    editar_dependencia_signal = pyqtSignal(str)
+    def __init__(self,id_organigrama):
+        super(FormEditarDependencia, self).__init__()
+        self.setWindowTitle("Formulario editar dependencia")
+        self.id_organigrama = id_organigrama
+        self.lista_id = []
+        self.selected_id = 1
+        loadUi("form_editar_dependencia.ui", self)
+        self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
+        self.enviar_dependencia.clicked.connect(self.edit_dependencia)
+        self.despliega_dependencias()
+        """ id_organigrama: es el id del organigrama al que pertenece esa persona """
+        
+        self.elegir_dependencia.currentIndexChanged.connect(self.dependencia_seleccionada)
+    def dependencia_seleccionada(self):
+        
+        # Obtener el nombre de la opción seleccionada
+        selected_index = self.elegir_dependencia.currentIndex()
+        self.selected_id = self.lista_id[selected_index]
+    
+    def despliega_dependencias(self):
+        #print(self.id_organigrama)
+        # Ejecutar una consulta para obtener los datos de la base de datos
+        database.connect()
+        data = database.buscarData("Dependencia", f"id_organigrama={self.id_organigrama}",["nombre", "id"])
+        # Agregar los datos al combo box lista_dependencias
+        for item in data:
+            self.elegir_dependencia.addItem(item[0])
+            self.lista_id.append(item[1])
+        # Cerrar la conexión a la base de datos
+        database.disconnect()
+
+    def edit_dependencia(self):
+        # TODO: validar que el lider ingresado exista
+        nombre_dep = self.input_dependencia_nombre.text()
+        
+        database.connect()
+
+        database.updateData("Dependencia", ["nombre"], [nombre_dep], f"id = {self.selected_id}")
+        self.editar_dependencia_signal.emit(nombre_dep)
+        database.disconnect()
+        self.close()  
+        # Cerrar la ventana de formulario
+        
 class FormJefe(QWidget):
     def __init__(self,id_organigrama):
         super(FormJefe, self).__init__()
@@ -852,28 +820,6 @@ class FormEditarPersona(QWidget):
     #     # Cerrar la conexión a la base de datos
     #     database.disconnect()
             
-class GraphWindow(QMainWindow):
-
-    def __init__(self, graph, nombre_archivo):
-        super().__init__()
-        self.setWindowTitle('Graph Visualization')
-        self.graph = graph
-        self.scene = MyGraphicsView()
-        self.view = QGraphicsView(self.scene)
-        self.setCentralWidget(self.view)
-        self.update_graph(nombre_archivo)
-
-    def update_graph(self, nombre_archivo):
-        image_path = f'grafos/{nombre_archivo}'  # Cambio de extensión a .png
-        self.graph.format = 'png'  # Cambio de formato a png
-        self.graph.render(filename=image_path, cleanup=True)
-        image = QImage(image_path)
-        pixmap = QPixmap.fromImage(image)
-        self.scene.clear()
-        self.scene.addPixmap(pixmap)
-        self.view.fitInView(self.scene.sceneRect(), Qt.KeepAspectRatio)  # Ajuste de la vista
-        self.resize(pixmap.width(), pixmap.height())
-
 if __name__ == '__main__':
     app = QApplication([])
     window = MainWindow()
