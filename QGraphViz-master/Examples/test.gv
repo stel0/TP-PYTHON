@@ -1,0 +1,35 @@
+graph {
+    Node1 [label=N1,fillcolor=red]
+    Node2 [label=N2,fillcolor=blue:white:red]
+    Node3 [label=N3,shape=diamond,fillcolor=orange]
+    Node4 [label=N4,shape=diamond,fillcolor=white]
+    Node5 [label=N5,shape=polygon,fillcolor=red,color=white]
+    Node6 [label=N6,shape=triangle,fillcolor=blue:white:red]
+    subgraph cluster_sub graph{
+label=y
+fillcolor=blue:white:red
+    Node7 [label=N7]
+    Node8 [label=N8]
+    }
+    Node9 [label=N9]
+    Node10 [label=
+
+
+N10
+Test multilines,color=white]
+    subgraph cluster_subgraph2{
+label=x
+fillcolor=blue:white:red
+    Node_11 [label=N11]
+    Node_12 [label=N12]
+    Node_11 -- Node_12
+    }
+    Node1 -- Node2
+    Node3 -- Node2
+    Node2 -- Node4 [width=2]
+    Node4 -- Node5 [width=4]
+    Node4 -- Node6 [width=5,color=red]
+    Node3 -- Node6 [width=2]
+    Node6 -- Node9 [width=5,color=red]
+    Node9 -- Node10 [width=5,color=red]
+}
