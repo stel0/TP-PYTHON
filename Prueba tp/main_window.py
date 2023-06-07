@@ -837,7 +837,7 @@ class FormJefe(QWidget):
         telefono = self.campo_telefono.text()
         direccion = self.campo_direccion.text()
         salario = self.campo_salario.text()
-        if ci.isdigit() and telefono.isdigit() and salario.isdigit() and len(nombre)>0 and len(apellido)>0  and len(direccion)>0 and len(ci)>0 and len(telefono)>0 and len(salario)>0:
+        if apellido.isalpha() and nombre.isalpha() and ci.isdigit() and telefono.isdigit() and salario.isdigit() and len(nombre)>0 and len(apellido)>0  and len(direccion)>0 and len(ci)>0 and len(telefono)>0 and len(salario)>0:
             #Conexion a la base de datos
             database.connect()
             persona = Persona(ci, apellido, nombre, telefono, direccion, 0 ,self.id_organigrama, int(salario))
@@ -885,7 +885,7 @@ class FormPersona(QWidget):
         direccion = self.campo_direccion.text()
         dependencia = self.lista_dependencias.currentText()
         salario = self.campo_salario.text()
-        if ci.isdigit() and telefono.isdigit() and salario.isdigit() and len(ci)>0 and len(telefono)>0 and len(salario)>0 and len(nombre)>0 and len(apellido)>0 and len(dependencia)>0 and len(direccion)>0:
+        if apellido.isalpha() and nombre.isalpha() and ci.isdigit() and telefono.isdigit() and salario.isdigit() and len(ci)>0 and len(telefono)>0 and len(salario)>0 and len(nombre)>0 and len(apellido)>0 and len(dependencia)>0 and len(direccion)>0:
         # Continuar con el procesamiento de los datos
                     #Conexion a la base de datos
             database.connect()
@@ -971,7 +971,7 @@ class FormEditarPersona(QWidget):
         telefono = self.campo_telefono.text()
         direccion = self.campo_direccion.text()
         salario = self.campo_salario.text()
-        if ci.isdigit() and telefono.isdigit() and salario.isdigit() and len(nombre)>0 and len(apellido)>0  and len(direccion)>0:
+        if apellido.isalpha() and nombre.isalpha() and ci.isdigit() and telefono.isdigit() and salario.isdigit() and len(nombre)>0 and len(apellido)>0  and len(direccion)>0:
         # Continuar con el procesamiento de los datos
             #Conexion a la base de datos
             database.updateData("Persona", ["ci", "apellido", "nombre", "telefono", "direccion", "salario"], 
