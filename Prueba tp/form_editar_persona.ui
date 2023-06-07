@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>250</width>
+    <width>300</width>
     <height>550</height>
    </rect>
   </property>
@@ -18,18 +18,18 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>250</width>
-    <height>550</height>
+    <width>300</width>
+    <height>500</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>250</width>
-    <height>550</height>
+    <width>300</width>
+    <height>650</height>
    </size>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Editar Persona</string>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color:#27263c;</string>
@@ -64,6 +64,9 @@
     <property name="styleSheet">
      <string notr="true">background-color:rgb(170, 170, 255);</string>
     </property>
+    <property name="maxLength">
+     <number>15</number>
+    </property>
    </widget>
    <widget class="QLineEdit" name="campo_apellido">
     <property name="geometry">
@@ -84,6 +87,9 @@
      <string notr="true">background-color:rgb(170, 170, 255);
 </string>
     </property>
+    <property name="maxLength">
+     <number>15</number>
+    </property>
    </widget>
    <widget class="QLineEdit" name="campo_nombre">
     <property name="geometry">
@@ -102,6 +108,9 @@
     </property>
     <property name="styleSheet">
      <string notr="true">background-color:rgb(170, 170, 255);</string>
+    </property>
+    <property name="maxLength">
+     <number>15</number>
     </property>
    </widget>
    <widget class="QLineEdit" name="campo_telefono">
@@ -122,6 +131,9 @@
     <property name="styleSheet">
      <string notr="true">background-color:rgb(170, 170, 255);</string>
     </property>
+    <property name="maxLength">
+     <number>12</number>
+    </property>
    </widget>
    <widget class="QLineEdit" name="campo_direccion">
     <property name="geometry">
@@ -141,13 +153,16 @@
     <property name="styleSheet">
      <string notr="true">background-color:rgb(170, 170, 255);</string>
     </property>
+    <property name="maxLength">
+     <number>30</number>
+    </property>
    </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
       <x>9</x>
       <y>58</y>
-      <width>16</width>
+      <width>171</width>
       <height>16</height>
      </rect>
     </property>
@@ -170,7 +185,7 @@
      <rect>
       <x>9</x>
       <y>108</y>
-      <width>43</width>
+      <width>191</width>
       <height>16</height>
      </rect>
     </property>
@@ -193,7 +208,7 @@
      <rect>
       <x>9</x>
       <y>158</y>
-      <width>41</width>
+      <width>171</width>
       <height>16</height>
      </rect>
     </property>
@@ -216,7 +231,7 @@
      <rect>
       <x>9</x>
       <y>208</y>
-      <width>45</width>
+      <width>171</width>
       <height>16</height>
      </rect>
     </property>
@@ -239,7 +254,7 @@
      <rect>
       <x>9</x>
       <y>258</y>
-      <width>48</width>
+      <width>161</width>
       <height>16</height>
      </rect>
     </property>
@@ -262,7 +277,7 @@
      <rect>
       <x>10</x>
       <y>310</y>
-      <width>35</width>
+      <width>161</width>
       <height>16</height>
      </rect>
     </property>
@@ -298,13 +313,16 @@
     <property name="styleSheet">
      <string notr="true">background-color:rgb(170, 170, 255);</string>
     </property>
+    <property name="maxLength">
+     <number>9</number>
+    </property>
    </widget>
    <widget class="QLabel" name="label_8">
     <property name="geometry">
      <rect>
       <x>9</x>
       <y>9</y>
-      <width>99</width>
+      <width>191</width>
       <height>19</height>
      </rect>
     </property>
@@ -326,7 +344,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>360</y>
+      <y>380</y>
       <width>150</width>
       <height>35</height>
      </rect>
@@ -367,7 +385,7 @@
       <x>9</x>
       <y>34</y>
       <width>151</width>
-      <height>18</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="sizePolicy">
