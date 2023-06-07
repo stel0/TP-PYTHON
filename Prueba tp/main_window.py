@@ -56,10 +56,12 @@ class eliminar_dependencia_form(QWidget):
         dependencia = self.elige_dependencia.currentText()
 
         database.connect()
-
         dependenciaData = database.buscarData("Dependencia",f"nombre = '{dependencia}'",["manager_id"])
         manager_id = dependenciaData[0][0]
-        database.deleteRecord("Dependencia",f"manager_id = {manager_id}")
+        if manager_id:
+            database.deleteRecord("Dependencia",f"manager_id = {manager_id}")
+        else:
+            print("No se puede eliminar dependencia del lider")
 
         self.actualizarOrganigrama.emit("a")
         database.disconnect()
@@ -82,10 +84,12 @@ class eliminar_persona_form(QWidget):
         nombre = self.elige_persona.currentText()
         personaId = ''.join(filter(str.isdigit,nombre))
 
-        database.deleteRecord("Persona",f"id = {personaId}")
-        print(f"Se ha eliminado con exito {nombre} :)")
-        nombreOrganigrama = database.buscarData("Organigrama",f"id = {self.id_organigrama}",["nombre"])
-        nombreOrganigrama = nombreOrganigrama[0][0]
+        if personaId != 0:
+            database.deleteRecord("Persona",f"id = {personaId}")
+            print(f"Se ha eliminado con exito {nombre} :)")
+        else:
+            print("No se puede eliminar el jefe")
+
         database.disconnect()
 
         self.actualizarOrganigrama.emit("a")
@@ -154,32 +158,25 @@ class MainWindow(QMainWindow):
         
     # Agregar imagen 
     def agregar_imagen(self,nombre):
-
         # Crear un QPixmap y cargar una imagen en él
         pixmap =  QPixmap(f"INTERFAZ\{nombre}.png")
-
         # Crear un QGraphicsPixmapItem con el QPixmap
         pixmap_item = QGraphicsPixmapItem(pixmap)
-
         # Elimina la anterio imagen y agrega el QGraphicsPixmapItem a la escena
         self.scene.clear()
         self.scene.addItem(pixmap_item) 
-
         # Establecer la escena en el QGraphicsView
         """qgv es el nombre del la ventana qgraphics view en el main_window.ui"""
         self.qgv.setScene(self.scene) 
 
     # Despliega todos los organigramas para ser seleccionado
     def despliega_organigramas(self):
-
         # Ejecutar una consulta para obtener los datos de la base de datos
         database.connect()
         data = database.buscarData("Organigrama", None,["nombre"])
-
         # Agregar los datos al combo box
         for item in data:
             self.lista_organigramas.addItem(item[0])
-
         # Cerrar la conexión a la base de datos
         database.disconnect()
 
@@ -193,35 +190,27 @@ class MainWindow(QMainWindow):
         #print("Nombre de las dependencias")
         # for dependencia in data_depencencias:
         #     print(f"Nombre dependencia:{dependencia[0]}")
-
         # Obtengo todas las personas del organigrama
         data_personas = database.buscarData("Persona",f"id_organigrama='{id_org}'",["nombre"])
         #print("Nombre de las personas")
         # for persona in data_personas:
         #     print(f"Nombre persona:{persona[0]}")
-
         # agregamos la imagen del organigrama
         self.agregar_imagen(titulo) 
 
     #Despliega toda la informacion del organigrama seleccionado
     def organigrama_seleccionado(self, index):
-        
         # Obtener el nombre de la opción seleccionada
         selected_option = self.lista_organigramas.currentText()
-        
         # Conectamos a la base de datos
         database.connect()
-
         # Obtengo el id del organigrama
         rows = database.buscarData("Organigrama",f"nombre='{selected_option}'",["id"])
         id_option = rows[0][0]
         self.organigrama_activo = id_option
-        
-
         # Obtengo todas las dependencias del organigrama
         data_depencencias = database.buscarData("Dependencia",f"id_organigrama='{id_option}'",["nombre"])
         print("Nombre de las dependencias")
-
         # Obtengo todas las personas del organigrama
         data_personas = database.buscarData("Persona",f"id_organigrama='{id_option}'",["nombre"])
         print("Nombre de las personas")
@@ -230,45 +219,98 @@ class MainWindow(QMainWindow):
 
     #Ver El formulario de la dependencia
     def create_Dependencia(self):
-        self.form_window = FormDependencia(self.organigrama_activo)
-        self.form_window.enviar_dependencia_signal.connect(self.generar_grafo)
-        self.form_window.show()
+        database.connect()
+        data = database.buscarData("Persona", f"id_organigrama= {self.organigrama_activo} ",["id", "nombre"])
+        database.disconnect()
+
+        if data != -1:
+            self.form_window = FormDependencia(self.organigrama_activo)
+            self.form_window.enviar_dependencia_signal.connect(self.generar_grafo)
+            self.form_window.show()
+        else:
+            return
 
     def editar_dependencia(self):
-        self.form_dependencia = FormEditarDependencia(self.organigrama_activo)
-        self.form_dependencia.editar_dependencia_signal.connect(self.generar_grafo)
-        self.form_dependencia.show()
+        database.connect()
+        data = database.buscarData("Persona", f"id_organigrama= {self.organigrama_activo} ",["id", "nombre"])
+        database.disconnect()
+
+        if data != -1:
+            self.form_dependencia = FormEditarDependencia(self.organigrama_activo)
+            self.form_dependencia.editar_dependencia_signal.connect(self.generar_grafo)
+            self.form_dependencia.show()
+        else:
+            return
+        
 
     def crear_jefe(self):
         self.form_jefe = FormJefe(self.organigrama_activo)
         self.form_jefe.show()
    
     def openEliminarDependencia(self):
-        self.formWindow = eliminar_dependencia_form(self.organigrama_activo)
-        self.formWindow.actualizarOrganigrama.connect(self.generar_grafo)
-        self.formWindow.show()
+        database.connect()
+        data = database.buscarData("Persona", f"id_organigrama= {self.organigrama_activo} ",["id", "nombre"])
+        database.disconnect()
+        if data != -1:
+            self.formWindow = eliminar_dependencia_form(self.organigrama_activo)
+            self.formWindow.actualizarOrganigrama.connect(self.generar_grafo)
+            self.formWindow.show()
+        else:
+            return
+        
    
     #ver el formulario de organigrama
     def create_organigrama(self):
-        self.form_organigrama = FormOrganigrama()
-        self.form_organigrama.enviar_organigrama_signal.connect(self.agregar_organigrama)
-        self.form_organigrama.enviar_organigrama_signal.connect(self.generar_imagen)
-        self.form_organigrama.enviar_organigrama_signal.connect(self.crear_jefe)
-        self.form_organigrama.show()
+        database.connect()
+        data = database.buscarData("Persona", f"id_organigrama= {self.organigrama_activo} ",["id", "nombre"])
+        database.disconnect()
+
+        if data != -1:
+            self.form_organigrama = FormOrganigrama()
+            self.form_organigrama.enviar_organigrama_signal.connect(self.agregar_organigrama)
+            self.form_organigrama.enviar_organigrama_signal.connect(self.generar_imagen)
+            self.form_organigrama.enviar_organigrama_signal.connect(self.crear_jefe)
+            self.form_organigrama.show()
+        else:
+            return
+        
+        
 
     def openEliminarPersona(self):
-        self.formWindow = eliminar_persona_form(self.organigrama_activo)
-        self.formWindow.actualizarOrganigrama.connect(self.generar_grafo)
-        self.formWindow.show()
+        database.connect()
+        data = database.buscarData("Persona", f"id_organigrama= {self.organigrama_activo} ",["id", "nombre"])
+        database.disconnect()
+
+        if data != -1:
+            self.formWindow = eliminar_persona_form(self.organigrama_activo)
+            self.formWindow.actualizarOrganigrama.connect(self.generar_grafo)
+            self.formWindow.show()
+        else:
+            return
+        
     
     #abrir el formulario de persona
     def abrir_form_persona(self):
-        self.form_persona = FormPersona(self.organigrama_activo)
-        self.form_persona.show()
+        database.connect()
+        data = database.buscarData("Persona", f"id_organigrama= {self.organigrama_activo} ",["id", "nombre"])
+        database.disconnect()
+        if data != -1:
+            self.form_persona = FormPersona(self.organigrama_activo)
+            self.form_persona.show()
+        else:
+            self.crear_jefe()
+        
+
     #abrir el formulario de editar persona    
     def abrir_form_editar_persona(self):
-        self.form_persona = FormEditarPersona(self.organigrama_activo)
-        self.form_persona.show()
+        database.connect()
+        data = database.buscarData("Persona", f"id_organigrama= {self.organigrama_activo} ",["id", "nombre"])
+        database.disconnect()
+        if data != -1:
+            self.form_persona = FormEditarPersona(self.organigrama_activo)
+            self.form_persona.show()
+        else:
+            return
     
     #exporta la escena de graphics view como PDF    
     def exportar_a_pdf(self):
