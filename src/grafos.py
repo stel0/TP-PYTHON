@@ -50,7 +50,4 @@ def generar_grafo(graph, id_dependencia, id_organigrama, nom_org):
                     # caso recursivo: generamos nuevos nodos con el id de la dependencia obtenida
                     generar_grafo(graph, dependencia[0], id_organigrama,nom_org)
             
-            else: # si la persona actual no maneja ninguna dependencia, generamos un nodo solo de la persona
-                generate_node(graph, f"{nombre} {apellido}", f"Apellido: {apellido}\nNombre: {nombre}")
-                connect_nodes(graph, nombre_dep, f"{nombre} {apellido}", "")
-                # Puede que se quite esta funcionalidad
+            

@@ -1,32 +1,6 @@
 digraph {
-	ds [label="Titulo: ds
+	Hola [label="Titulo: Hola
 Apellido: Fleitas
 Nombre: Fernando"]
-	CESAR -> ds [label=""]
-	"CESAR FOUNDER2" [label="Titulo: CESAR FOUNDER2
-Apellido: Figueredo
-Nombre: Elias"]
-	ds -> "CESAR FOUNDER2" [label=""]
-	"CESAR FOUNDER 6" [label="Titulo: CESAR FOUNDER 6
-Apellido: Bbenitez
-Nombre: Matias"]
-	"CESAR FOUNDER2" -> "CESAR FOUNDER 6" [label=""]
-	"Atililo Paredes" [label="Apellido: Paredes
-Nombre: Atililo"]
-	"CESAR FOUNDER2" -> "Atililo Paredes" [label=""]
-	"CESAR FOUNDER 3" [label="Titulo: CESAR FOUNDER 3
-Apellido: Riveros
-Nombre: Marcelo"]
-	ds -> "CESAR FOUNDER 3" [label=""]
-	"fdsfa safdas" [label="Apellido: safdas
-Nombre: fdsfa"]
-	"CESAR FOUNDER 3" -> "fdsfa safdas" [label=""]
-	"CESAR FOUNDER 4" [label="Titulo: CESAR FOUNDER 4
-Apellido: Segovia
-Nombre: Carlos"]
-	ds -> "CESAR FOUNDER 4" [label=""]
-	"CESAR FOUNDER 5" [label="Titulo: CESAR FOUNDER 5
-Apellido: ICM
-Nombre: Sebas"]
-	ds -> "CESAR FOUNDER 5" [label=""]
+	CESAR -> Hola [label=""]
 }

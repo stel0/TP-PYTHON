@@ -1,0 +1,6 @@
+digraph {
+	Marcelo [label="Titulo: Marcelo
+Apellido: Riveros
+Nombre: Elias"]
+	organifile -> Marcelo [label=""]
+}

@@ -43,7 +43,7 @@ class MainWindow(QMainWindow):
         self.scene = QGraphicsScene() #Utilizamos esto?
         """Id del organigrama activo"""    
         self.organigrama_activo = 0
-
+        self.id_grafico = 0
         #Botones del main window y call de funciones
 
         # Boton crear dependencia
@@ -68,6 +68,8 @@ class MainWindow(QMainWindow):
         self.actionSalario_por_Dependencia_extendido.triggered.connect(self.Salario_Dependencia_Sucesoras)
         # Boton editar dependencia
         self.boton_editar_dependencia.clicked.connect(self.editar_dependencia)
+        # Boton graficar dependencia
+        self.boton_graficar_dependencia.clicked.connect(self.graficar_dependencia)
         # Boton editar persona
         self.editar_persona.clicked.connect(self.abrir_form_editar_persona)
         # Boton switch dark/white
@@ -142,14 +144,18 @@ class MainWindow(QMainWindow):
         self.form_window.enviar_dependencia_signal.connect(self.generar_grafo) 
 
     def editar_dependencia(self): # Ver formulario editar dependencia
-    
         # llama la clase formulario editar dependencia
         self.form_dependencia = FormEditarDependencia(self.organigrama_activo) 
         # Muestra formulario editar dependencia 
         self.form_dependencia.show() 
         # Señal para que actualice la ventana
         self.form_dependencia.editar_dependencia_signal.connect(self.generar_grafo)
-        
+    
+    def graficar_dependencia(self): # Ver formulario graficar dependencia
+        self.form = FormDependenciaAGraficar(self.organigrama_activo)
+        self.form.show()
+        self.form.graficar_dep_signal.connect(self.generar_grafo)
+
     def abrir_form_editar_persona(self): # Abrir el formulario de editar persona
 
         # Llama a la clase FormEditarPersona
@@ -185,8 +191,6 @@ class MainWindow(QMainWindow):
         self.form_organigrama.enviar_organigrama_signal.connect(self.generar_imagen)
         self.form_organigrama.enviar_organigrama_signal.connect(self.crear_jefe)
         
-        
-
     def openEliminarPersona(self): #ver el formulario eliminar persona
 
         # Llama la clase eliminar_persona_form
@@ -195,8 +199,7 @@ class MainWindow(QMainWindow):
         self.formWindow.show()
         # Señal para que actualice la ventana
         self.formWindow.actualizarOrganigrama.connect(self.generar_grafo)
-        
-    
+          
     def abrir_form_persona(self):# Abrir el formulario de persona
 
         # Llama la clase FormPersona
@@ -204,7 +207,6 @@ class MainWindow(QMainWindow):
         # Muestra el formulario
         self.form_persona.show()
         
-    
     def exportar_a_pdf(self): # Exporta la escena de graphics view como PDF 
     
         # Obtener el nombre del archivo y la ruta de la imagen
@@ -233,14 +235,14 @@ class MainWindow(QMainWindow):
         # Abre una ventana con la imagen exportada
         QDesktopServices.openUrl(QUrl.fromLocalFile(f"static\images\{nombre}.png"))
 
-    def generar_grafo(self): # Genera el organigrama
+    def generar_grafo(self, id_dep = 0): # Genera el organigrama
 
         # Inicializamos la clase generate_graph
         graph = grafos.generate_graph()
         # Nombre del organigrama 
         nombre = self.lista_organigramas.currentText()
         # Generamos el organigrama
-        grafos.generar_grafo(graph, 0, self.organigrama_activo, nombre)
+        grafos.generar_grafo(graph, id_dep, self.organigrama_activo, nombre)
     
         # Generar el gráfico y guardar la imagen en un archivo
         graph_file = f'static\images\{nombre}'
@@ -635,7 +637,7 @@ class FormOrganigrama(QWidget):
 
 class FormDependencia(QWidget):
 
-    enviar_dependencia_signal = pyqtSignal(str)
+    enviar_dependencia_signal = pyqtSignal()
 
     def __init__(self,id_organigrama):
         super(FormDependencia, self).__init__()
@@ -674,46 +676,68 @@ class FormDependencia(QWidget):
         self.selected_id = self.lista_id[selected_index]
 
     def e_dependencia(self):
-
-        # Nombre de la dependencia
         nombre_dep = self.input_dependencia_nombre.text()
-        if len(nombre_dep)>0:
+        if len(nombre_dep) > 0:
             database.connect()
-            # Verifica que persona no este vacio
-            rows = database.buscarData("Persona", f"id = {self.selected_id}", ["nombre","apellido"])
+            rows = database.buscarData("Persona", f"id = {self.selected_id} AND id_organigrama={self.id_organigrama}", ["nombre","apellido"])
+
             if len(rows) == 0 or rows == -1:
                 print("Error al crear la dependencia")
                 return
-            # Id del lider
+
+            # Como en el organigrama mostramos las dependencias como nodos, significa que 
+            # no pueden haber más de 5 dependencias debajo de una dependencia superior.
+            # Los pasos para evitar esto son los siguientes:
+            #   * Conseguir el id de la dependencia a la cual pertenece el lider
+            #   * Ver todas las personas que pertenecen a esa dependencia
+            #   * Ver cuantas dependencias tienen como manager_id alguna id de las personas anteriores
             id_lider = self.selected_id
-            dependencia = Dependencia(nombre_dep, id_lider,self.id_organigrama)
-            # Envia los datos de la dependencia
-            database.insertarData("Dependencia", dependencia.getDict())
-            # Señal para actualizar la ventana
-            self.enviar_dependencia_signal.emit(nombre_dep)
-            database.disconnect()
-            self.close()  # Cerrar la ventana de formulario
-
+            # Conseguir id de la dependencia a la cual pertenece el líder
+            id_dep = database.buscarData("Persona", f"id={id_lider} AND id_organigrama={self.id_organigrama}", ["id_dependencia"])
+            # Ver todas las personas que pertenecen a esa dependencia
+            personas = database.buscarData("Persona", f"id_dependencia={id_dep[0][0]} AND id_organigrama={self.id_organigrama}", ["id"])
+            cantidad_nodos = 0
+            for persona in personas:
+                # Ver cuantas dependencias tienen como manager a alguna de las personas
+                res = database.buscarData("Dependencia", f"manager_id = {persona[0]} AND id_organigrama={self.id_organigrama}")
+                cantidad_nodos += len(res)
+            if cantidad_nodos < 5:
+                dependencia = Dependencia(nombre_dep, id_lider,self.id_organigrama)
+                database.insertarData("Dependencia", dependencia.getDict())
+                self.enviar_dependencia_signal.emit()
+                database.disconnect()
+                self.close()
+                # Cerrar la ventana de formulario
+            else:
+                 # Mostrar cuadro de diálogo de error
+                msg = QMessageBox()
+                msg.setIcon(QMessageBox.Warning)
+                msg.setWindowTitle("Error")
+                msg.setText("Error, límite alcanzado.")
+                # Cambiar el color del texto a blanco
+                msg.setStyleSheet("background-color: #27263c; color: white;")
+                # Mostrar el cuadro de diálogo de manera no modal
+                msg.exec_()
         else:
-
             # Mostrar cuadro de diálogo de error
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Warning)
             msg.setWindowTitle("Error")
             msg.setText("Error, Revisa tus campos.")
-            msg.setIconPixmap(QPixmap("static\\icons\\error.png"))
+            
             # Cambiar el color del texto a blanco
             msg.setStyleSheet("background-color: #27263c; color: white;")
+            
             # Mostrar el cuadro de diálogo de manera no modal
             msg.exec_()
-
+        
 """
     Formulario editar dependencia
 """
 
 class FormEditarDependencia(QWidget):
 
-    editar_dependencia_signal = pyqtSignal(str)
+    editar_dependencia_signal = pyqtSignal()
 
     def __init__(self,id_organigrama):
         super(FormEditarDependencia, self).__init__()
@@ -757,7 +781,7 @@ class FormEditarDependencia(QWidget):
             # Actualiza los datos de esa dependencia
             database.updateData("Dependencia", ["nombre"], [nombre_dep], f"id = {self.selected_id}")
             # Señal para actualizar la ventana
-            self.editar_dependencia_signal.emit(nombre_dep)
+            self.editar_dependencia_signal.emit()
             database.disconnect()
             self.close() # Cerrar la ventana de formulario
             
@@ -772,6 +796,55 @@ class FormEditarDependencia(QWidget):
             msg.setStyleSheet("background-color: #27263c; color: white;")
             # Mostrar el cuadro de diálogo de manera no modal
             msg.exec_()
+
+"""
+    Formulario graficar dependencia
+"""
+
+class FormDependenciaAGraficar(QWidget):
+    graficar_dep_signal = pyqtSignal(int)
+    def __init__(self, id_organigrama):
+        super(FormDependenciaAGraficar, self).__init__()
+        self.id_organigrama=id_organigrama
+        uic.loadUi("static\\ui\\form_dependencia_a_graficar.ui", self)
+        self.setWindowIcon(QIcon("INTERFAZ\ICONOS\icono_superior.png"))
+        
+        self.lista_ids = []
+        self.selected_id = 0
+        self.Enviar_dato.clicked.connect(self.enviar_dato_dependencia)
+        self.Dependencia_graficable.currentIndexChanged.connect(self.dep_seleccionada)
+        self.despliega_dependenciass()
+    
+    # Depliega las dependencias en el formulario dependencia a graficar
+    def despliega_dependenciass(self):
+        # Ejecutar una consulta para obtener los datos de la base de datos
+        database.connect()
+        data = database.buscarData("Dependencia", f"id_organigrama={self.id_organigrama}",["id", "nombre"])
+        if len(data) == 0 or data == -1:
+            database.disconnect()
+            self.close()
+            return
+        self.selected_id = data[0][0]
+        # Agregar los datos al combo box lista_dependencias
+        for item in data:
+            self.lista_ids.append(item[0])
+            self.Dependencia_graficable.addItem(item[1])
+        #print(self.lista_id)
+        # Cerrar la conexión a la base de datos
+        database.disconnect()
+
+    def dep_seleccionada(self):
+        selected_index = self.Dependencia_graficable.currentIndex()
+        self.selected_id = self.lista_ids[selected_index]
+
+    #funcion para enviar el dato
+    def enviar_dato_dependencia(self):
+        self.graficar_dep_signal.emit(self.selected_id)
+        self.close()
+    #esto va en el main window, es para mostrar el formulario, y el boton que llame a esta funcion debe estar en el main window
+    def Dependencia_a_graficar(self):
+        self.formulario = FormDependenciaAGraficar(self.id_organigrama)
+        self.formulario.show()
 
 """
     Formulario Jefe
@@ -911,7 +984,7 @@ class FormPersona(QWidget):
 
 class FormEditarPersona(QWidget):
 
-    editar_persona_signal = pyqtSignal(str)
+    editar_persona_signal = pyqtSignal()
 
     def __init__(self, id_organigrama):
 
@@ -937,7 +1010,7 @@ class FormEditarPersona(QWidget):
         # Conectamos a la base de datos
         database.connect()
         # Datos de la persona
-        rows = database.buscarData("Persona",f"id={self.selected_id}",["ci","apellido","nombre","telefono","direccion","salario"])
+        rows = database.buscarData("Persona",f"id={self.selected_id} AND id_organigrama={self.id_organigrama}",["ci","apellido","nombre","telefono","direccion","salario"])
         self.campo_ci.setText(rows[0][0])
         self.campo_apellido.setText(rows[0][1])
         self.campo_nombre.setText(rows[0][2])
@@ -963,7 +1036,7 @@ class FormEditarPersona(QWidget):
             database.updateData("Persona", ["ci", "apellido", "nombre", "telefono", "direccion", "salario"], 
                                 [ci, apellido, nombre, telefono, direccion, int(salario)], f"id = {self.selected_id}")
             # Desconexion a la base de datos
-            self.editar_persona_signal.emit('a')
+            self.editar_persona_signal.emit()
             database.disconnect()
             self.close()
 
@@ -998,7 +1071,7 @@ class FormEditarPersona(QWidget):
 
 class eliminar_dependencia_form(QWidget):
 
-    actualizarOrganigrama = pyqtSignal(str) # Actua como actualizador de la ventana principal
+    actualizarOrganigrama = pyqtSignal() # Actua como actualizador de la ventana principal
 
     def __init__(self, id_organigrama):
         super(eliminar_dependencia_form, self).__init__()
@@ -1030,13 +1103,19 @@ class eliminar_dependencia_form(QWidget):
         database.connect() # Conecta a la base de datos
         # Consulta a la base de datos
         dependenciaData = database.buscarData("Dependencia",
-                                              f"nombre = '{dependencia}'",
-                                              ["manager_id"]) 
-        manager_id = dependenciaData[0][0] # Obtener el manager id 
-        database.deleteRecord("Dependencia",f"manager_id = {manager_id}") # Elimina la dependencia y sus hijos
+                                              f"nombre = '{dependencia}' AND id_organigrama = {self.id_organigrama}",
+                                              ["id"])
+        
+        id = dependenciaData[0][0] # Obtener el manager id 
+        personas = database.buscarData("Persona", f"id_dependencia = {id}", ["id"])
+        database.deleteRecord("Dependencia", f"id = {id}")
+        for persona in personas:
+            dependencias = database.buscarData("Dependencia", f"manager_id = {persona[0]}", ["id"])
+            for dependencia in dependencias:
+                database.deleteRecord("Dependencia", f"id = {dependencia[0]}")
         database.disconnect()
 
-        self.actualizarOrganigrama.emit('a') # Envia una señal para que la ventana se actualice
+        self.actualizarOrganigrama.emit() # Envia una señal para que la ventana se actualice
         self.close() # Cierra el formulario
 
 """
@@ -1044,7 +1123,7 @@ class eliminar_dependencia_form(QWidget):
 """ 
 
 class eliminar_persona_form(QWidget):
-    actualizarOrganigrama = pyqtSignal(str) # Actua como actualizador de la ventana principal
+    actualizarOrganigrama = pyqtSignal() # Actua como actualizador de la ventana principal
 
     def __init__(self, id_organigrama):
         super(eliminar_persona_form, self).__init__()
@@ -1063,10 +1142,27 @@ class eliminar_persona_form(QWidget):
         personaId = ''.join(filter(str.isdigit,nombre)) # Id de la persona
 
         database.connect() # Conecta a la base de datos
-        database.deleteRecord("Persona",f"id = {personaId}") # Elimina la persona seleccionada
+        res = database.buscarData("Persona", f"id={personaId}", ["id_dependencia"])
+        id_dep = res[0][0]
+        #database.deleteRecord("Persona",f"id = {personaId}") # Elimina la persona seleccionada
+        personas = database.buscarData("Persona", f"id_dependencia = {id_dep}", ["id"])
+        dependencias = database.buscarData("Dependencia", f"manager_id = {personaId}", ["id"])
+        if len(dependencias) > 0:
+            # Mostrar cuadro de diálogo de error
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Warning)
+            msg.setWindowTitle("Error")
+            msg.setText("No puede borrar a una persona líder.")
+            msg.setIconPixmap(QPixmap("static\\icons\\error.png"))
+            # Cambiar el color del texto a blanco
+            msg.setStyleSheet("background-color: #27263c; color: white;")
+            # Mostrar el cuadro de diálogo de manera no modal
+            msg.exec_()
+        else:
+            database.deleteRecord("Persona", f"id={personaId}")
         database.disconnect() # Desconexion a la base de datos
 
-        self.actualizarOrganigrama.emit("a") # Envia una señal para que la ventana se actualice
+        self.actualizarOrganigrama.emit() # Envia una señal para que la ventana se actualice
         self.close() # Cierra el formulario
 
     # Despliega las personas en el formulario eliminar persona

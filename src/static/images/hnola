@@ -1,0 +1,6 @@
+digraph {
+	fuerzaman [label="Titulo: fuerzaman
+Apellido: Paredes
+Nombre: Atilio"]
+	Marcelo -> fuerzaman [label=""]
+}

@@ -167,7 +167,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="Graficar_dependencia">
+        <widget class="QPushButton" name="boton_graficar_dependencia">
          <property name="font">
           <font>
            <family>Candara</family>

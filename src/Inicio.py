@@ -24,7 +24,7 @@ class MainWindow(QMainWindow):
     #     file_dialog.exec_()
     def abrir_pdf(self):
         # Ruta al archivo PDF
-        pdf_path = "Primer_final.pdf"
+        pdf_path = "static\\informes\\PDF\\MANUAL_DE_AYUDA.pdf"
 
         # Abrir el archivo PDF con la aplicación predeterminada del sistema
         QDesktopServices.openUrl(QUrl.fromLocalFile(pdf_path))
