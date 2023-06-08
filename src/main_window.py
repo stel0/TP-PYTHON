@@ -483,7 +483,7 @@ class formulario_informe_salario_dependencia(QWidget):
 
         with open(informe, "w") as file:
             for nombre in nombres_ordenados:
-                file.write(f"{nombre}: {personas_dict[nombre]}\n")
+                file.write(f"{nombre}: {personas_dict[nombre]}Gs\n")
 
         database.disconnect()
         QDesktopServices.openUrl(QUrl.fromLocalFile(informe))
@@ -553,7 +553,7 @@ class formulario_informe_salario_dependencia_sucesoras(QWidget):
         os.makedirs(os.path.dirname(informe), exist_ok=True)
         with open(informe, "w") as file:
             for nombre in nombres_ordenados:
-                file.write(f"{nombre}: {salario_dict[nombre]}\n")
+                file.write(f"{nombre}: {salario_dict[nombre]}Gs\n")
                 id_persona = id_dict[nombre]
                 dependencias = database.buscarData("Dependencia", f"manager_id = {id_persona} AND id_organigrama = {self.id_organigrama}", ["id", "nombre"])
                 for dependencia in dependencias:
@@ -573,7 +573,7 @@ class formulario_informe_salario_dependencia_sucesoras(QWidget):
                             salario_dict1[nombre_normalizado] = personas[i][3]
                         nombres_ordenados1 = sorted(nombres_normalizados)
                         for nombre in nombres_ordenados1:
-                            file.write(f"\t\t{nombre}: {salario_dict1[nombre]}\n")
+                            file.write(f"\t\t{nombre}: {salario_dict1[nombre]}Gs\n")
         database.disconnect()
 
         QDesktopServices.openUrl(QUrl.fromLocalFile(informe))

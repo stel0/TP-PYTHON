@@ -1,12 +1,12 @@
-Filippi Carlos: 120000000
+Filippi Carlos: 120000000Gs
 	Algoritmos2
-		Rios Ivan: 1
-Franco Cynthia: 324324
+		Rios Ivan: 12034213Gs
+Franco Cynthia: 324324Gs
 	Algebra
-		Riveros Marcelo: 32804923
-Gonzalez Vicente: 32423423
-Ibanez Ramona: 3
-Pinto Diego: 342424
-Velazquez Jose: 1
+		Riveros Marcelo: 32804923Gs
+Gonzalez Vicente: 32423423Gs
+Ibanez Ramona: 3Gs
+Pinto Diego: 342424Gs
+Velazquez Jose: 1Gs
 	Calculo 1
-		Goto Javier: 32423
+		Goto Javier: 32423Gs
