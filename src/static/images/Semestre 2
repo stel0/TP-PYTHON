@@ -31,4 +31,8 @@ Nombre: Javier"]
 Apellido: Gonzalez
 Nombre: Vicente"]
 	Materias -> "OAC 2" [label=""]
+	Entidad [label="Titulo: Entidad
+Apellido: Politecnica
+Nombre: Facultad"]
+	"Semestre 2" -> Entidad [label=""]
 }
