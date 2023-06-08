@@ -1111,6 +1111,7 @@ class eliminar_dependencia_form(QWidget):
         database.deleteRecord("Dependencia", f"id = {id}")
         for persona in personas:
             dependencias = database.buscarData("Dependencia", f"manager_id = {persona[0]}", ["id"])
+            database.deleteRecord("Persona", f"id = {persona[0]}")
             for dependencia in dependencias:
                 database.deleteRecord("Dependencia", f"id = {dependencia[0]}")
         database.disconnect()
