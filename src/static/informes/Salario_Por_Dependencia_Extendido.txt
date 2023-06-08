@@ -1,2 +1,12 @@
-Paredes Titilio: 12313123
-Riveros Elias: 10000000
+Filippi Carlos: 120000000
+	Algoritmos2
+		Rios Ivan: 1
+Franco Cynthia: 324324
+	Algebra
+		Riveros Marcelo: 32804923
+Gonzalez Vicente: 32423423
+Ibanez Ramona: 3
+Pinto Diego: 342424
+Velazquez Jose: 1
+	Calculo 1
+		Goto Javier: 32423

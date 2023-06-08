@@ -1,0 +1,34 @@
+digraph {
+	Materias [label="Titulo: Materias
+Apellido: Politecnica
+Nombre: Facultad"]
+	"Semestre 2" -> Materias [label=""]
+	Algebra [label="Titulo: Algebra
+Apellido: Franco
+Nombre: Cynthia"]
+	Materias -> Algebra [label=""]
+	lp1 [label="Titulo: lp1
+Apellido: Pinto
+Nombre: Diego"]
+	Materias -> lp1 [label=""]
+	Algoritmos2 [label="Titulo: Algoritmos2
+Apellido: Filippi
+Nombre: Carlos"]
+	Materias -> Algoritmos2 [label=""]
+	"Auxiliar Algo" [label="Titulo: Auxiliar Algo
+Apellido: Rios
+Nombre: Ivan"]
+	Algoritmos2 -> "Auxiliar Algo" [label=""]
+	"Calculo 1" [label="Titulo: Calculo 1
+Apellido: Velazquez
+Nombre: Jose"]
+	Materias -> "Calculo 1" [label=""]
+	"100 pio profe" [label="Titulo: 100 pio profe
+Apellido: Goto
+Nombre: Javier"]
+	"Calculo 1" -> "100 pio profe" [label=""]
+	"OAC 2" [label="Titulo: OAC 2
+Apellido: Gonzalez
+Nombre: Vicente"]
+	Materias -> "OAC 2" [label=""]
+}
