@@ -23,10 +23,10 @@ Nombre: Ivan"]
 Apellido: Velazquez
 Nombre: Jose"]
 	Materias -> "Calculo 1" [label=""]
-	"100 pio profe" [label="Titulo: 100 pio profe
+	Alumno [label="Titulo: Alumno
 Apellido: Goto
 Nombre: Javier"]
-	"Calculo 1" -> "100 pio profe" [label=""]
+	"Calculo 1" -> Alumno [label=""]
 	"OAC 2" [label="Titulo: OAC 2
 Apellido: Gonzalez
 Nombre: Vicente"]
